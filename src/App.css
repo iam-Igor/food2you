@@ -1,38 +1,17 @@
-.App {
-  text-align: center;
+/* GENERAL */
+
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600;700&display=swap");
+
+.bg-custom {
+  background-color: #009688;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.shadow-btm {
+  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  font-family: "Outfit", sans-serif;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+/* header */
