@@ -9,7 +9,7 @@ const MainNavbar = () => {
 
   return (
     <>
-      <Navbar expand="lg" className="bg-custom p-1  ">
+      <Navbar expand="lg" className="bg-custom p-1 sticky-top ">
         <Container className="justify-content-between">
           <Navbar.Brand className="d-flex align-items-center">
             <img
