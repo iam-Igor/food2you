@@ -7,6 +7,10 @@ import { useDispatch, useSelector } from "react-redux";
 const MainNavbar = () => {
   const dispatch = useDispatch();
 
+  const userData = localStorage.getItem("tokenUser");
+
+  console.log(userData);
+
   return (
     <>
       <Navbar expand="lg" className="bg-custom p-1 sticky-top ">
@@ -27,7 +31,7 @@ const MainNavbar = () => {
                 dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
               }}
             >
-              Iniziamo
+              {userData ? <i className="bi bi-person fs-4"></i> : "Iniziamo"}
             </Button>
           </Nav>
         </Container>

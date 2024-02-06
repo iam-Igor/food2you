@@ -90,7 +90,7 @@ const SelectCityModal = ({ show, setShow, google }) => {
         </Col>
       </Row>
       <Modal.Footer>
-        <Button onClick={setShow}>Savese</Button>
+        <Button onClick={setShow}>Salva</Button>
       </Modal.Footer>
     </Modal>
   );
