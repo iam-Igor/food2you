@@ -28,7 +28,11 @@ const MainNavbar = () => {
             <Button
               className="rounded-pill py-3 px-4 px-md-5 btn-warning"
               onClick={() => {
-                dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+                if (!userData) {
+                  dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+                } else {
+                  alert("ciao");
+                }
               }}
             >
               {userData ? <i className="bi bi-person fs-4"></i> : "Iniziamo"}

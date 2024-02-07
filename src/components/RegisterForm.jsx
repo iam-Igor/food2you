@@ -1,10 +1,14 @@
 import { useState } from "react";
-import { Modal, Form, Button } from "react-bootstrap";
+import { Modal, Form, Button, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 const RegisterForm = () => {
   const showModalLogin = useSelector((state) => state.showModalregister);
   const dispatch = useDispatch();
+
+  const [loginError, setLoginError] = useState(false);
+
+  const [loginClicked, setLoginClicked] = useState(false);
 
   // HOOKS FOR REGISTER PAYLOAD
   const [name, setName] = useState("");
@@ -64,6 +68,7 @@ const RegisterForm = () => {
         if (res.ok) {
           return res.json();
         } else {
+          setLoginError(true);
           throw new Error("errore nel login");
         }
       })
@@ -71,6 +76,7 @@ const RegisterForm = () => {
         console.log(data);
         localStorage.setItem("tokenUser", "Bearer " + data.token);
         handleClose();
+        setLoginError(false);
       })
       .catch((err) => {
         console.log(err);
@@ -83,86 +89,173 @@ const RegisterForm = () => {
 
   return (
     <Modal show={showModalLogin}>
-      <Modal.Title className="text-center">Registra i tuoi dati</Modal.Title>
-      <Modal.Body>
-        <Form
-          onSubmit={(e) => {
-            e.preventDefault();
-            registerUser();
-          }}
-        >
-          <Form.Group className="mb-3">
-            <Form.Label>Nome</Form.Label>
-            <Form.Control
-              type="text"
-              rows={3}
-              autoFocus
-              onChange={(e) => {
-                setName(e.target.value);
+      <div className={loginClicked ? "testo-out" : ""}>
+        <Modal.Title className="text-center">Registra i tuoi dati</Modal.Title>
+        <Modal.Body>
+          <Form
+            onSubmit={(e) => {
+              e.preventDefault();
+              registerUser();
+            }}
+          >
+            <Form.Group className="mb-3">
+              <Form.Label>Nome</Form.Label>
+              <Form.Control
+                type="text"
+                rows={3}
+                autoFocus
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Cognome</Form.Label>
+              <Form.Control
+                type="text"
+                rows={3}
+                onChange={(e) => {
+                  setsurname(e.target.value);
+                }}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="text"
+                rows={3}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Indirizzo</Form.Label>
+              <Form.Control
+                type="text"
+                rows={3}
+                placeholder="Es. Via Roma 15, Milano"
+                onChange={(e) => {
+                  setAddress(e.target.value);
+                }}
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="name@example.com"
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+            </Form.Group>
+            <Form.Group
+              className="mb-3"
+              controlId="exampleForm.ControlTextarea1"
+            >
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                rows={3}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+            </Form.Group>
+            <Button variant="success" className="me-3 mb-3" type="submit">
+              Registrati
+            </Button>
+          </Form>
+        </Modal.Body>
+        <div className="d-flex align-items-center justify-content-between">
+          <h6 className="ms-3">
+            Hai gia un account?
+            <span
+              className="ms-2 text-primary"
+              onClick={() => {
+                setLoginClicked(true);
               }}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Cognome</Form.Label>
-            <Form.Control
-              type="text"
-              rows={3}
-              onChange={(e) => {
-                setsurname(e.target.value);
-              }}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-              type="text"
-              rows={3}
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Indirizzo</Form.Label>
-            <Form.Control
-              type="text"
-              rows={3}
-              placeholder="Es. Via Roma 15, Milano"
-              onChange={(e) => {
-                setAddress(e.target.value);
-              }}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="name@example.com"
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              rows={3}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-          </Form.Group>
-          <Button variant="success" className="me-3 mb-3" type="submit">
-            Registrati
+            >
+              Login
+            </span>
+          </h6>
+          <Button
+            variant="secondary"
+            className="me-3 mb-3"
+            onClick={handleClose}
+          >
+            Chiudi
           </Button>
-        </Form>
-      </Modal.Body>
-      <div className="text-end">
-        <Button variant="secondary" className="me-3 mb-3" onClick={handleClose}>
-          Chiudi
-        </Button>
+        </div>
       </div>
+      {loginClicked && (
+        <div className={loginClicked ? "testo-in" : ""}>
+          <Modal.Title className="text-center">
+            Registra i tuoi dati
+          </Modal.Title>
+          <Modal.Body>
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+                autoLoginClient();
+              }}
+            >
+              <Form.Group className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="name@example.com"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlTextarea1"
+              >
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  rows={3}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+              </Form.Group>
+              {loginError && (
+                <Alert variant="danger">Username o password errati!</Alert>
+              )}
+
+              <Button variant="success" className="me-3 mb-3" type="submit">
+                Login
+              </Button>
+            </Form>
+          </Modal.Body>
+          <div className="d-flex align-items-center justify-content-between">
+            <h5 className="ms-2">
+              Non hai un account?{" "}
+              <span
+                className="text-primary"
+                onClick={() => setLoginClicked(false)}
+              >
+                Registrati
+              </span>
+            </h5>
+            <Button
+              variant="secondary"
+              className="me-3 mb-3"
+              onClick={() => {
+                handleClose();
+                setLoginClicked(false);
+              }}
+            >
+              Chiudi
+            </Button>
+          </div>
+        </div>
+      )}
     </Modal>
   );
 };

@@ -13,7 +13,7 @@ const Homepage = () => {
   useEffect(() => {
     const handleScroll = () => {
       console.log(window.scrollY);
-      if (window.scrollY > 600) {
+      if (window.scrollY > 300) {
         setFormVisible(true);
       } else {
         setFormVisible(false);
@@ -52,7 +52,13 @@ const Homepage = () => {
             </Form.Group>
           </Form>
         </Col>
-        <Col className={formVisible ? "col-12 scende mt-3" : "col-12 sale "}>
+        <Col
+          className={
+            formVisible
+              ? "col-12 scende mt-3 topbar py-3"
+              : "col-12 sale topbar py-3"
+          }
+        >
           <Form className="d-flex  flex-column ">
             <p className="text-white">
               Cerca la tua città o usa la tua posizione
