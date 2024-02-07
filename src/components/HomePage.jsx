@@ -4,16 +4,19 @@ import bgHeader from "../assets/img/wave-haikei.svg";
 import hamburger from "../assets/img/95af3cd3-85de-4f17-92e8-647af7967071-removebg-preview.png";
 import { useEffect, useState } from "react";
 import SelectCityModal from "./SelectCityModal";
+import { useSelector } from "react-redux";
+import MainContent from "./MainContent";
 
 const Homepage = () => {
   const [formVisible, setFormVisible] = useState(false);
+  const selectedCity = useSelector((state) => state.userPosition);
 
   const [showCityModal, setShowCityModal] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      console.log(window.scrollY);
-      if (window.scrollY > 300) {
+      // console.log(window.scrollY);
+      if (window.scrollY > 350) {
         setFormVisible(true);
       } else {
         setFormVisible(false);
@@ -31,27 +34,41 @@ const Homepage = () => {
         </h3>
         <Col className=" align-items-center justify-content-around py-5 col-md-4">
           <div className="d-flex">
-            <img alt="hamburger" src={hamburger} style={{ width: "100%" }} />
+            <img
+              alt="hamburger"
+              src={hamburger}
+              style={{ width: "100%" }}
+              className="rotate-center"
+            />
           </div>
         </Col>
-        <Col className="col-md-4">
-          <Form className="d-flex  flex-column ">
-            <p className="text-white">
-              Cerca la tua città o usa la tua posizione
-              <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
-            </p>
-            <Form.Group>
-              <Form.Control
-                type="email"
-                placeholder="Es. Napoli"
-                className="rounded-4"
-                onClick={() => {
-                  setShowCityModal(true);
-                }}
-              />
-            </Form.Group>
-          </Form>
-        </Col>
+        {selectedCity !== "" ? (
+          <Col className="col-12 text-center text-white ">
+            <h3 className="heartbeat">
+              Scorri in basso per scegliere il tuo ristorante su: {selectedCity}
+            </h3>
+          </Col>
+        ) : (
+          <Col className="col-md-4">
+            <Form className="d-flex  flex-column ">
+              <p className="text-white">
+                Cerca la tua città o usa la tua posizione
+                <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
+              </p>
+              <Form.Group>
+                <Form.Control
+                  type="email"
+                  placeholder="Es. Napoli"
+                  className="rounded-4"
+                  onClick={() => {
+                    setShowCityModal(true);
+                  }}
+                />
+              </Form.Group>
+            </Form>
+          </Col>
+        )}
+
         <Col
           className={
             formVisible
@@ -61,7 +78,9 @@ const Homepage = () => {
         >
           <Form className="d-flex  flex-column ">
             <p className="text-white">
-              Cerca la tua città o usa la tua posizione
+              {selectedCity !== ""
+                ? "Hai sbagliato città? Cerca la tua città o usa la tua posizione"
+                : "Cerca la tua città o usa la tua posizione"}
               <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
             </p>
             <Form.Group>
@@ -86,6 +105,7 @@ const Homepage = () => {
           setShow={() => setShowCityModal(false)}
         />
       )}
+      <MainContent></MainContent>
     </Container>
   );
 };

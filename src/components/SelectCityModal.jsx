@@ -2,12 +2,15 @@ import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import { googleApikey } from "../apifile";
 import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const SelectCityModal = ({ show, setShow, google }) => {
   const [position, setPosition] = useState({ lat: null, lng: null });
 
   const [address, setAddress] = useState("");
   const [cityName, setCityName] = useState("");
+
+  const dispatch = useDispatch();
 
   const containerStyle = {
     position: "relative",
@@ -35,6 +38,15 @@ const SelectCityModal = ({ show, setShow, google }) => {
         setPosition({
           lat: data.results[0].geometry.location.lat,
           lng: data.results[0].geometry.location.lng,
+        });
+        dispatch({ type: "SET_USER_POSITION", payload: cityName });
+        dispatch({
+          type: "SET_LON",
+          payload: data.results[0].geometry.location.lng,
+        });
+        dispatch({
+          type: "SET_LAT",
+          payload: data.results[0].geometry.location.lat,
         });
       })
       .catch((err) => {
