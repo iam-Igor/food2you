@@ -14,6 +14,7 @@ const UserProfile = () => {
   const target = useRef(null);
 
   const [imageUploaded, setImageUploaded] = useState(false);
+  const [isImageUploading, setIsImageUploading] = useState(false);
 
   const [popup, setPopup] = useState(false);
 
@@ -90,6 +91,7 @@ const UserProfile = () => {
           throw new Error("Errore durante la richiesta");
         }
         setImageUploaded(true);
+        setIsImageUploading(false);
         return response.json();
       })
       .catch((error) => {
@@ -131,9 +133,10 @@ const UserProfile = () => {
     <Container>
       {profileData && (
         <Row className="mt-5 flex-column flex-md-row">
-          <Col className="col-12 col-md-3 text-center position-relative border border-1 me-2 shadow-card rounded-3 p-3">
+          <Col className="col-12 col-md-3 text-center position-relative border border-1 me-2 shadow-card rounded-3 p-2">
             <img
               alt="user-img"
+              className="rounded-circle"
               src={
                 profileData.avatarUrl !== null
                   ? profileData.avatarUrl
@@ -170,22 +173,31 @@ const UserProfile = () => {
                   <Form
                     onSubmit={(e) => {
                       e.preventDefault();
+                      setIsImageUploading(true);
                       uploadImage();
                     }}
                   >
                     <Form.Label>Upload immagine utente</Form.Label>
                     <div className="d-flex align-items-center">
                       <Form.Control
+                        className="w-75 me-3"
                         type="file"
                         size="sm"
                         onChange={(e) => {
                           setImage(e.target.files);
                         }}
+                        required
                       />
-                      <button className="btn-form-upload">
-                        {" "}
-                        <i className="bi bi-cloud-upload fs-3 ms-3"></i>
-                      </button>
+                      {!isImageUploading ? (
+                        <div className="ms-3">
+                          <button className="btn-form-upload p-0 text-center">
+                            {" "}
+                            <i className="bi bi-cloud-upload fs-3 ms-3"></i>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="spinner ms-5"></div>
+                      )}
                     </div>
                   </Form>
                 </div>
