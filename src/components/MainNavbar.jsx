@@ -3,9 +3,12 @@ import "../assets/css/custom.css";
 import logo from "../assets/img/logo.png";
 import RegisterForm from "./RegisterForm";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const MainNavbar = () => {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const userData = localStorage.getItem("tokenUser");
 
@@ -22,6 +25,7 @@ const MainNavbar = () => {
               width="90"
               height="90"
               className="d-inline-block align-top rounded-circle"
+              onClick={() => navigate("/")}
             />
           </Navbar.Brand>
           <Nav>
@@ -31,7 +35,7 @@ const MainNavbar = () => {
                 if (!userData) {
                   dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
                 } else {
-                  alert("ciao");
+                  navigate("/profile");
                 }
               }}
             >
