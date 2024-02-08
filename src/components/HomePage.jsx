@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import SelectCityModal from "./SelectCityModal";
 import { useSelector } from "react-redux";
 import MainContent from "./MainContent";
+import RestaurantsCarousel from "./RestaurantsCarousel";
 
 const Homepage = () => {
   const [formVisible, setFormVisible] = useState(false);
@@ -106,6 +107,7 @@ const Homepage = () => {
         />
       )}
       <MainContent></MainContent>
+      <RestaurantsCarousel></RestaurantsCarousel>
     </Container>
   );
 };

@@ -3,6 +3,7 @@ import { googleApikey } from "../apifile";
 import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import mapPlaceholder from "../assets/img/map-placeholder.jpg";
 
 const SelectCityModal = ({ show, setShow, google }) => {
   const [position, setPosition] = useState({ lat: null, lng: null });
@@ -83,7 +84,7 @@ const SelectCityModal = ({ show, setShow, google }) => {
           </Form.Group>
         </Col>
         <Col className="col-12 col-md-6">
-          {position.lat !== null && (
+          {position.lat !== null ? (
             <Map
               google={google}
               zoom={15}
@@ -98,6 +99,12 @@ const SelectCityModal = ({ show, setShow, google }) => {
                 }}
               ></Marker>
             </Map>
+          ) : (
+            <img
+              src={mapPlaceholder}
+              alt="placeholder-map"
+              style={{ width: "70%" }}
+            />
           )}
         </Col>
       </Row>

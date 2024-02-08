@@ -47,10 +47,10 @@ const MainContent = ({ google }) => {
   return (
     <Row className="justify-content-center py-5">
       <h3 className="text-center">
-        Clicca su uno dei punti evidenziati nella mappa
+        {restaurants ? " Clicca su uno dei punti evidenziati nella mappa" : ""}
       </h3>
-      <Col className="col-12 col-md-8 border border-2 p-0">
-        {restaurants && (
+      {restaurants && (
+        <Col className="col-12 col-md-8 border border-2 p-0">
           <Map
             google={google}
             zoom={15}
@@ -74,8 +74,8 @@ const MainContent = ({ google }) => {
               );
             })}
           </Map>
-        )}
-      </Col>
+        </Col>
+      )}
     </Row>
   );
 };

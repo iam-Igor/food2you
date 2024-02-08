@@ -241,3 +241,14 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* restaurant carousel */
+
+.restaurant-img {
+  height: 150px;
+  object-fit: cover;
+}
+
+.restaurant-target {
+  background-color: #ffc107;
+}
