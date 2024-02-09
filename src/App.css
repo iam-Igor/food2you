@@ -105,6 +105,9 @@ body {
   }
 }
 
+.header-nav {
+  z-index: 1;
+}
 /* register form */
 
 .testo-out {
@@ -251,4 +254,8 @@ body {
 
 .restaurant-target {
   background-color: #ffc107;
+}
+
+.shadow-card-carousel {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }

@@ -73,8 +73,8 @@ const Homepage = () => {
         <Col
           className={
             formVisible
-              ? "col-12 scende mt-3 topbar py-3"
-              : "col-12 sale topbar py-3"
+              ? "col-12 scende mt-3 topbar py-3 header-nav"
+              : "col-12 sale topbar py-3 header-nav"
           }
         >
           <Form className="d-flex  flex-column ">

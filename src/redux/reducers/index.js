@@ -1,5 +1,7 @@
 const initialState = {
   showModalregister: false,
+  restaurantSelected: {},
+  showOffCanvas: false,
   userPosition: "",
   lon: 0,
   lat: 0,
@@ -12,10 +14,20 @@ const mainReducer = (state = initialState, action) => {
         ...state,
         showModalregister: action.payload,
       };
+    case "SHOW_OFF_CANVAS":
+      return {
+        ...state,
+        showOffCanvas: action.payload,
+      };
     case "SET_USER_POSITION":
       return {
         ...state,
         userPosition: action.payload,
+      };
+    case "SET_REST_SELECTED":
+      return {
+        ...state,
+        restaurantSelected: action.payload,
       };
     case "SET_LON":
       return {

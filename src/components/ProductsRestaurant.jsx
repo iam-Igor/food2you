@@ -1,0 +1,217 @@
+import {
+  Avatar,
+  Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Collapse,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import { useEffect, useState } from "react";
+import { Accordion, Offcanvas } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+
+const ProductsRestaurant = () => {
+  const show = useSelector((state) => state.showOffCanvas);
+  const dispatch = useDispatch();
+  const restaurantData = useSelector((state) => state.restaurantSelected);
+
+  const [showProducts, setShowproducts] = useState(false);
+
+  const [food, setFood] = useState([]);
+  const [drinks, setDrinks] = useState([]);
+
+  console.log(food, "food");
+  console.log(drinks, "drinks");
+
+  const setCategoryOfproducts = (param) => {
+    const newFood = [];
+    const newDrinks = [];
+
+    for (let i = 0; i < param.length; i++) {
+      if (param[i].productType === "DRINK") {
+        newDrinks.push(param[i]);
+      } else {
+        newFood.push(param[i]);
+      }
+    }
+
+    setDrinks(newDrinks);
+    setFood(newFood);
+  };
+
+  const getProductsList = () => {
+    fetch(
+      "http://localhost:3030/restaurants/" + restaurantData.id + "/products"
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error();
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        setCategoryOfproducts(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getProductsList();
+  }, [restaurantData]);
+
+  return (
+    <Offcanvas
+      show={show}
+      placement="end"
+      onHide={() => dispatch({ type: "SHOW_OFF_CANVAS", payload: false })}
+    >
+      <Offcanvas.Header closeButton></Offcanvas.Header>
+      <Offcanvas.Body>
+        <Card sx={{ maxWidth: 345 }}>
+          <CardHeader
+            avatar={<Avatar aria-label="recipe">R</Avatar>}
+            action={<IconButton aria-label="settings"></IconButton>}
+            title={restaurantData.name}
+          />
+          <CardMedia
+            component="img"
+            height="194"
+            image={restaurantData.imageUrl}
+            alt="Paella dish"
+          />
+          <CardContent>
+            <Typography variant="body2" color="text.secondary">
+              <i className="bi bi-geo-alt-fill me-2"></i>
+              {restaurantData.streetAddress}, {restaurantData.city}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" className="mt-2">
+              Aperto dalle 08:00 alle 23:00
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small" color="primary">
+              Ordina
+            </Button>
+            <Button
+              size="small"
+              color="primary"
+              onClick={() => {
+                setShowproducts(!showProducts);
+              }}
+            >
+              Prodotti
+            </Button>
+          </CardActions>
+        </Card>
+        <Card sx={{ maxWidth: 345 }} className="mt-3">
+          {showProducts && (
+            <Accordion>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>Cibo</Accordion.Header>
+                <Accordion.Body>
+                  {food.map((food, i) => {
+                    return (
+                      <Card sx={{ maxWidth: 345 }} className="mt-3">
+                        <CardActionArea>
+                          <CardMedia
+                            component="img"
+                            height="140"
+                            image={food.imageUrl}
+                            alt="food"
+                          />
+                          <CardContent>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="div"
+                            >
+                              {food.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {food.description}
+                            </Typography>
+
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              className="mt-2"
+                            >
+                              Ingredienti: {food.ingredients}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              className="mt-2"
+                            >
+                              {food.price}€
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                      </Card>
+                    );
+                  })}
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="1">
+                <Accordion.Header>Drinks</Accordion.Header>
+                <Accordion.Body>
+                  {drinks.map((food, i) => {
+                    return (
+                      <Card sx={{ maxWidth: 345 }} className="mt-3">
+                        <CardActionArea>
+                          <CardMedia
+                            component="img"
+                            height="140"
+                            image={food.imageUrl}
+                            alt="drink"
+                          />
+                          <CardContent>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="div"
+                            >
+                              {food.name}
+                            </Typography>
+                            <Typography variant="body2" color="text.secondary">
+                              {food.description}
+                            </Typography>
+
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              className="mt-2"
+                            >
+                              Ingredienti: {food.ingredients}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              className="mt-2"
+                            >
+                              {food.price}€
+                            </Typography>
+                          </CardContent>
+                        </CardActionArea>
+                      </Card>
+                    );
+                  })}
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          )}
+        </Card>
+      </Offcanvas.Body>
+    </Offcanvas>
+  );
+};
+export default ProductsRestaurant;

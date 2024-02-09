@@ -11,8 +11,11 @@ import kebab from "../assets/img/kebab.jpeg";
 
 import fastfood from "../assets/img/fast-food.jpeg";
 import Carousel from "react-multi-carousel";
+import { useNavigate } from "react-router-dom";
 
 const RestaurantsCarousel = () => {
+  const navigate = useNavigate();
+
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
@@ -41,7 +44,7 @@ const RestaurantsCarousel = () => {
         responsive={responsive}
         ssr={true}
         infinite={true}
-        autoPlay={false}
+        autoPlay={true}
         autoPlaySpeed={3000}
         keyBoardControl={true}
         transitionDuration={500}
@@ -52,7 +55,12 @@ const RestaurantsCarousel = () => {
         renderDotsOutside
         className="pb-1"
       >
-        <Card className="rounded-4 shadow-bottom  me-2 p-3 shadow-btm ms-4">
+        <Card
+          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4"
+          onClick={() => {
+            navigate("/restaurants/pizza");
+          }}
+        >
           <div className="text-center">
             <Card.Img
               variant="top"
@@ -64,7 +72,12 @@ const RestaurantsCarousel = () => {
             <Card.Title className="text-center">Pizza</Card.Title>
           </Card.Body>
         </Card>
-        <Card className="rounded-4 shadow-bottom  me-2 p-3 shadow-btm ms-4">
+        <Card
+          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4"
+          onClick={() => {
+            navigate("/restaurants/kebab");
+          }}
+        >
           <div className="text-center">
             <Card.Img
               variant="top"
@@ -76,7 +89,12 @@ const RestaurantsCarousel = () => {
             <Card.Title className="text-center">Kebab</Card.Title>
           </Card.Body>
         </Card>
-        <Card className="rounded-4 shadow-bottom  me-2 p-3 shadow-btm ms-4">
+        <Card
+          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4"
+          onClick={() => {
+            navigate("/restaurants/pasta");
+          }}
+        >
           <div className="text-center">
             <Card.Img
               variant="top"
@@ -88,7 +106,12 @@ const RestaurantsCarousel = () => {
             <Card.Title className="text-center">Ristoranti</Card.Title>
           </Card.Body>
         </Card>
-        <Card className="rounded-4 shadow-bottom  me-2 p-3 shadow-btm ms-4">
+        <Card
+          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4"
+          onClick={() => {
+            navigate("/restaurants/fast_food");
+          }}
+        >
           <div className="text-center">
             <Card.Img
               variant="top"
@@ -100,7 +123,12 @@ const RestaurantsCarousel = () => {
             <Card.Title className="text-center">Fast food</Card.Title>
           </Card.Body>
         </Card>
-        <Card className="rounded-4 shadow-bottom  me-2 p-3 shadow-btm ms-4">
+        <Card
+          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4"
+          onClick={() => {
+            navigate("/restaurants/sushi");
+          }}
+        >
           <div className="text-center">
             <Card.Img
               variant="top"
