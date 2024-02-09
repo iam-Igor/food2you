@@ -53,7 +53,7 @@ const RestaurantsCarousel = () => {
         itemClass="carousel-item-padding-40-px"
         deviceType="desktop"
         renderDotsOutside
-        className="pb-1"
+        className="pb-1 "
       >
         <Card
           className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4"

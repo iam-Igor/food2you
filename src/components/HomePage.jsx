@@ -7,6 +7,7 @@ import SelectCityModal from "./SelectCityModal";
 import { useSelector } from "react-redux";
 import MainContent from "./MainContent";
 import RestaurantsCarousel from "./RestaurantsCarousel";
+import InfoSection from "./InfoSection";
 
 const Homepage = () => {
   const [formVisible, setFormVisible] = useState(false);
@@ -27,7 +28,7 @@ const Homepage = () => {
   }, [window.scrollY]);
 
   return (
-    <Container fluid>
+    <Container fluid className="p-0">
       <Row className="header-bg d-flex flex-column flex-md-row justify-content-center align-items-center">
         <h3 className="text-white text-center w-50">
           Sapore di consegne, rapidità di servizio: il tuo mondo a portata di
@@ -106,8 +107,9 @@ const Homepage = () => {
           setShow={() => setShowCityModal(false)}
         />
       )}
-      <MainContent></MainContent>
-      <RestaurantsCarousel></RestaurantsCarousel>
+      <MainContent />
+      <RestaurantsCarousel />
+      <InfoSection />
     </Container>
   );
 };
