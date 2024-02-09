@@ -16,8 +16,8 @@ const Homepage = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // console.log(window.scrollY);
-      if (window.scrollY > 350) {
+      console.log(window.scrollY);
+      if (window.scrollY > 560) {
         setFormVisible(true);
       } else {
         setFormVisible(false);
