@@ -76,7 +76,7 @@ const RestaurantDetail = ({ google }) => {
   };
 
   return (
-    <Container>
+    <Container className="py-4">
       <Row>
         {restaurantSelected.length > 0 ? (
           <>

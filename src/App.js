@@ -7,6 +7,7 @@ import UserProfile from "./components/UserProfile";
 import RestaurantDetail from "./components/RestaurantDetail";
 import Products_Restaurant from "./components/ProductsRestaurant";
 import ProductsRestaurant from "./components/ProductsRestaurant";
+import CustomFooter from "./components/CustomFooter";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/restaurants/:summary" element={<RestaurantDetail />} />
       </Routes>
       <ProductsRestaurant />
+      <CustomFooter />
     </BrowserRouter>
   );
 }

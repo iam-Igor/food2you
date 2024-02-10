@@ -157,6 +157,13 @@ body {
   left: 78%;
 }
 
+.btn-form-upload {
+  border: aliceblue;
+
+  color: white;
+  background: none;
+}
+
 /* checkmark */
 
 .success-animation {
@@ -219,15 +226,6 @@ body {
   }
 }
 
-/* profile page */
-
-.btn-form-upload {
-  border: aliceblue;
-
-  color: white;
-  background: none;
-}
-
 /* spinner for profile image upload */
 .spinner {
   width: 4.8px;
@@ -258,6 +256,23 @@ body {
 
 .shadow-card-carousel {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.zoom:hover {
+  animation: zoom-in 0.2s linear forwards;
+}
+
+@keyframes zoom-in {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+.react-multiple-carousel__arrow {
+  z-index: 0 !important;
 }
 
 /* banner info */

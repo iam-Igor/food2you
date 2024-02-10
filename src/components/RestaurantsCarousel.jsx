@@ -53,10 +53,10 @@ const RestaurantsCarousel = () => {
         itemClass="carousel-item-padding-40-px"
         deviceType="desktop"
         renderDotsOutside
-        className="pb-1 "
+        className="py-5 mb-4"
       >
         <Card
-          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4"
+          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
           onClick={() => {
             navigate("/restaurants/pizza");
           }}
@@ -73,7 +73,7 @@ const RestaurantsCarousel = () => {
           </Card.Body>
         </Card>
         <Card
-          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4"
+          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
           onClick={() => {
             navigate("/restaurants/kebab");
           }}
@@ -90,7 +90,7 @@ const RestaurantsCarousel = () => {
           </Card.Body>
         </Card>
         <Card
-          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4"
+          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
           onClick={() => {
             navigate("/restaurants/pasta");
           }}
@@ -107,7 +107,7 @@ const RestaurantsCarousel = () => {
           </Card.Body>
         </Card>
         <Card
-          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4"
+          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
           onClick={() => {
             navigate("/restaurants/fast_food");
           }}
@@ -124,7 +124,7 @@ const RestaurantsCarousel = () => {
           </Card.Body>
         </Card>
         <Card
-          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4"
+          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
           onClick={() => {
             navigate("/restaurants/sushi");
           }}
