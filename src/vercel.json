@@ -1,0 +1,7 @@
+{
+  "build": {
+    "hooks": {
+      "prebuild": "npm install --legacy-peer-deps"
+    }
+  }
+}
