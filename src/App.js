@@ -10,6 +10,7 @@ import ProductsRestaurant from "./components/ProductsRestaurant";
 import CustomFooter from "./components/CustomFooter";
 import NewOrderPage from "./components/NewOrderPage";
 import GoUpButton from "./components/GoUpButton";
+import Cart from "./components/Cart";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/restaurants/:summary" element={<RestaurantDetail />} />
       </Routes>
       <ProductsRestaurant />
+      <Cart />
       <GoUpButton />
       <CustomFooter />
     </BrowserRouter>

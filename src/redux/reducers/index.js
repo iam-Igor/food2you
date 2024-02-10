@@ -2,9 +2,11 @@ const initialState = {
   showModalregister: false,
   restaurantSelected: {},
   showOffCanvas: false,
+  showCart: false,
   userPosition: "",
   lon: 0,
   lat: 0,
+  cart: [],
 };
 
 const mainReducer = (state = initialState, action) => {
@@ -13,6 +15,21 @@ const mainReducer = (state = initialState, action) => {
       return {
         ...state,
         showModalregister: action.payload,
+      };
+    case "SHOW_CART":
+      return {
+        ...state,
+        showCart: action.payload,
+      };
+    case "ADD_TO_CART":
+      return {
+        ...state,
+        cart: [...state.cart, action.payload],
+      };
+    case "REMOVE_FROM_CART":
+      return {
+        ...state,
+        cart: state.cart.filter((item, i) => i !== action.payload),
       };
     case "SHOW_OFF_CANVAS":
       return {

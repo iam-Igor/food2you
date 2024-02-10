@@ -12,9 +12,14 @@ import kebab from "../assets/img/kebab.jpeg";
 import fastfood from "../assets/img/fast-food.jpeg";
 import Carousel from "react-multi-carousel";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const RestaurantsCarousel = () => {
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const accessData = localStorage.getItem("tokenUser");
 
   const responsive = {
     desktop: {
@@ -58,7 +63,11 @@ const RestaurantsCarousel = () => {
         <Card
           className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
           onClick={() => {
-            navigate("/restaurants/pizza");
+            if (accessData) {
+              navigate("/restaurants/pizza");
+            } else {
+              dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+            }
           }}
         >
           <div className="text-center">
@@ -75,7 +84,11 @@ const RestaurantsCarousel = () => {
         <Card
           className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
           onClick={() => {
-            navigate("/restaurants/kebab");
+            if (accessData) {
+              navigate("/restaurants/kebab");
+            } else {
+              dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+            }
           }}
         >
           <div className="text-center">
@@ -92,7 +105,11 @@ const RestaurantsCarousel = () => {
         <Card
           className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
           onClick={() => {
-            navigate("/restaurants/pasta");
+            if (accessData) {
+              navigate("/restaurants/pasta");
+            } else {
+              dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+            }
           }}
         >
           <div className="text-center">
@@ -109,7 +126,11 @@ const RestaurantsCarousel = () => {
         <Card
           className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
           onClick={() => {
-            navigate("/restaurants/fast_food");
+            if (accessData) {
+              navigate("/restaurants/fast_food");
+            } else {
+              dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+            }
           }}
         >
           <div className="text-center">
@@ -126,7 +147,11 @@ const RestaurantsCarousel = () => {
         <Card
           className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
           onClick={() => {
-            navigate("/restaurants/sushi");
+            if (accessData) {
+              navigate("/restaurants/sushi");
+            } else {
+              dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+            }
           }}
         >
           <div className="text-center">

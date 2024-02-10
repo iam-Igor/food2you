@@ -4,7 +4,7 @@ import bgHeader from "../assets/img/wave-haikei.svg";
 import hamburger from "../assets/img/95af3cd3-85de-4f17-92e8-647af7967071-removebg-preview.png";
 import { useEffect, useState } from "react";
 import SelectCityModal from "./SelectCityModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MainContent from "./MainContent";
 import RestaurantsCarousel from "./RestaurantsCarousel";
 import InfoSection from "./InfoSection";
@@ -12,7 +12,7 @@ import InfoSection from "./InfoSection";
 const Homepage = () => {
   const [formVisible, setFormVisible] = useState(false);
   const selectedCity = useSelector((state) => state.userPosition);
-
+  const dispatch = useDispatch();
   const [showCityModal, setShowCityModal] = useState(false);
 
   useEffect(() => {
@@ -26,6 +26,8 @@ const Homepage = () => {
     };
     window.addEventListener("scroll", handleScroll);
   }, [window.scrollY]);
+
+  const accessData = localStorage.getItem("tokenUser");
 
   return (
     <Container fluid className="px-0">
@@ -63,7 +65,11 @@ const Homepage = () => {
                   placeholder="Es. Napoli"
                   className="rounded-4"
                   onClick={() => {
-                    setShowCityModal(true);
+                    if (accessData) {
+                      setShowCityModal(true);
+                    } else {
+                      dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+                    }
                   }}
                 />
               </Form.Group>
@@ -91,7 +97,11 @@ const Homepage = () => {
                 placeholder="Es. Napoli"
                 className="rounded-4 w-100"
                 onClick={() => {
-                  setShowCityModal(true);
+                  if (accessData) {
+                    setShowCityModal(true);
+                  } else {
+                    dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+                  }
                 }}
               />
             </Form.Group>

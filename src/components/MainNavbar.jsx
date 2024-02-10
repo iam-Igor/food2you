@@ -63,7 +63,12 @@ const MainNavbar = () => {
                     <Dropdown.Item className="d-flex align-items-center">
                       <i class="bi bi-list-ul fs-4 me-2"></i>Ordini
                     </Dropdown.Item>
-                    <Dropdown.Item className="d-flex align-items-center">
+                    <Dropdown.Item
+                      className="d-flex align-items-center"
+                      onClick={() => {
+                        dispatch({ type: "SHOW_CART", payload: true });
+                      }}
+                    >
                       <i class="bi bi-cart4 fs-4 me-2"></i>Carrello
                     </Dropdown.Item>
                     <Dropdown.Item

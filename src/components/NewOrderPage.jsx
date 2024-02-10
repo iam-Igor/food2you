@@ -1,5 +1,5 @@
 import { Badge, Button, Col, Container, Form, Row } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { generateRandomMobileNumber } from "../apifile";
 import {
   Avatar,
@@ -16,15 +16,20 @@ import { useEffect, useState } from "react";
 
 const NewOrderPage = () => {
   const restaurantData = useSelector((state) => state.restaurantSelected);
+  const cartItems = useSelector((state) => state.cart);
+
+  console.log(cartItems);
 
   const [food, setFood] = useState([]);
   const [drinks, setDrinks] = useState([]);
-
   const [isFoodSelected, setIsFoodSelected] = useState(true);
-
   const [isChanged, setIsChanged] = useState(false);
 
-  console.log(isFoodSelected);
+  const dispatch = useDispatch();
+
+  const [quantity, setQuantity] = useState(0);
+
+  console.log(typeof quantity, "quantity");
 
   const [sortBy, setSortBy] = useState("");
 
@@ -78,6 +83,12 @@ const NewOrderPage = () => {
     }
   };
 
+  const addItemsToCart = (item) => {
+    let quantityToInt = parseInt(quantity);
+    const itemToAdd = { ...item, quantity: quantityToInt };
+    dispatch({ type: "ADD_TO_CART", payload: itemToAdd });
+  };
+
   const getProductsList = () => {
     fetch(
       "http://localhost:3030/restaurants/" + restaurantData.id + "/products"
@@ -127,15 +138,19 @@ const NewOrderPage = () => {
               setIsFoodSelected(e.target.value === "true");
             }}
           >
-            <option value={true}>Categoria</option>
             <option value={true}>Cibo</option>
             <option value={false}>Drinks</option>
           </Form.Select>
         </Col>
         <Col className="col-4 col-md-4 text-center">
-          <Button className="drop-nav border-0 shadow-card">
+          <Button
+            className="drop-nav border-0 shadow-card"
+            onClick={() => {
+              dispatch({ type: "SHOW_CART", payload: true });
+            }}
+          >
             <i className="bi bi-cart4 fs-5 me-2 text-black"></i>{" "}
-            <Badge bg="danger">9</Badge>
+            <Badge bg="danger">{cartItems.length}</Badge>
           </Button>
         </Col>
       </Row>
@@ -228,19 +243,35 @@ const NewOrderPage = () => {
                           {food.price}€
                         </Typography>
                         <CardActions className="ps-0">
-                          <Button
-                            size="small"
-                            color="primary"
-                            className="drop-nav border-0 shadow-card"
+                          <Form
+                            className="d-flex w-100"
+                            onSubmit={(e) => {
+                              e.preventDefault();
+                              console.log("carrelloooo");
+                              addItemsToCart(food);
+                            }}
                           >
-                            <i className="bi bi-cart4 fs-5 me-2 text-black"></i>
-                          </Button>
-                          <Form.Select>
-                            <option>Quantità</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                          </Form.Select>
+                            {" "}
+                            <Button
+                              type="submit"
+                              size="small"
+                              color="primary"
+                              className="drop-nav border-0 shadow-card me-2"
+                            >
+                              <i className="bi bi-cart4 fs-5 me-2 text-black"></i>
+                            </Button>
+                            <Form.Select
+                              required
+                              onChange={(e) => {
+                                setQuantity(e.target.value);
+                              }}
+                            >
+                              <option value="">Quantità</option>
+                              <option value={1}>1</option>
+                              <option value={2}>2</option>
+                              <option value={3}>3</option>
+                            </Form.Select>
+                          </Form>
                         </CardActions>
                       </CardContent>
                     </CardActionArea>
@@ -295,19 +326,35 @@ const NewOrderPage = () => {
                           {drink.price}€
                         </Typography>
                         <CardActions className="ps-0">
-                          <Button
-                            size="small"
-                            color="primary"
-                            className="drop-nav border-0 shadow-card"
+                          <Form
+                            className="d-flex w-100"
+                            onSubmit={(e) => {
+                              e.preventDefault();
+                              console.log("carrelloooo");
+                            }}
                           >
-                            <i className="bi bi-cart4 fs-5 me-2 text-black"></i>
-                          </Button>
-                          <Form.Select>
-                            <option>Quantità</option>
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                          </Form.Select>
+                            {" "}
+                            <Button
+                              type="submit"
+                              size="small"
+                              color="primary"
+                              className="drop-nav border-0 shadow-card me-2"
+                            >
+                              <i className="bi bi-cart4 fs-5 me-2 text-black"></i>
+                            </Button>
+                            <Form.Select
+                              required
+                              onChange={(e) => {
+                                setQuantity(e.target.value);
+                                addItemsToCart(drink);
+                              }}
+                            >
+                              <option value="">Quantità</option>
+                              <option value={1}>1</option>
+                              <option value={2}>2</option>
+                              <option value={3}>3</option>
+                            </Form.Select>
+                          </Form>
                         </CardActions>
                       </CardContent>
                     </CardActionArea>
