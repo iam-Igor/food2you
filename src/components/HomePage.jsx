@@ -17,7 +17,7 @@ const Homepage = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      console.log(window.scrollY);
+      // console.log(window.scrollY);
       if (window.scrollY > 560) {
         setFormVisible(true);
       } else {
@@ -28,11 +28,11 @@ const Homepage = () => {
   }, [window.scrollY]);
 
   return (
-    <Container fluid className="p-0">
+    <Container fluid className="px-0">
       <Row className="header-bg d-flex flex-column flex-md-row justify-content-center align-items-center">
         <h3 className="text-white text-center w-50">
           Sapore di consegne, rapidità di servizio: il tuo mondo a portata di
-          clic con Food2You!
+          clic con <span className="fw-bold">Food2You!</span>
         </h3>
         <Col className=" align-items-center justify-content-around py-5 col-md-4">
           <div className="d-flex">
@@ -78,7 +78,7 @@ const Homepage = () => {
               : "col-12 sale topbar py-3 header-nav"
           }
         >
-          <Form className="d-flex  flex-column ">
+          <Form className="d-flex  flex-column align-items-center justify-content-center">
             <p className="text-white">
               {selectedCity !== ""
                 ? "Hai sbagliato città? Cerca la tua città o usa la tua posizione"
@@ -89,7 +89,7 @@ const Homepage = () => {
               <Form.Control
                 type="email"
                 placeholder="Es. Napoli"
-                className="rounded-4"
+                className="rounded-4 w-100"
                 onClick={() => {
                   setShowCityModal(true);
                 }}

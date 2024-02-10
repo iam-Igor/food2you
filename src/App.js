@@ -8,6 +8,8 @@ import RestaurantDetail from "./components/RestaurantDetail";
 import Products_Restaurant from "./components/ProductsRestaurant";
 import ProductsRestaurant from "./components/ProductsRestaurant";
 import CustomFooter from "./components/CustomFooter";
+import NewOrderPage from "./components/NewOrderPage";
+import GoUpButton from "./components/GoUpButton";
 
 function App() {
   return (
@@ -16,9 +18,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/order" element={<NewOrderPage />} />
         <Route path="/restaurants/:summary" element={<RestaurantDetail />} />
       </Routes>
       <ProductsRestaurant />
+      <GoUpButton />
       <CustomFooter />
     </BrowserRouter>
   );

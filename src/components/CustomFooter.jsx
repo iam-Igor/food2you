@@ -49,10 +49,10 @@ const CustomFooter = () => {
         </Row>
         <Row className="flex-column mt-3">
           <p className="text-center">Seguici</p>
-          <div className="d-flex flex-row justify-content-around">
+          <div className="d-flex flex-row justify-content-center">
             {" "}
             <i className="bi bi-facebook fs-2"></i>
-            <i className="bi bi-instagram fs-2"></i>
+            <i className="bi bi-instagram fs-2 mx-3"></i>
             <i className="bi bi-twitter-x fs-2"></i>
           </div>
           <p className="text-center mt-4">Food2You © {year}</p>

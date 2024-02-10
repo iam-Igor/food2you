@@ -77,6 +77,7 @@ const RegisterForm = () => {
         localStorage.setItem("tokenUser", "Bearer " + data.token);
         handleClose();
         setLoginError(false);
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);

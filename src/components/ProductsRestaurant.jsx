@@ -15,25 +15,17 @@ import createMobilePhoneNumber from "random-mobile-numbers-extended";
 import { useEffect, useState } from "react";
 import { Accordion, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { generateRandomMobileNumber } from "../apifile";
 
 const ProductsRestaurant = () => {
   const show = useSelector((state) => state.showOffCanvas);
   const dispatch = useDispatch();
   const restaurantData = useSelector((state) => state.restaurantSelected);
 
+  const navigate = useNavigate();
+
   const [showProducts, setShowproducts] = useState(false);
-
-  function generateRandomMobileNumber() {
-    const countryCode = "+39";
-    const mobileNumber =
-      countryCode +
-      Math.floor(Math.random() * 10000000000)
-        .toString()
-        .padStart(10, "0");
-    return mobileNumber;
-  }
-
-  console.log(generateRandomMobileNumber());
 
   const [food, setFood] = useState([]);
   const [drinks, setDrinks] = useState([]);
@@ -125,7 +117,14 @@ const ProductsRestaurant = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button size="small" color="primary">
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={() => {
+                    navigate("/order");
+                    dispatch({ type: "SHOW_OFF_CANVAS", payload: false });
+                  }}
+                >
                   Ordina
                 </Button>
                 <Button

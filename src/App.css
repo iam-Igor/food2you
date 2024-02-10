@@ -21,6 +21,28 @@ body {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
+.truncate {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* go up button */
+
+.go-up-btn {
+  position: fixed;
+  right: 5%;
+  top: 90%;
+  background-color: #ffc107 !important;
+}
+
+/* navbar */
+
+.drop-nav {
+  background-color: #ffc107 !important;
+}
+
 /* header */
 
 .header-bg {
@@ -279,4 +301,13 @@ body {
 
 .line-spacer {
   line-height: 1.5em;
+}
+
+/* order page */
+
+.filterHeader {
+  background-color: #00796b;
+  z-index: 1;
+  position: sticky;
+  top: 12%;
 }
