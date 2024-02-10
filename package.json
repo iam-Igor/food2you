@@ -28,7 +28,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prebuild": "npm install --legacy-peers-deps"
+    "prebuild": "npm install --legacy-peer-deps"
   },
   "eslintConfig": {
     "extends": [
