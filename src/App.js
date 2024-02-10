@@ -11,6 +11,8 @@ import CustomFooter from "./components/CustomFooter";
 import NewOrderPage from "./components/NewOrderPage";
 import GoUpButton from "./components/GoUpButton";
 import Cart from "./components/Cart";
+import NotFoundPage from "./components/NotFoundPage";
+import BadRequestPage from "./components/BadRequestPage";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/order" element={<NewOrderPage />} />
         <Route path="/restaurants/:summary" element={<RestaurantDetail />} />
+        <Route path="*" element={<NotFoundPage />} />
+        <Route path="/bad_request" element={<BadRequestPage />} />
       </Routes>
       <ProductsRestaurant />
       <Cart />
