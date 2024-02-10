@@ -28,7 +28,7 @@
     "build": "npm run prebuild && react-scripts build", // Aggiunto lo script pre-build qui
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prebuild": "npm install --legacy-peer-deps" // Lo script pre-build che esegue npm install con il flag --legacy-peer-deps
+    "prebuild": "npm install --force" // Lo script pre-build che esegue npm install con il flag --legacy-peer-deps
   },
   "eslintConfig": {
     "extends": [
