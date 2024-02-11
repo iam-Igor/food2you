@@ -25,7 +25,8 @@ const SelectCityModal = ({ show, setShow, google }) => {
         address +
         "," +
         cityName +
-        "&key=AIzaSyAObGi76zTUoyYXgesUhxM5TqhxV5KQ3z0"
+        "&key=" +
+        googleApikey
     )
       .then((res) => {
         if (res.ok) {
@@ -109,7 +110,13 @@ const SelectCityModal = ({ show, setShow, google }) => {
         </Col>
       </Row>
       <Modal.Footer>
-        <Button onClick={setShow}>Salva</Button>
+        <Button
+          onClick={() => {
+            setShow();
+          }}
+        >
+          Salva
+        </Button>
       </Modal.Footer>
     </Modal>
   );

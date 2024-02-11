@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Accordion, Button, Col, Form, Modal } from "react-bootstrap";
 import paymenLogos from "../assets/img/Credit-Card-Icons-removebg-preview.png";
 import { Alert } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { googleApikey } from "../apifile";
 
 const PaymentModal = ({ show, setShow, payload, total }) => {
   const [saved, setSaved] = useState(false);
@@ -14,6 +16,38 @@ const PaymentModal = ({ show, setShow, payload, total }) => {
   const [paymentAccepted, setPaymentAccepted] = useState(false);
 
   const [order, setOrder] = useState(false);
+  const dispatch = useDispatch();
+
+  const getData = () => {
+    fetch(
+      "https://maps.googleapis.com/maps/api/geocode/json?address=" +
+        profileData.address +
+        "&key=" +
+        googleApikey
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("error");
+        }
+      })
+      .then((data) => {
+        console.log(data);
+
+        dispatch({
+          type: "SET_LON",
+          payload: data.results[0].geometry.location.lng,
+        });
+        dispatch({
+          type: "SET_LAT",
+          payload: data.results[0].geometry.location.lat,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleClose = () => {
     setShow();
@@ -261,7 +295,14 @@ const PaymentModal = ({ show, setShow, payload, total }) => {
             </svg>
           </div>
         ) : (
-          <Button variant="success rounded-4 shadow-card">ordina</Button>
+          <Button
+            variant="success rounded-4 shadow-card"
+            onClick={() => {
+              getData();
+            }}
+          >
+            ordina
+          </Button>
         )}
       </Modal.Footer>
     </Modal>
