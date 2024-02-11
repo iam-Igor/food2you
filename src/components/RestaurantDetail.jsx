@@ -180,5 +180,5 @@ const RestaurantDetail = ({ google }) => {
 };
 
 export default GoogleApiWrapper({
-  apiKey: process.env.GOOGLE_MAPS_API_KEY,
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
 })(RestaurantDetail);

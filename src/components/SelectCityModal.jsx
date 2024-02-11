@@ -25,7 +25,7 @@ const SelectCityModal = ({ show, setShow, google }) => {
         "," +
         cityName +
         "&key=" +
-        process.env.GOOGLE_MAPS_API_KEY
+        process.env.REACT_APP_GOOGLE_MAPS_API_KEY
     )
       .then((res) => {
         if (res.ok) {
@@ -122,5 +122,5 @@ const SelectCityModal = ({ show, setShow, google }) => {
 };
 
 export default GoogleApiWrapper({
-  apiKey: process.env.GOOGLE_MAPS_API_KEY,
+  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
 })(SelectCityModal);

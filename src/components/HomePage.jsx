@@ -18,6 +18,8 @@ const Homepage = () => {
 
   const showNotification = useSelector((state) => state.showNotification);
 
+  const apikey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+
   useEffect(() => {
     const handleScroll = () => {
       // console.log(window.scrollY);
