@@ -3,7 +3,6 @@ import { Accordion, Button, Col, Form, Modal } from "react-bootstrap";
 import paymenLogos from "../assets/img/Credit-Card-Icons-removebg-preview.png";
 import { Alert } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { googleApikey } from "../apifile";
 import { useNavigate } from "react-router-dom";
 
 const PaymentModal = ({ show, setShow, total }) => {
@@ -55,7 +54,7 @@ const PaymentModal = ({ show, setShow, total }) => {
       "https://maps.googleapis.com/maps/api/geocode/json?address=" +
         profileData.address +
         "&key=" +
-        googleApikey
+        process.env.GOOGLE_MAPS_API_KEY
     )
       .then((res) => {
         if (res.ok) {

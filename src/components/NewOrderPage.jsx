@@ -1,6 +1,6 @@
 import { Badge, Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { generateRandomMobileNumber } from "../apifile";
+import { generateRandomMobileNumber } from "../functions";
 import {
   Avatar,
   Card,
