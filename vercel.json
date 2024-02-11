@@ -1,7 +1,9 @@
 {
   "build": {
-    "hooks": {
-      "prebuild": "npm install --force"
-    }
+    "env": {
+      "GOOGLE_MAPS_API_KEY": "your_google_maps_api_key",
+      "OTHER_API_KEY": "your_other_api_key"
+    },
+    "command": "npm install --force"
   }
 }
