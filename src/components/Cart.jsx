@@ -1,19 +1,53 @@
-import {
-  Avatar,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText,
-} from "@mui/material";
-import { Col, Offcanvas, Row } from "react-bootstrap";
+import { Alert, List } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
+import { Button, Col, Offcanvas, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import PaymentModal from "./PaymentModal";
 
 const Cart = () => {
   const show = useSelector((state) => state.showCart);
 
+  const [showCheckout, setShowCheckout] = useState(false);
+
   const cartContent = useSelector((state) => state.cart);
+  const restaurantData = useSelector((state) => state.restaurantSelected);
+
+  const [showConfirm, setShowConfirm] = useState(false);
+  const target = useRef(null);
+
+  let payload = {
+    productIds: [],
+    restaurantId: restaurantData.id,
+  };
+
+  const addItemsInPayload = () => {
+    for (let i = 0; i < cartContent.length; i++) {
+      payload.productIds.push(cartContent[i].id);
+    }
+
+    setShowCheckout(true);
+  };
+
+  console.log(payload);
+
+  const setTotalOfCart = () => {
+    let total = 0;
+    for (let i = 0; i < cartContent.length; i++) {
+      const singleItemPrice = cartContent[i].price * cartContent[i].quantity;
+      total += singleItemPrice;
+    }
+    return total;
+  };
+
+  const total = setTotalOfCart();
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (cartContent.length > 0) {
+      setTotalOfCart();
+    }
+  }, []);
 
   return (
     <Offcanvas
@@ -31,7 +65,38 @@ const Cart = () => {
           ? "Non hai prodotti nel carrello"
           : "Rivedi il tuo ordine"}
         {cartContent.length > 0 && (
-          <Row>
+          <Row className="flex-column">
+            <a
+              className="m-0 mt-2 text-danger link-underline-danger pointer"
+              onClick={() => {
+                setShowConfirm(!showConfirm);
+              }}
+            >
+              Svuota Carrello<i className="bi bi-trash3"></i>
+            </a>
+            {showConfirm && (
+              <Alert
+                variant="filled"
+                severity="error"
+                className="d-flex align-items-center shake"
+              >
+                Confermi di voler svuotare il carrello?
+                <i
+                  className="bi bi-check2-circle fs-3 ms-2 pointer"
+                  onClick={() => {
+                    dispatch({ type: "CLEAR_CART" });
+                    setShowConfirm(false);
+                  }}
+                ></i>
+                <i
+                  className="bi bi-x-circle fs-3 ms-3 pointer"
+                  onClick={() => {
+                    setShowConfirm(false);
+                  }}
+                ></i>
+              </Alert>
+            )}
+
             <Col>
               <List
                 sx={{
@@ -44,7 +109,7 @@ const Cart = () => {
                   return (
                     <div
                       key={i}
-                      className="d-flex border border-1 rounded-3 my-3 p-2 align-items-center"
+                      className="d-flex border border-1 rounded-3 my-3 p-2 align-items-center mt-0"
                     >
                       <div className="w-25">
                         <img
@@ -75,9 +140,30 @@ const Cart = () => {
                 })}
               </List>
             </Col>
+            <Col className="border-top mt-2">
+              <h6 className="mt-3">Totale: {total} €</h6>
+            </Col>
+            <Col>
+              <Button
+                className="mt-2 drop-nav border-0 text-black shadow-card"
+                onClick={() => {
+                  addItemsInPayload();
+                }}
+              >
+                Checkout
+              </Button>
+            </Col>
           </Row>
         )}
       </Offcanvas.Body>
+      <PaymentModal
+        show={showCheckout}
+        setShow={() => {
+          setShowCheckout(false);
+        }}
+        payload={payload}
+        total={total}
+      />
     </Offcanvas>
   );
 };

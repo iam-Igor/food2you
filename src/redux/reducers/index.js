@@ -26,6 +26,11 @@ const mainReducer = (state = initialState, action) => {
         ...state,
         cart: [...state.cart, action.payload],
       };
+    case "CLEAR_CART":
+      return {
+        ...state,
+        cart: [],
+      };
     case "REMOVE_FROM_CART":
       return {
         ...state,

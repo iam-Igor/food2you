@@ -330,7 +330,7 @@ const NewOrderPage = () => {
                             className="d-flex w-100"
                             onSubmit={(e) => {
                               e.preventDefault();
-                              console.log("carrelloooo");
+                              addItemsToCart(drink);
                             }}
                           >
                             {" "}
@@ -346,7 +346,6 @@ const NewOrderPage = () => {
                               required
                               onChange={(e) => {
                                 setQuantity(e.target.value);
-                                addItemsToCart(drink);
                               }}
                             >
                               <option value="">Quantità</option>
