@@ -7,6 +7,9 @@ const initialState = {
   lon: 0,
   lat: 0,
   cart: [],
+  orderPayload: {},
+  showNotification: false,
+  orderCompleted: false,
 };
 
 const mainReducer = (state = initialState, action) => {
@@ -16,10 +19,25 @@ const mainReducer = (state = initialState, action) => {
         ...state,
         showModalregister: action.payload,
       };
+    case "SHOW_NOTIFICATION":
+      return {
+        ...state,
+        showNotification: action.payload,
+      };
+    case "SET_ORDER_COMPLETED":
+      return {
+        ...state,
+        orderCompleted: action.payload,
+      };
     case "SHOW_CART":
       return {
         ...state,
         showCart: action.payload,
+      };
+    case "SAVE_ORDER_PAYLOAD":
+      return {
+        ...state,
+        orderPayload: action.payload,
       };
     case "ADD_TO_CART":
       return {

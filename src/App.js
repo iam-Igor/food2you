@@ -5,7 +5,6 @@ import MainNavbar from "./components/MainNavbar";
 import Homepage from "./components/HomePage";
 import UserProfile from "./components/UserProfile";
 import RestaurantDetail from "./components/RestaurantDetail";
-import Products_Restaurant from "./components/ProductsRestaurant";
 import ProductsRestaurant from "./components/ProductsRestaurant";
 import CustomFooter from "./components/CustomFooter";
 import NewOrderPage from "./components/NewOrderPage";

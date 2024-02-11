@@ -2,7 +2,6 @@ import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import { googleApikey } from "../apifile";
 import restmarker from "../assets/img/rest_marker.png";
 import { useDispatch } from "react-redux";
 
@@ -181,5 +180,5 @@ const RestaurantDetail = ({ google }) => {
 };
 
 export default GoogleApiWrapper({
-  apiKey: googleApikey,
+  apiKey: process.env.GOOGLE_MAPS_API_KEY,
 })(RestaurantDetail);

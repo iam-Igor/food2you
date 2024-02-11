@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { Accordion, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { generateRandomMobileNumber } from "../apifile";
+import { generateRandomMobileNumber } from "../functions";
 
 const ProductsRestaurant = () => {
   const show = useSelector((state) => state.showOffCanvas);

@@ -1,5 +1,4 @@
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
-import { googleApikey } from "../apifile";
 import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +25,7 @@ const SelectCityModal = ({ show, setShow, google }) => {
         "," +
         cityName +
         "&key=" +
-        googleApikey
+        process.env.GOOGLE_MAPS_API_KEY
     )
       .then((res) => {
         if (res.ok) {
@@ -123,5 +122,5 @@ const SelectCityModal = ({ show, setShow, google }) => {
 };
 
 export default GoogleApiWrapper({
-  apiKey: googleApikey,
+  apiKey: process.env.GOOGLE_MAPS_API_KEY,
 })(SelectCityModal);

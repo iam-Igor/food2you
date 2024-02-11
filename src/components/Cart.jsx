@@ -13,7 +13,6 @@ const Cart = () => {
   const restaurantData = useSelector((state) => state.restaurantSelected);
 
   const [showConfirm, setShowConfirm] = useState(false);
-  const target = useRef(null);
 
   let payload = {
     productIds: [],
@@ -24,7 +23,7 @@ const Cart = () => {
     for (let i = 0; i < cartContent.length; i++) {
       payload.productIds.push(cartContent[i].id);
     }
-
+    dispatch({ type: "SAVE_ORDER_PAYLOAD", payload: payload });
     setShowCheckout(true);
   };
 
@@ -161,7 +160,6 @@ const Cart = () => {
         setShow={() => {
           setShowCheckout(false);
         }}
-        payload={payload}
         total={total}
       />
     </Offcanvas>

@@ -1,7 +1,6 @@
 import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
 import { Col, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { googleApikey } from "../apifile";
 import { useEffect, useState } from "react";
 
 import userMarker from "../assets/img/pngaaa.com-2702232.png";
@@ -91,5 +90,5 @@ const MainContent = ({ google }) => {
 };
 
 export default GoogleApiWrapper({
-  apiKey: googleApikey,
+  apiKey: process.env.GOOGLE_MAPS_API_KEY,
 })(MainContent);
