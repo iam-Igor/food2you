@@ -1,23 +1,23 @@
-import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
-import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import restmarker from "../assets/img/rest_marker.png";
-import { useDispatch } from "react-redux";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
-const RestaurantDetail = ({ google }) => {
+const RestaurantDetail = () => {
   const urlParams = useParams();
   const [category, setCategory] = useState("");
-
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
-
   const [city, setCity] = useState("");
-
   const [show, setShow] = useState(true);
-
   const [restaurantSelected, setRestaurantSelected] = useState([]);
+
+  const containerStyle = {
+    width: "100%",
+    height: "250px",
+  };
 
   useEffect(() => {
     const evaluateParams = () => {
@@ -41,15 +41,13 @@ const RestaurantDetail = ({ google }) => {
           return null;
       }
     };
-
     evaluateParams();
   }, [urlParams.summary]);
 
-  const containerStyle = {
-    position: "relative",
-    width: "100",
-    height: "350px",
-  };
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+  });
 
   const getRestaurantData = () => {
     fetch(
@@ -86,17 +84,16 @@ const RestaurantDetail = ({ google }) => {
               className="mt-4 border border-2 p-0 shadow-btm "
               id="google-map-cont"
             >
-              <Map
-                google={google}
-                zoom={15}
-                containerStyle={containerStyle}
-                initialCenter={{
-                  lat: restaurantSelected[0].longitude,
-                  lng: restaurantSelected[0].latitude,
-                }}
-              >
-                {restaurantSelected.map((rest, i) => {
-                  return (
+              {isLoaded && (
+                <GoogleMap
+                  mapContainerStyle={containerStyle}
+                  zoom={15}
+                  center={{
+                    lat: restaurantSelected[0].longitude,
+                    lng: restaurantSelected[0].latitude,
+                  }}
+                >
+                  {restaurantSelected.map((rest, i) => (
                     <Marker
                       key={i}
                       position={{ lat: rest.longitude, lng: rest.latitude }}
@@ -109,10 +106,10 @@ const RestaurantDetail = ({ google }) => {
                         anchor: new window.google.maps.Point(32, 32),
                         scaledSize: new window.google.maps.Size(50, 50),
                       }}
-                    ></Marker>
-                  );
-                })}
-              </Map>
+                    />
+                  ))}
+                </GoogleMap>
+              )}
             </Col>
           </>
         ) : (
@@ -139,7 +136,6 @@ const RestaurantDetail = ({ google }) => {
           <Modal.Title>Qual è la tua città?</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {" "}
           <Form.Select
             aria-label="Default select example"
             onChange={(e) => {
@@ -179,6 +175,4 @@ const RestaurantDetail = ({ google }) => {
   );
 };
 
-export default GoogleApiWrapper({
-  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-})(RestaurantDetail);
+export default RestaurantDetail;

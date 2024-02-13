@@ -176,6 +176,11 @@ body {
   }
 }
 
+#modal-login .modal-content {
+  background: none !important;
+  border: 0px;
+}
+
 /* profile page */
 
 .profile-edit {

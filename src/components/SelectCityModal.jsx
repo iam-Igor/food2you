@@ -1,22 +1,24 @@
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
-import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import mapPlaceholder from "../assets/img/map-placeholder.jpg";
 
-const SelectCityModal = ({ show, setShow, google }) => {
-  const [position, setPosition] = useState({ lat: null, lng: null });
+const containerStyle = {
+  width: "100%",
+  height: "250px",
+};
 
+const SelectCityModal = ({ show, setShow }) => {
+  const [position, setPosition] = useState(null);
   const [address, setAddress] = useState("");
   const [cityName, setCityName] = useState("");
-
   const dispatch = useDispatch();
 
-  const containerStyle = {
-    position: "relative",
-    width: "100",
-    height: "250px",
-  };
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+  });
 
   const getData = () => {
     fetch(
@@ -60,7 +62,7 @@ const SelectCityModal = ({ show, setShow, google }) => {
       <div className="text-center pt-3">
         <h3>Aggiungi il tuo indirizzo di consegna</h3>
       </div>
-      <hr></hr>
+      <hr />
       <Row className="d-flex flex-column flex-md-row py-3 justify-content-around px-2">
         <Col className="col-12 col-md-5">
           <Form.Group className="mb-3 d-flex align-items-center">
@@ -84,21 +86,14 @@ const SelectCityModal = ({ show, setShow, google }) => {
           </Form.Group>
         </Col>
         <Col className="col-12 col-md-6">
-          {position.lat !== null ? (
-            <Map
-              google={google}
+          {isLoaded && position ? (
+            <GoogleMap
+              mapContainerStyle={containerStyle}
+              center={{ lat: position.lat, lng: position.lng }}
               zoom={15}
-              containerStyle={containerStyle}
-              initialCenter={{ lat: position.lat, lng: position.lng }}
             >
-              <Marker
-                position={{ lat: position.lat, lng: position.lng }}
-                icon={{
-                  anchor: new window.google.maps.Point(32, 32),
-                  scaledSize: new window.google.maps.Size(38, 38),
-                }}
-              ></Marker>
-            </Map>
+              <Marker position={{ lat: position.lat, lng: position.lng }} />
+            </GoogleMap>
           ) : (
             <img
               src={mapPlaceholder}
@@ -121,6 +116,4 @@ const SelectCityModal = ({ show, setShow, google }) => {
   );
 };
 
-export default GoogleApiWrapper({
-  apiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-})(SelectCityModal);
+export default SelectCityModal;
