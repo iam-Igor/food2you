@@ -42,7 +42,10 @@ const PaymentModal = ({ show, setShow, total }) => {
       })
       .then((data) => {
         console.log(data);
-        alert("ordine okkkkkk");
+        dispatch({ type: "SHOW_ORDER_BADGES", payload: true });
+        setTimeout(() => {
+          dispatch({ type: "SHOW_NOTIFICATION", payload: true });
+        }, 4000);
       })
       .catch((err) => {
         console.log(err);
@@ -54,7 +57,7 @@ const PaymentModal = ({ show, setShow, total }) => {
       "https://maps.googleapis.com/maps/api/geocode/json?address=" +
         profileData.address +
         "&key=" +
-        process.env.GOOGLE_MAPS_API_KEY
+        process.env.REACT_APP_GOOGLE_MAPS_API_KEY
     )
       .then((res) => {
         if (res.ok) {
@@ -76,7 +79,6 @@ const PaymentModal = ({ show, setShow, total }) => {
         });
 
         dispatch({ type: "SET_ORDER_COMPLETED", payload: true });
-        dispatch({ type: "SHOW_NOTIFICATION", payload: true });
         setOrder(true);
         setTimeout(() => {
           setOrder(false);

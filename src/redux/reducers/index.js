@@ -10,6 +10,7 @@ const initialState = {
   orderPayload: {},
   showNotification: false,
   orderCompleted: false,
+  showOrdersBadge: false,
 };
 
 const mainReducer = (state = initialState, action) => {
@@ -18,6 +19,11 @@ const mainReducer = (state = initialState, action) => {
       return {
         ...state,
         showModalregister: action.payload,
+      };
+    case "SHOW_ORDER_BADGES":
+      return {
+        ...state,
+        showOrdersBadge: action.payload,
       };
     case "SHOW_NOTIFICATION":
       return {

@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { AccountContext } from "./accountContext";
 
 const BoxContainer = styled.div`
-  width: 280px;
+  width: 350px;
   min-height: 550px;
   display: flex;
   flex-direction: column;
@@ -19,7 +19,7 @@ const BoxContainer = styled.div`
 
 const TopContainer = styled.div`
   width: 100%;
-  height: 250px;
+  height: 260px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

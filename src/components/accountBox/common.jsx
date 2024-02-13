@@ -46,7 +46,7 @@ export const Input = styled.input`
 
   &:focus {
     outline: none;
-    border-bottom: 1px solid #ffc107;
+    border-bottom: 1px solid rgba(241, 196, 15, 1);
   }
 `;
 

@@ -1,5 +1,5 @@
 import { Col, Container, Row, Form, Button, Toast } from "react-bootstrap";
-import { ToastContainer, toast } from "react-toastify";
+
 import bgHeader from "../assets/img/wave-haikei.svg";
 import hamburger from "../assets/img/95af3cd3-85de-4f17-92e8-647af7967071-removebg-preview.png";
 import { useEffect, useState } from "react";
@@ -8,17 +8,12 @@ import { useDispatch, useSelector } from "react-redux";
 import MainContent from "./MainContent";
 import RestaurantsCarousel from "./RestaurantsCarousel";
 import InfoSection from "./InfoSection";
-import "react-toastify/dist/ReactToastify.css";
 
 const Homepage = () => {
   const [formVisible, setFormVisible] = useState(false);
   const selectedCity = useSelector((state) => state.userPosition);
   const dispatch = useDispatch();
   const [showCityModal, setShowCityModal] = useState(false);
-
-  const showNotification = useSelector((state) => state.showNotification);
-
-  const apikey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,45 +29,8 @@ const Homepage = () => {
 
   const accessData = localStorage.getItem("tokenUser");
 
-  const notify = () => {
-    toast("🍔  Il tuo ordine è quasi pronto!", {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      toastId: "customId1",
-    });
-  };
-
-  useEffect(() => {
-    if (showNotification) {
-      notify();
-    }
-  });
-
   return (
     <Container fluid className="px-0">
-      {showNotification && (
-        <ToastContainer
-          limit={1}
-          position="top-right"
-          autoClose={false}
-          newestOnTop={false}
-          closeOnClick={true}
-          rtl={false}
-          pauseOnFocusLoss={false}
-          draggable={false}
-          theme="light"
-          onClick={() => {
-            alert("ciao");
-          }}
-        />
-      )}
-
       <Row className="header-bg d-flex flex-column flex-md-row justify-content-center align-items-center">
         <h3 className="text-white text-center w-50">
           Sapore di consegne, rapidità di servizio: il tuo mondo a portata di

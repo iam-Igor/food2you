@@ -4,16 +4,10 @@ import logo from "../assets/img/logo.png";
 import RegisterForm from "./RegisterForm";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  Avatar,
-  Dialog,
-  DialogTitle,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemButton,
-} from "@mui/material";
-import { useEffect, useState } from "react";
+import { Badge } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import { useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
 
 const MainNavbar = () => {
   const dispatch = useDispatch();
@@ -21,6 +15,30 @@ const MainNavbar = () => {
   const navigate = useNavigate();
 
   const userData = localStorage.getItem("tokenUser");
+
+  const showBadge = useSelector((state) => state.showOrdersBadge);
+
+  const showNotification = useSelector((state) => state.showNotification);
+
+  const notify = () => {
+    toast("🍔  Il tuo ordine è quasi pronto!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      toastId: "customId1",
+    });
+  };
+
+  useEffect(() => {
+    if (showNotification) {
+      notify();
+    }
+  });
 
   return (
     <>
@@ -54,14 +72,33 @@ const MainNavbar = () => {
               <>
                 <Dropdown className="d-flex ms-2 ">
                   <Dropdown.Toggle
-                    className="rounded-circle drop-nav border-0 text-black"
+                    className="rounded-circle drop-nav border-0 text-black p-3 px-4 text-center"
                     id="dropdown-basic"
                   >
-                    <i class="bi bi-three-dots fs-4 me-2"></i>
+                    <i className="bi bi-three-dots fs-4"></i>
+                    {showBadge && (
+                      <i
+                        className="bi bi-dot heartbeat"
+                        style={{
+                          position: "absolute",
+                          fontSize: "3.5em",
+                          color: "red",
+                          top: "-30px",
+                          right: "-20px",
+                        }}
+                      ></i>
+                    )}
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item className="d-flex align-items-center">
-                      <i class="bi bi-list-ul fs-4 me-2"></i>Ordini
+                      <i className="bi bi-list-ul fs-4 me-2"></i>Ordini
+                      <Badge
+                        className="heartbeat"
+                        style={{ top: "-8px", right: "-7px" }}
+                        color="error"
+                        variant="dot"
+                        invisible={!showBadge}
+                      ></Badge>
                     </Dropdown.Item>
                     <Dropdown.Item
                       className="d-flex align-items-center"
@@ -90,6 +127,22 @@ const MainNavbar = () => {
         </Container>
       </Navbar>
       <RegisterForm />
+      {showNotification && (
+        <ToastContainer
+          onClick={() => {
+            dispatch({ type: "SHOW_NOTIFICATION", payload: true });
+          }}
+          limit={1}
+          position="top-right"
+          autoClose={false}
+          newestOnTop={false}
+          closeOnClick={true}
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable={false}
+          theme="light"
+        />
+      )}
     </>
   );
 };
