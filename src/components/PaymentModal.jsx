@@ -11,7 +11,12 @@ const PaymentModal = ({ show, setShow, total }) => {
   const [paymentSelected, setPaymentSelected] = useState("");
   const [error, setError] = useState(false);
 
+  const [wrongCity, setWrongCity] = useState(false);
+
   const [profileData, setProfileData] = useState(null);
+
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
 
   const [paymentAccepted, setPaymentAccepted] = useState(false);
 
@@ -43,6 +48,7 @@ const PaymentModal = ({ show, setShow, total }) => {
       .then((data) => {
         console.log(data);
         dispatch({ type: "SHOW_ORDER_BADGES", payload: true });
+        dispatch({ type: "CLEAR_CART" });
         setTimeout(() => {
           dispatch({ type: "SHOW_NOTIFICATION", payload: true });
         }, 4000);
@@ -55,7 +61,9 @@ const PaymentModal = ({ show, setShow, total }) => {
   const getData = () => {
     fetch(
       "https://maps.googleapis.com/maps/api/geocode/json?address=" +
-        profileData.address +
+        street +
+        "," +
+        city +
         "&key=" +
         process.env.REACT_APP_GOOGLE_MAPS_API_KEY
     )
@@ -119,6 +127,29 @@ const PaymentModal = ({ show, setShow, total }) => {
         setProfileData({
           address: data.address,
         });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const checkCityDistance = (param) => {
+    fetch("http://localhost:3030/restaurants/" + param)
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("errore nel caricamento dei dati");
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        if (data.city.toLowerCase() === city.toLowerCase()) {
+          setPaymentAccepted(true);
+          setWrongCity(false);
+        } else {
+          setWrongCity(true);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -251,15 +282,34 @@ const PaymentModal = ({ show, setShow, total }) => {
                     <Form.Label>Indirizzo</Form.Label>
                     <Form.Control
                       type="text"
-                      value={profileData.address}
+                      placeholder="Es. Via Roma 12"
                       onChange={(e) => {
-                        setProfileData({
-                          ...profileData,
-                          address: e.target.value,
-                        });
+                        setStreet(e.target.value);
                       }}
                     />
                   </Form.Group>
+                  <Form.Group
+                    className="mb-3"
+                    controlId="exampleForm.ControlInput1"
+                  >
+                    <Form.Label>Città</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Es. Milano"
+                      onChange={(e) => {
+                        setCity(e.target.value);
+                      }}
+                    />
+                  </Form.Group>
+                  {wrongCity && (
+                    <Alert
+                      variant="filled"
+                      severity="error"
+                      className="my-3 shake"
+                    >
+                      La città scelta è troppo distante dal tuo indirizzo!
+                    </Alert>
+                  )}
                 </Form>
                 {paymentAccepted ? (
                   <div className="success-animation d-flex justify-content-start">
@@ -287,7 +337,7 @@ const PaymentModal = ({ show, setShow, total }) => {
                     variant="success rounded-4"
                     onClick={() => {
                       if (savedPaymentInfo) {
-                        setPaymentAccepted(true);
+                        checkCityDistance(payloadOrder.restaurantId);
                       } else {
                         setError(true);
                         setTimeout(() => {

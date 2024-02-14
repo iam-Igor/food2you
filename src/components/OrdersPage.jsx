@@ -9,6 +9,7 @@ import {
   Modal,
   Row,
 } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState(null);
@@ -18,6 +19,7 @@ const OrdersPage = () => {
 
   console.log(orderSelected);
 
+  const dispatch = useDispatch();
   const getOrdersData = () => {
     fetch("http://localhost:3030/users/orders/me", {
       headers: {
@@ -75,7 +77,7 @@ const OrdersPage = () => {
             return (
               <Col
                 key={order.id}
-                className="d-flex  border border-2 py-3 rounded-3 shadow-card col-12 col-md-8 ms-md-2"
+                className="d-flex  border border-2 py-3 rounded-4 shadow-card col-12 col-md-8 ms-md-2 mt-3"
               >
                 <div className="d-flex flex-column ms-3">
                   <h6 className="m-0 mt-1">
@@ -106,6 +108,7 @@ const OrdersPage = () => {
                     onClick={() => {
                       setOrderSelected(order);
                       setShow(true);
+                      dispatch({ type: "SHOW_ORDER_BADGES", payload: false });
                     }}
                   ></i>
                 </div>
@@ -119,6 +122,9 @@ const OrdersPage = () => {
               size="md"
               aria-labelledby="contained-modal-title-vcenter"
               centered
+              onHide={() => {
+                setShow(false);
+              }}
             >
               <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
@@ -152,17 +158,25 @@ const OrdersPage = () => {
                   </li>
                 </ul>
               </Modal.Body>
-              <Modal.Footer>
-                <Button variant="success" onClick={downloadPDF}>
-                  Scarica
-                </Button>
-                <Button
-                  onClick={() => {
-                    setShow(false);
-                  }}
-                >
-                  Close
-                </Button>
+              <Modal.Footer className="d-flex justify-content-between">
+                <div>
+                  <Button variant="warning">Stato</Button>
+                </div>
+                <div>
+                  {" "}
+                  <Button variant="success" onClick={downloadPDF}>
+                    Scarica
+                  </Button>
+                  <Button
+                    variant="danger"
+                    className="mx-2"
+                    onClick={() => {
+                      setShow(false);
+                    }}
+                  >
+                    Close
+                  </Button>
+                </div>
               </Modal.Footer>
             </Modal>
           )}

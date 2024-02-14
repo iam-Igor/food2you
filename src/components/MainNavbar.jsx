@@ -137,7 +137,7 @@ const MainNavbar = () => {
       {showNotification && (
         <ToastContainer
           onClick={() => {
-            dispatch({ type: "SHOW_NOTIFICATION", payload: true });
+            dispatch({ type: "SHOW_NOTIFICATION", payload: false });
           }}
           limit={1}
           position="top-right"
