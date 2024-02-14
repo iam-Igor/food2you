@@ -13,6 +13,7 @@ import Cart from "./components/Cart";
 import NotFoundPage from "./components/NotFoundPage";
 import BadRequestPage from "./components/BadRequestPage";
 import OrdersPage from "./components/OrdersPage";
+import OrderStatus from "./components/OrderStatus";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/orders/me" element={<OrdersPage />} />
         <Route path="/bad_request" element={<BadRequestPage />} />
+        <Route path="/order/status/:id" element={<OrderStatus />} />
       </Routes>
       <ProductsRestaurant />
       <Cart />

@@ -19,15 +19,15 @@ const MainNavbar = () => {
   console.log(userData);
 
   const showBadge = useSelector((state) => state.showOrdersBadge);
-
+  const orderSelected = useSelector((state) => state.newestOrder);
   const showNotification = useSelector((state) => state.showNotification);
 
   const notify = () => {
     toast("🍔  Il tuo ordine è quasi pronto!", {
       position: "top-center",
-      autoClose: 5000,
+      autoClose: false,
       hideProgressBar: true,
-      closeOnClick: true,
+      closeOnClick: false,
       pauseOnHover: false,
       draggable: true,
       progress: undefined,
@@ -137,13 +137,13 @@ const MainNavbar = () => {
       {showNotification && (
         <ToastContainer
           onClick={() => {
-            dispatch({ type: "SHOW_NOTIFICATION", payload: false });
+            navigate("/order/status/" + orderSelected);
           }}
           limit={1}
           position="top-right"
           autoClose={false}
           newestOnTop={false}
-          closeOnClick={true}
+          closeOnClick={false}
           rtl={false}
           pauseOnFocusLoss={false}
           draggable={false}

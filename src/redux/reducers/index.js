@@ -11,6 +11,7 @@ const initialState = {
   showNotification: false,
   orderCompleted: false,
   showOrdersBadge: false,
+  newestOrder: 0,
 };
 
 const mainReducer = (state = initialState, action) => {
@@ -39,6 +40,11 @@ const mainReducer = (state = initialState, action) => {
       return {
         ...state,
         showCart: action.payload,
+      };
+    case "SET_NEWEST_ORDER":
+      return {
+        ...state,
+        newestOrder: action.payload,
       };
     case "SAVE_ORDER_PAYLOAD":
       return {

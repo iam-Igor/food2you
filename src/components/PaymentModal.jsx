@@ -49,6 +49,7 @@ const PaymentModal = ({ show, setShow, total }) => {
         console.log(data);
         dispatch({ type: "SHOW_ORDER_BADGES", payload: true });
         dispatch({ type: "CLEAR_CART" });
+        dispatch({ type: "SET_NEWEST_ORDER", payload: data.id });
         setTimeout(() => {
           dispatch({ type: "SHOW_NOTIFICATION", payload: true });
         }, 4000);
