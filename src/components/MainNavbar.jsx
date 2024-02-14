@@ -16,6 +16,8 @@ const MainNavbar = () => {
 
   const userData = localStorage.getItem("tokenUser");
 
+  console.log(userData);
+
   const showBadge = useSelector((state) => state.showOrdersBadge);
 
   const showNotification = useSelector((state) => state.showNotification);
@@ -90,7 +92,12 @@ const MainNavbar = () => {
                     )}
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
-                    <Dropdown.Item className="d-flex align-items-center">
+                    <Dropdown.Item
+                      className="d-flex align-items-center"
+                      onClick={() => {
+                        navigate("/orders/me");
+                      }}
+                    >
                       <i className="bi bi-list-ul fs-4 me-2"></i>Ordini
                       <Badge
                         className="heartbeat"
