@@ -25,13 +25,15 @@ const Homepage = () => {
   const fetchData = async (lat, lon) => {
     try {
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=`
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=` +
+          process.env.REACT_APP_GOOGLE_MAPS_API_KEY
       );
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
       const data = await response.json();
       const formattedAddress = data.results[0].formatted_address;
+      console.log(formattedAddress);
     } catch (error) {
       setError(error.message);
     }
@@ -41,6 +43,7 @@ const Homepage = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          fetchData(position.coords.latitude, position.coords.longitude);
           setLatitude(position.coords.latitude);
           setLongitude(position.coords.longitude);
         },
