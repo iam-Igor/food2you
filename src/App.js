@@ -14,6 +14,7 @@ import NotFoundPage from "./components/NotFoundPage";
 import BadRequestPage from "./components/BadRequestPage";
 import OrdersPage from "./components/OrdersPage";
 import OrderStatus from "./components/OrderStatus";
+import ChatBubble from "./components/ChatBubble";
 
 function App() {
   return (

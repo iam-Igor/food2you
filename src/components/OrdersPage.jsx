@@ -10,12 +10,16 @@ import {
   Row,
 } from "react-bootstrap";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import ChatBubble from "./ChatBubble";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState(null);
 
   const [orderSelected, setOrderSelected] = useState(null);
   const [show, setShow] = useState(false);
+
+  const navigate = useNavigate();
 
   console.log(orderSelected);
 
@@ -160,7 +164,14 @@ const OrdersPage = () => {
               </Modal.Body>
               <Modal.Footer className="d-flex justify-content-between">
                 <div>
-                  <Button variant="warning">Stato</Button>
+                  <Button
+                    variant="warning"
+                    onClick={() => {
+                      navigate("/order/status/" + orderSelected.id);
+                    }}
+                  >
+                    Stato
+                  </Button>
                 </div>
                 <div>
                   {" "}

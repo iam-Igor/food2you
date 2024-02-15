@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import userMarker from "../assets/img/pngaaa.com-2702232.png";
 import { LinearProgress } from "@mui/material";
+import ChatBubble from "./ChatBubble";
 
 const OrderStatus = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,10 @@ const OrderStatus = () => {
   const userLon = useSelector((state) => state.lon);
 
   const urlParams = useParams();
+
+  const [orderStatus, setOrderStatus] = useState("");
+
+  const [showChat, setShowChat] = useState(false);
 
   const [progressTime, setProgressTime] = useState(0);
 
@@ -55,6 +60,8 @@ const OrderStatus = () => {
           lat: data.restaurant.longitude,
           lon: data.restaurant.latitude,
         });
+
+        setOrderStatus(data.orderStatus);
       })
       .catch((err) => {
         console.log(err);
@@ -76,37 +83,59 @@ const OrderStatus = () => {
     return () => clearInterval(intervalId);
   };
 
+  const setOrderDelivered = () => {
+    fetch("http://localhost:3030/orders/deliver/" + urlParams.id, {
+      method: "PATCH",
+      headers: {
+        Authorization: localStorage.getItem("tokenUser"),
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          console.log("consegnato!");
+        } else {
+          throw new Error("Errore nella fetch");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     retrieveOrderData();
 
     const duration = 60000;
     const startTime = Date.now();
 
-    const moveRider = () => {
-      const currentTime = Date.now();
-      const elapsedTime = currentTime - startTime;
+    if (orderStatus !== "CONSEGNATO") {
+      const moveRider = () => {
+        const currentTime = Date.now();
+        const elapsedTime = currentTime - startTime;
 
-      if (elapsedTime < duration) {
-        // Calcola la nuova posizione interpolando tra la posizione di partenza e quella di destinazione
-        const progress = elapsedTime / duration;
-        const newLat =
-          restaurantCoords.lat + (userLat - restaurantCoords.lat) * progress;
-        const newLng =
-          restaurantCoords.lon + (userLon - restaurantCoords.lon) * progress;
+        if (elapsedTime < duration) {
+          // Calcola la nuova posizione interpolando tra la posizione di partenza e quella di destinazione
+          const progress = elapsedTime / duration;
+          const newLat =
+            restaurantCoords.lat + (userLat - restaurantCoords.lat) * progress;
+          const newLng =
+            restaurantCoords.lon + (userLon - restaurantCoords.lon) * progress;
 
-        // Aggiorna la posizione
-        setRestaurantCoords({ lat: newLat, lon: newLng });
+          // Aggiorna la posizione
+          setRestaurantCoords({ lat: newLat, lon: newLng });
 
-        // Richiama la funzione moveRider al prossimo frame di animazione
-        requestAnimationFrame(moveRider);
-      } else {
-        console.log("arrivato!!!");
+          // Richiama la funzione moveRider al prossimo frame di animazione
+          requestAnimationFrame(moveRider);
+        } else {
+          setOrderDelivered();
+          setShowChat(true);
+        }
+      };
+
+      // Avvia il movimento
+      if (userLon !== null && userLat !== null && progressTime === 100) {
+        moveRider();
       }
-    };
-
-    // Avvia il movimento
-    if (userLon !== null && userLat !== null && progressTime === 100) {
-      moveRider();
     }
 
     updateTimer();
@@ -114,49 +143,58 @@ const OrderStatus = () => {
 
   return (
     <Container>
-      <Row className="mt-4 py-4 flex-column align-items-center">
-        <Col className="mb-4 col-12 col-md-8">
-          <h4>
-            {progressTime < 100
-              ? "Il tuo ordine è in preparazione.."
-              : "Il tuo rider è partito, seguilo sulla mappa!"}
-          </h4>
-          <LinearProgress variant="determinate" value={progressTime} />
-          <div className="d-flex justify-content-between">
-            <p>In preparazione</p>
-            <p>Pronto</p>
-          </div>
-        </Col>
-        {isLoaded && (
-          <Col className="col-12 col-md-8 border border-2 p-0 shadow-btm mt-4">
-            <GoogleMap
-              mapContainerStyle={containerStyle}
-              zoom={14}
-              center={{ lat: userLat, lng: userLon }}
-            >
-              <Marker
-                position={{ lat: userLat, lng: userLon }}
-                icon={{
-                  url: userMarker,
-                  anchor: new window.google.maps.Point(32, 32),
-                  scaledSize: new window.google.maps.Size(38, 50),
-                }}
-              />
-              <Marker
-                position={{
-                  lat: restaurantCoords.lat,
-                  lng: restaurantCoords.lon,
-                }}
-                icon={{
-                  url: "https://freeiconshop.com/wp-content/uploads/edd/car-flat.png",
-                  anchor: new window.google.maps.Point(32, 32),
-                  scaledSize: new window.google.maps.Size(38, 38),
-                }}
-              ></Marker>
-            </GoogleMap>
+      {orderStatus !== "CONSEGNATO" ? (
+        <Row className="mt-4 py-4 flex-column align-items-center">
+          <Col className="mb-4 col-12 col-md-8">
+            <h4>
+              {progressTime < 100
+                ? "Il tuo ordine è in preparazione.."
+                : "Il tuo rider è partito, seguilo sulla mappa!"}
+            </h4>
+            <LinearProgress variant="determinate" value={progressTime} />
+            <div className="d-flex justify-content-between">
+              <p>In preparazione</p>
+              <p>Pronto</p>
+            </div>
           </Col>
-        )}
-      </Row>
+          {isLoaded && (
+            <Col className="col-12 col-md-8 border border-2 p-0 shadow-btm mt-4">
+              <GoogleMap
+                mapContainerStyle={containerStyle}
+                zoom={14}
+                center={{ lat: userLat, lng: userLon }}
+              >
+                <Marker
+                  position={{ lat: userLat, lng: userLon }}
+                  icon={{
+                    url: userMarker,
+                    anchor: new window.google.maps.Point(32, 32),
+                    scaledSize: new window.google.maps.Size(38, 50),
+                  }}
+                />
+                <Marker
+                  position={{
+                    lat: restaurantCoords.lat,
+                    lng: restaurantCoords.lon,
+                  }}
+                  icon={{
+                    url: "https://freeiconshop.com/wp-content/uploads/edd/car-flat.png",
+                    anchor: new window.google.maps.Point(32, 32),
+                    scaledSize: new window.google.maps.Size(38, 38),
+                  }}
+                ></Marker>
+              </GoogleMap>
+            </Col>
+          )}
+        </Row>
+      ) : (
+        <Row className="mt-4">
+          <Col>
+            <h3>Questo ordine risulta gia consegnato.</h3>
+          </Col>
+        </Row>
+      )}
+      {showChat && <ChatBubble />}
     </Container>
   );
 };
