@@ -21,7 +21,7 @@ const ChatBubble = () => {
       }`}
     >
       <i
-        className="bi bi-chat-text fs-1"
+        className="bi bi-chat-text fs-1 pointer"
         onClick={() => {
           setOpenChat(!openChat);
           setVisible(true);

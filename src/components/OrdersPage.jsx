@@ -11,7 +11,6 @@ import {
 } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import ChatBubble from "./ChatBubble";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState(null);

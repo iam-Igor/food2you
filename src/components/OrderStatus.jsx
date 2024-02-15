@@ -27,6 +27,7 @@ const OrderStatus = () => {
   });
 
   const [orderReady, setorderReady] = useState(false);
+  const [orderDelivered, setDelivered] = useState(false);
 
   const containerStyle = {
     width: "100%",
@@ -105,7 +106,7 @@ const OrderStatus = () => {
   useEffect(() => {
     retrieveOrderData();
 
-    const duration = 60000;
+    const duration = 10000;
     const startTime = Date.now();
 
     if (orderStatus !== "CONSEGNATO") {
@@ -127,8 +128,9 @@ const OrderStatus = () => {
           // Richiama la funzione moveRider al prossimo frame di animazione
           requestAnimationFrame(moveRider);
         } else {
-          setOrderDelivered();
+          setOrderDelivered(true);
           setShowChat(true);
+          setDelivered(true);
         }
       };
 
@@ -184,6 +186,13 @@ const OrderStatus = () => {
                   }}
                 ></Marker>
               </GoogleMap>
+            </Col>
+          )}
+          {orderDelivered && (
+            <Col className="mb-4 col-12 col-md-8 mt-5">
+              <h4>
+                Il rider è arrivato a destinazione, apri la chat per info!
+              </h4>
             </Col>
           )}
         </Row>

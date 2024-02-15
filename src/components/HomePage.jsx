@@ -30,9 +30,9 @@ const Homepage = () => {
   const accessData = localStorage.getItem("tokenUser");
 
   return (
-    <Container fluid className="px-0">
+    <Container fluid className="p-0 overflow-x-hidden">
       <Row className="header-bg d-flex flex-column flex-md-row justify-content-center align-items-center">
-        <h3 className="text-white text-center w-50">
+        <h3 className="text-white text-center main-text">
           Sapore di consegne, rapidità di servizio: il tuo mondo a portata di
           clic con <span className="fw-bold">Food2You!</span>
         </h3>

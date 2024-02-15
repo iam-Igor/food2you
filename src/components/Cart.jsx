@@ -21,7 +21,9 @@ const Cart = () => {
 
   const addItemsInPayload = () => {
     for (let i = 0; i < cartContent.length; i++) {
-      payload.productIds.push(cartContent[i].id);
+      for (let x = 0; x < cartContent[i].quantity; x++) {
+        payload.productIds.push(cartContent[i].id);
+      }
     }
     dispatch({ type: "SAVE_ORDER_PAYLOAD", payload: payload });
     setShowCheckout(true);
