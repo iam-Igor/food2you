@@ -2,6 +2,7 @@ import { Col, Container, Row, Form, Button, Toast } from "react-bootstrap";
 
 import bgHeader from "../assets/img/wave-haikei.svg";
 import hamburger from "../assets/img/95af3cd3-85de-4f17-92e8-647af7967071-removebg-preview.png";
+import gifImage from "../assets/img//giphy.gif";
 import { useEffect, useState } from "react";
 import SelectCityModal from "./SelectCityModal";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,21 +22,36 @@ const Homepage = () => {
 
   console.log(latitude, longitude);
 
-  // const getLocation = () => {
-  //   if (navigator.geolocation) {
-  //     navigator.geolocation.getCurrentPosition(
-  //       (position) => {
-  //         setLatitude(position.coords.latitude);
-  //         setLongitude(position.coords.longitude);
-  //       },
-  //       (error) => {
-  //         setError(error.message);
-  //       }
-  //     );
-  //   } else {
-  //     setError("Geolocation is not supported by this browser.");
-  //   }
-  // };
+  const fetchData = async (lat, lon) => {
+    try {
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
+      }
+      const data = await response.json();
+      const formattedAddress = data.results[0].formatted_address;
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+        },
+        (error) => {
+          setError(error.message);
+        }
+      );
+    } else {
+      setError("Geolocation is not supported by this browser.");
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -54,18 +70,13 @@ const Homepage = () => {
   return (
     <Container fluid className="p-0 overflow-x-hidden">
       <Row className="header-bg d-flex flex-column flex-md-row justify-content-center align-items-center">
-        <h3 className="text-white text-center main-text">
+        <h3 className="text-white text-center main-text mt-md-5">
           Sapore di consegne, rapidità di servizio: il tuo mondo a portata di
           clic con <span className="fw-bold">Food2You!</span>
         </h3>
-        <Col className=" align-items-center justify-content-around py-5 col-md-4">
-          <div className="d-flex">
-            <img
-              alt="hamburger"
-              src={hamburger}
-              style={{ width: "100%" }}
-              className="rotate-center"
-            />
+        <Col className=" align-items-center justify-content-around py-2 col-md-4">
+          <div className="d-flex justify-content-center">
+            <img alt="hamburger" src={gifImage} style={{ width: "100%" }} />
           </div>
         </Col>
         {selectedCity !== "" ? (
@@ -78,11 +89,11 @@ const Homepage = () => {
           <Col className="col-md-4">
             <Form className="d-flex  flex-column px-2">
               <p className="text-white text-center">
-                Cerca la tua città o usa la tua posizione
-                <i
-                  className="bi bi-geo-alt-fill fs-4 ms-2"
-                  // onClick={getLocation}
-                ></i>
+                Cerca la tua città o{" "}
+                <span className="fw-bold pointer" onClick={getLocation}>
+                  usa la tua posizione
+                </span>
+                <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
               </p>
               <Form.Group>
                 <Form.Control
@@ -110,12 +121,27 @@ const Homepage = () => {
           }
         >
           <Form className="d-flex  flex-column align-items-center justify-content-center">
-            <p className="text-white">
-              {selectedCity !== ""
-                ? "Hai sbagliato città? Cerca la tua città o usa la tua posizione"
-                : "Cerca la tua città o usa la tua posizione"}
-              <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
-            </p>
+            {selectedCity ? (
+              <>
+                <p className="text-white">
+                  Hai sbagliato città? Cercala o{" "}
+                  <span className="fw-bold pointer" onClick={getLocation}>
+                    usa la tua posizione
+                  </span>
+                  <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-white">
+                  Cerca la tua città o{" "}
+                  <span className="fw-bold pointer" onClick={getLocation}>
+                    usa la tua posizione
+                  </span>
+                  <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
+                </p>
+              </>
+            )}
             <Form.Group>
               <Form.Control
                 type="email"

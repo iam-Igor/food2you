@@ -18,7 +18,7 @@ const CustomFooter = () => {
             <img
               src={logo}
               alt="logo"
-              style={{ width: "30%" }}
+              style={{ width: "28%" }}
               className="rounded-circle"
             />
           </Col>

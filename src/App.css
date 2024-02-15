@@ -40,7 +40,7 @@ body {
 
 @media screen and (max-width: 480px) {
   .main-text {
-    width: 100% !important;
+    width: 90% !important;
     margin-top: 3em !important;
   }
 }

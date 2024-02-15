@@ -3,6 +3,7 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import mapPlaceholder from "../assets/img/map-placeholder.jpg";
+import { Alert } from "@mui/material";
 
 const containerStyle = {
   width: "100%",
@@ -59,7 +60,7 @@ const SelectCityModal = ({ show, setShow }) => {
 
   return (
     <Modal size="lg" centered show={show}>
-      <div className="text-center pt-3">
+      <div className="text-center pt-3 px-1">
         <h3>Aggiungi il tuo indirizzo di consegna</h3>
       </div>
       <hr />
@@ -75,17 +76,27 @@ const SelectCityModal = ({ show, setShow }) => {
             />
           </Form.Group>
           <Form.Group className="mb-3 d-flex align-items-center">
-            <Form.Control
-              type="text"
-              placeholder="Città Es. Milano "
+            <Form.Select
+              aria-label="Default select example"
               onChange={(e) => {
                 setCityName(e.target.value);
               }}
-            />
+            >
+              <option value="">Città</option>
+              <option value="Cosenza">Cosenza</option>
+              <option value="Firenze">Firenze</option>
+              <option value="Milano">Milano</option>
+              <option value="Torino">Torino</option>
+              <option value="Roma">Roma</option>
+              <option value="Napoli">Napoli</option>
+            </Form.Select>
             <i className="bi bi-search ms-1 fs-4" onClick={() => getData()}></i>
           </Form.Group>
+          <Alert severity="warning">
+            Al momento l'app è disponibile solo nelle città elencate
+          </Alert>
         </Col>
-        <Col className="col-12 col-md-6">
+        <Col className="col-12 col-md-6 text-center">
           {isLoaded && position ? (
             <GoogleMap
               mapContainerStyle={containerStyle}
@@ -105,11 +116,12 @@ const SelectCityModal = ({ show, setShow }) => {
       </Row>
       <Modal.Footer>
         <Button
+          variant="warning rounded-4 shadow-card"
           onClick={() => {
             setShow();
           }}
         >
-          Salva
+          Chiudi
         </Button>
       </Modal.Footer>
     </Modal>
