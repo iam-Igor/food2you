@@ -15,6 +15,28 @@ const Homepage = () => {
   const dispatch = useDispatch();
   const [showCityModal, setShowCityModal] = useState(false);
 
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [error, setError] = useState(null);
+
+  console.log(latitude, longitude);
+
+  // const getLocation = () => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition(
+  //       (position) => {
+  //         setLatitude(position.coords.latitude);
+  //         setLongitude(position.coords.longitude);
+  //       },
+  //       (error) => {
+  //         setError(error.message);
+  //       }
+  //     );
+  //   } else {
+  //     setError("Geolocation is not supported by this browser.");
+  //   }
+  // };
+
   useEffect(() => {
     const handleScroll = () => {
       // console.log(window.scrollY);
@@ -54,10 +76,13 @@ const Homepage = () => {
           </Col>
         ) : (
           <Col className="col-md-4">
-            <Form className="d-flex  flex-column ">
-              <p className="text-white">
+            <Form className="d-flex  flex-column px-2">
+              <p className="text-white text-center">
                 Cerca la tua città o usa la tua posizione
-                <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
+                <i
+                  className="bi bi-geo-alt-fill fs-4 ms-2"
+                  // onClick={getLocation}
+                ></i>
               </p>
               <Form.Group>
                 <Form.Control

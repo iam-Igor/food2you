@@ -20,6 +20,8 @@ export function LoginForm(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const bodyLogin = {
     email: email,
     password: password,
@@ -68,13 +70,32 @@ export function LoginForm(props) {
             setEmail(e.target.value);
           }}
         />
-        <Input
-          type="password"
-          placeholder="Password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        />
+        <div className="d-flex align-items-center">
+          {" "}
+          <Input
+            className="password-input"
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <div
+            className="eye-container d-flex align-items-center"
+            onClick={() => {
+              setShowPassword(!showPassword);
+            }}
+          >
+            {" "}
+            <i
+              className={
+                showPassword
+                  ? "bi bi-eye-slash-fill fs-3 ms-1 me-1"
+                  : "bi bi-eye-fill fs-3 ms-1 me-1"
+              }
+            ></i>
+          </div>
+        </div>
       </FormContainer>
       {loginError && (
         <Alert variant="danger" style={{ fontSize: "0.9em" }} className="mt-2">

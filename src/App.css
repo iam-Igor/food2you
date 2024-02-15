@@ -183,6 +183,20 @@ body {
 }
 /* register form */
 
+.password-input {
+  width: 90% !important;
+  border-right: 0px !important;
+  border-radius: 5px 0px 0px 5px !important;
+}
+
+.eye-container {
+  border: 1px solid rgba(200, 200, 200, 0.3);
+  border-left: 0px;
+  height: 42px;
+  margin-bottom: 5px;
+  border-radius: 0 5px 5px 0;
+}
+
 .testo-out {
   animation: slide-out-blurred-top 0.45s cubic-bezier(0.755, 0.05, 0.855, 0.06)
     both;
