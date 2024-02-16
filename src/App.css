@@ -617,3 +617,9 @@ body {
     opacity: 0;
   }
 }
+
+/* REVIEWS SECTION */
+
+.reviews-container {
+  background-color: #bdbdbd;
+}

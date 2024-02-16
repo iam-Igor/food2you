@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import MainContent from "./MainContent";
 import RestaurantsCarousel from "./RestaurantsCarousel";
 import InfoSection from "./InfoSection";
+import ReviewsSection from "./ReviewsSection";
 
 const Homepage = () => {
   const [formVisible, setFormVisible] = useState(false);
@@ -205,6 +206,8 @@ const Homepage = () => {
       <MainContent />
       <RestaurantsCarousel />
       <InfoSection />
+      {/* REVIEWS */}
+      <ReviewsSection />
       <Modal
         show={show}
         onHide={() => {
