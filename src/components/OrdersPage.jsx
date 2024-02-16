@@ -73,8 +73,9 @@ const OrdersPage = () => {
     <Container fluid>
       {orders && (
         <Row className="mt-4 py-4">
-          <h2>
-            I tuoi ordini <i className="fs-4 bi bi-bag"></i>
+          <h2 className="text-center">
+            {orders.length <= 0 ? "Non hai alcun ordine" : "I tuoi ordini "}
+            <i className="fs-4 bi bi-bag ms-2"></i>
           </h2>
           {orders.map((order, i) => {
             return (

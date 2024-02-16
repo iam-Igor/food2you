@@ -7,9 +7,9 @@ import {
   Toast,
   Modal,
 } from "react-bootstrap";
+import { Parallax } from "react-scroll-parallax";
 
 import bgHeader from "../assets/img/wave-haikei.svg";
-import hamburger from "../assets/img/95af3cd3-85de-4f17-92e8-647af7967071-removebg-preview.png";
 import gifImage from "../assets/img//giphy.gif";
 import { useEffect, useState } from "react";
 import SelectCityModal from "./SelectCityModal";
@@ -32,8 +32,6 @@ const Homepage = () => {
   const [error, setError] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
-
-  console.log(latitude, longitude);
 
   const fetchData = (lat, lon) => {
     fetch(
@@ -121,31 +119,36 @@ const Homepage = () => {
             </h3>
           </Col>
         ) : (
-          <Col className="col-md-4">
-            <Form className="d-flex  flex-column px-2">
-              <p className="text-white text-center">
-                Cerca la tua città o{" "}
-                <span className="fw-bold pointer" onClick={getLocation}>
-                  usa la tua posizione
-                </span>
-                <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
-              </p>
-              <Form.Group>
-                <Form.Control
-                  type="email"
-                  placeholder="Es. Napoli"
-                  className="rounded-4"
-                  onClick={() => {
-                    if (accessData) {
-                      setShowCityModal(true);
-                    } else {
-                      dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
-                    }
-                  }}
-                />
-              </Form.Group>
-            </Form>
-          </Col>
+          <Parallax
+            speed={12}
+            className="d-flex justify-content-center mt-md-5 mb-2"
+          >
+            <Col className="col-md-4">
+              <Form className="d-flex  flex-column px-2">
+                <p className="text-white text-center">
+                  Cerca la tua città o{" "}
+                  <span className="fw-bold pointer" onClick={getLocation}>
+                    usa la tua posizione
+                  </span>
+                  <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
+                </p>
+                <Form.Group>
+                  <Form.Control
+                    type="email"
+                    placeholder="Es. Napoli"
+                    className="rounded-4"
+                    onClick={() => {
+                      if (accessData) {
+                        setShowCityModal(true);
+                      } else {
+                        dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+                      }
+                    }}
+                  />
+                </Form.Group>
+              </Form>
+            </Col>
+          </Parallax>
         )}
 
         <Col
@@ -194,6 +197,7 @@ const Homepage = () => {
           </Form>
         </Col>
       </Row>
+
       <Row className="p-0">
         <img src={bgHeader} className="p-0" />
       </Row>

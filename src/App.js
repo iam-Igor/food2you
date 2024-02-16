@@ -14,27 +14,29 @@ import NotFoundPage from "./components/NotFoundPage";
 import BadRequestPage from "./components/BadRequestPage";
 import OrdersPage from "./components/OrdersPage";
 import OrderStatus from "./components/OrderStatus";
-import ChatBubble from "./components/ChatBubble";
+import { ParallaxProvider } from "react-scroll-parallax";
 
 function App() {
   return (
-    <BrowserRouter>
-      <MainNavbar />
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/order" element={<NewOrderPage />} />
-        <Route path="/restaurants/:summary" element={<RestaurantDetail />} />
-        <Route path="*" element={<NotFoundPage />} />
-        <Route path="/orders/me" element={<OrdersPage />} />
-        <Route path="/bad_request" element={<BadRequestPage />} />
-        <Route path="/order/status/:id" element={<OrderStatus />} />
-      </Routes>
-      <ProductsRestaurant />
-      <Cart />
-      <GoUpButton />
-      <CustomFooter />
-    </BrowserRouter>
+    <ParallaxProvider>
+      <BrowserRouter>
+        <MainNavbar />
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/order" element={<NewOrderPage />} />
+          <Route path="/restaurants/:summary" element={<RestaurantDetail />} />
+          <Route path="*" element={<NotFoundPage />} />
+          <Route path="/orders/me" element={<OrdersPage />} />
+          <Route path="/bad_request" element={<BadRequestPage />} />
+          <Route path="/order/status/:id" element={<OrderStatus />} />
+        </Routes>
+        <ProductsRestaurant />
+        <Cart />
+        <GoUpButton />
+        <CustomFooter />
+      </BrowserRouter>
+    </ParallaxProvider>
   );
 }
 

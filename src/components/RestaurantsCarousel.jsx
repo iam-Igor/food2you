@@ -1,6 +1,8 @@
 import { Button, Card, Col, Row } from "react-bootstrap";
 import "react-multi-carousel/lib/styles.css";
 
+import { Parallax } from "react-scroll-parallax";
+
 import sushiimg from "../assets/img/sushi.jpeg";
 
 import pizza from "../assets/img/pizza2.jpeg";
@@ -41,131 +43,133 @@ const RestaurantsCarousel = () => {
 
   return (
     <>
-      <h3 className="text-center my-3">Cosa vuoi mangiare oggi?</h3>
-      <Carousel
-        swipeable={true}
-        draggable={false}
-        showDots={false}
-        responsive={responsive}
-        ssr={true}
-        infinite={true}
-        autoPlay={true}
-        autoPlaySpeed={3000}
-        keyBoardControl={true}
-        transitionDuration={500}
-        containerClass="carousel-container"
-        dotListClass="custom-dot-list-style"
-        itemClass="carousel-item-padding-40-px"
-        deviceType="desktop"
-        renderDotsOutside
-        className="py-5 mb-4"
-      >
-        <Card
-          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
-          onClick={() => {
-            if (accessData) {
-              navigate("/restaurants/pizza");
-            } else {
-              dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
-            }
-          }}
+      <h3 className="text-center mt-3 mb-0">Cosa vuoi mangiare oggi?</h3>
+      <Parallax speed={20}>
+        <Carousel
+          swipeable={true}
+          draggable={false}
+          showDots={false}
+          responsive={responsive}
+          ssr={true}
+          infinite={true}
+          autoPlay={true}
+          autoPlaySpeed={3000}
+          keyBoardControl={true}
+          transitionDuration={500}
+          containerClass="carousel-container"
+          dotListClass="custom-dot-list-style"
+          itemClass="carousel-item-padding-40-px"
+          deviceType="desktop"
+          renderDotsOutside
+          className="py-5 mb-4"
         >
-          <div className="text-center">
-            <Card.Img
-              variant="top"
-              src={pizza}
-              className="rounded-4 restaurant-img "
-            />
-          </div>
-          <Card.Body>
-            <Card.Title className="text-center">Pizza</Card.Title>
-          </Card.Body>
-        </Card>
-        <Card
-          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
-          onClick={() => {
-            if (accessData) {
-              navigate("/restaurants/kebab");
-            } else {
-              dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
-            }
-          }}
-        >
-          <div className="text-center">
-            <Card.Img
-              variant="top"
-              src={kebab}
-              className="rounded-4 restaurant-img "
-            />
-          </div>
-          <Card.Body>
-            <Card.Title className="text-center">Kebab</Card.Title>
-          </Card.Body>
-        </Card>
-        <Card
-          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
-          onClick={() => {
-            if (accessData) {
-              navigate("/restaurants/pasta");
-            } else {
-              dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
-            }
-          }}
-        >
-          <div className="text-center">
-            <Card.Img
-              variant="top"
-              src={pasta}
-              className="rounded-4 restaurant-img "
-            />
-          </div>
-          <Card.Body>
-            <Card.Title className="text-center">Ristoranti</Card.Title>
-          </Card.Body>
-        </Card>
-        <Card
-          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
-          onClick={() => {
-            if (accessData) {
-              navigate("/restaurants/fast_food");
-            } else {
-              dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
-            }
-          }}
-        >
-          <div className="text-center">
-            <Card.Img
-              variant="top"
-              src={fastfood}
-              className="rounded-4 restaurant-img "
-            />
-          </div>
-          <Card.Body>
-            <Card.Title className="text-center">Fast food</Card.Title>
-          </Card.Body>
-        </Card>
-        <Card
-          className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
-          onClick={() => {
-            if (accessData) {
-              navigate("/restaurants/sushi");
-            } else {
-              dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
-            }
-          }}
-        >
-          <div className="text-center">
-            <Card.Img
-              variant="top"
-              src={sushiimg}
-              className="rounded-4 restaurant-img "
-            />
-          </div>
-          <Card.Body>
-            <Card.Title className="text-center">Sushi</Card.Title>
-          </Card.Body>
-        </Card>
-      </Carousel>
+          <Card
+            className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
+            onClick={() => {
+              if (accessData) {
+                navigate("/restaurants/pizza");
+              } else {
+                dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+              }
+            }}
+          >
+            <div className="text-center">
+              <Card.Img
+                variant="top"
+                src={pizza}
+                className="rounded-4 restaurant-img "
+              />
+            </div>
+            <Card.Body>
+              <Card.Title className="text-center">Pizza</Card.Title>
+            </Card.Body>
+          </Card>
+          <Card
+            className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
+            onClick={() => {
+              if (accessData) {
+                navigate("/restaurants/kebab");
+              } else {
+                dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+              }
+            }}
+          >
+            <div className="text-center">
+              <Card.Img
+                variant="top"
+                src={kebab}
+                className="rounded-4 restaurant-img "
+              />
+            </div>
+            <Card.Body>
+              <Card.Title className="text-center">Kebab</Card.Title>
+            </Card.Body>
+          </Card>
+          <Card
+            className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
+            onClick={() => {
+              if (accessData) {
+                navigate("/restaurants/pasta");
+              } else {
+                dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+              }
+            }}
+          >
+            <div className="text-center">
+              <Card.Img
+                variant="top"
+                src={pasta}
+                className="rounded-4 restaurant-img "
+              />
+            </div>
+            <Card.Body>
+              <Card.Title className="text-center">Ristoranti</Card.Title>
+            </Card.Body>
+          </Card>
+          <Card
+            className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
+            onClick={() => {
+              if (accessData) {
+                navigate("/restaurants/fast_food");
+              } else {
+                dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+              }
+            }}
+          >
+            <div className="text-center">
+              <Card.Img
+                variant="top"
+                src={fastfood}
+                className="rounded-4 restaurant-img "
+              />
+            </div>
+            <Card.Body>
+              <Card.Title className="text-center">Fast food</Card.Title>
+            </Card.Body>
+          </Card>
+          <Card
+            className="rounded-4 shadow-bottom  me-2 p-3 shadow-card-carousel ms-4 zoom"
+            onClick={() => {
+              if (accessData) {
+                navigate("/restaurants/sushi");
+              } else {
+                dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+              }
+            }}
+          >
+            <div className="text-center">
+              <Card.Img
+                variant="top"
+                src={sushiimg}
+                className="rounded-4 restaurant-img "
+              />
+            </div>
+            <Card.Body>
+              <Card.Title className="text-center">Sushi</Card.Title>
+            </Card.Body>
+          </Card>
+        </Carousel>
+      </Parallax>
     </>
   );
 };

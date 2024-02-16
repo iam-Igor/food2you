@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import userMarker from "../assets/img/pngaaa.com-2702232.png";
 import { LinearProgress } from "@mui/material";
 import ChatBubble from "./ChatBubble";
+import ReviewsSection from "./ReviewsSection";
 
 const OrderStatus = () => {
   const dispatch = useDispatch();
