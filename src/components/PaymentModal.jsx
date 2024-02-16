@@ -30,7 +30,7 @@ const PaymentModal = ({ show, setShow, total }) => {
   console.log(payloadOrder);
 
   const makeNeworder = () => {
-    fetch("http://localhost:3030/orders/new", {
+    fetch("https://localhost:3030/orders/new", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -111,7 +111,7 @@ const PaymentModal = ({ show, setShow, total }) => {
   };
 
   const getUserData = () => {
-    fetch("http://localhost:3030/users/me", {
+    fetch("https://localhost:3030/users/me", {
       headers: {
         Authorization: localStorage.getItem("tokenUser"),
       },
@@ -135,7 +135,7 @@ const PaymentModal = ({ show, setShow, total }) => {
   };
 
   const checkCityDistance = (param) => {
-    fetch("http://localhost:3030/restaurants/" + param)
+    fetch("https://localhost:3030/restaurants/" + param)
       .then((res) => {
         if (res.ok) {
           return res.json();

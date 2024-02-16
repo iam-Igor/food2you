@@ -25,7 +25,7 @@ const MainContent = () => {
   });
 
   const getRestaurants = () => {
-    fetch("http://localhost:3030/restaurants/city/" + city)
+    fetch("https://localhost:3030/restaurants/city/" + city)
       .then((res) => {
         if (res.ok) {
           return res.json();

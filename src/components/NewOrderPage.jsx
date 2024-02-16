@@ -91,7 +91,7 @@ const NewOrderPage = () => {
 
   const getProductsList = () => {
     fetch(
-      "http://localhost:3030/restaurants/" + restaurantData.id + "/products"
+      "https://localhost:3030/restaurants/" + restaurantData.id + "/products"
     )
       .then((res) => {
         if (res.ok) {

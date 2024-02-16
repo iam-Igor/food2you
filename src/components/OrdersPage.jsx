@@ -24,7 +24,7 @@ const OrdersPage = () => {
 
   const dispatch = useDispatch();
   const getOrdersData = () => {
-    fetch("http://localhost:3030/users/orders/me", {
+    fetch("https://localhost:3030/users/orders/me", {
       headers: {
         Authorization: localStorage.getItem("tokenUser"),
       },

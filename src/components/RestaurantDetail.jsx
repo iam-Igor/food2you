@@ -51,7 +51,7 @@ const RestaurantDetail = () => {
 
   const getRestaurantData = () => {
     fetch(
-      "http://localhost:3030/restaurants/search?city=" +
+      "https://localhost:3030/restaurants/search?city=" +
         city +
         "&summary=" +
         category

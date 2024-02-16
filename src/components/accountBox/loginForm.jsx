@@ -34,7 +34,7 @@ export function LoginForm(props) {
   };
 
   const autoLoginClient = (payload) => {
-    fetch("http://localhost:3030/auth/login", {
+    fetch("https://localhost:3030/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

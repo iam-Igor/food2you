@@ -49,7 +49,7 @@ const UserProfile = () => {
   }
 
   const getUserData = () => {
-    fetch("http://localhost:3030/users/me", {
+    fetch("https://localhost:3030/users/me", {
       headers: {
         Authorization: localStorage.getItem("tokenUser"),
       },
@@ -78,7 +78,7 @@ const UserProfile = () => {
   };
 
   const uploadImage = () => {
-    fetch("http://localhost:3030/users/me/upload", {
+    fetch("https://localhost:3030/users/me/upload", {
       method: "PATCH",
       headers: {
         Authorization: localStorage.getItem("tokenUser"),
@@ -101,7 +101,7 @@ const UserProfile = () => {
   };
 
   const uploaduserData = () => {
-    fetch("http://localhost:3030/users/me", {
+    fetch("https://localhost:3030/users/me", {
       method: "POST",
       headers: {
         Authorization: localStorage.getItem("tokenUser"),

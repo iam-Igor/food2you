@@ -38,7 +38,7 @@ export function SignupForm(props) {
   };
 
   const registerUser = (payload) => {
-    fetch("http://localhost:3030/auth/register", {
+    fetch("https://localhost:3030/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

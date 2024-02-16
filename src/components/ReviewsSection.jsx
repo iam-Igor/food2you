@@ -60,7 +60,7 @@ const ReviewsSection = () => {
 
   const saveReview = () => {
     if (message !== "" && rating > 0) {
-      fetch("http://localhost:3030/reviews/new", {
+      fetch("https://localhost:3030/reviews/new", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +87,7 @@ const ReviewsSection = () => {
   };
 
   const getAllreviews = () => {
-    fetch("http://localhost:3030/reviews/all")
+    fetch("https://localhost:3030/reviews/all")
       .then((res) => {
         if (res.ok) {
           return res.json();

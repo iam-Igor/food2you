@@ -42,7 +42,7 @@ const OrderStatus = () => {
   dispatch({ type: "SHOW_NOTIFICATION", payload: false });
 
   const retrieveOrderData = () => {
-    fetch("http://localhost:3030/orders/print?order_id=" + urlParams.id, {
+    fetch("https://localhost:3030/orders/print?order_id=" + urlParams.id, {
       headers: {
         Authorization: localStorage.getItem("tokenUser"),
       },
