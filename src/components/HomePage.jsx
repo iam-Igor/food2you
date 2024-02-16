@@ -1,4 +1,12 @@
-import { Col, Container, Row, Form, Button, Toast } from "react-bootstrap";
+import {
+  Col,
+  Container,
+  Row,
+  Form,
+  Button,
+  Toast,
+  Modal,
+} from "react-bootstrap";
 
 import bgHeader from "../assets/img/wave-haikei.svg";
 import hamburger from "../assets/img/95af3cd3-85de-4f17-92e8-647af7967071-removebg-preview.png";
@@ -16,30 +24,52 @@ const Homepage = () => {
   const dispatch = useDispatch();
   const [showCityModal, setShowCityModal] = useState(false);
 
+  const [show, setShow] = useState(false);
+
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [error, setError] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   console.log(latitude, longitude);
 
-  const fetchData = async (lat, lon) => {
-    try {
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=` +
-          process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch data");
-      }
-      const data = await response.json();
-      const formattedAddress = data.results[0].formatted_address;
-      console.log(formattedAddress);
-    } catch (error) {
-      setError(error.message);
-    }
+  const fetchData = (lat, lon) => {
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lon}&key=` +
+        process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+    )
+      .then((response) => {
+        if (!response.ok) {
+          setIsLoading(false);
+          throw new Error("Failed to fetch data");
+        }
+        setIsLoading(false);
+        return response.json();
+      })
+      .then((data) => {
+        const formattedAddress = data.results[0].formatted_address;
+        if (
+          formattedAddress.toLowerCase().includes("Milano") ||
+          formattedAddress.toLowerCase().includes("Cosenza") ||
+          formattedAddress.toLowerCase().includes("Roma") ||
+          formattedAddress.toLowerCase().includes("Torino") ||
+          formattedAddress.toLowerCase().includes("Napoli") ||
+          formattedAddress.toLowerCase().includes("Firenze")
+        ) {
+          console.log("città ok");
+        } else {
+          setShow(true);
+        }
+        console.log(data);
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   const getLocation = () => {
+    setIsLoading(true);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -49,6 +79,7 @@ const Homepage = () => {
         },
         (error) => {
           setError(error.message);
+          setIsLoading(false);
         }
       );
     } else {
@@ -174,6 +205,41 @@ const Homepage = () => {
       <MainContent />
       <RestaurantsCarousel />
       <InfoSection />
+      <Modal
+        show={show}
+        onHide={() => {
+          setShow(false);
+        }}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Spiacenti :(</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Al momento il tuo indirizzo non è supportato dalla nostra app.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            className="shadow-card"
+            variant="warning"
+            onClick={() => {
+              setShow(false);
+            }}
+          >
+            Chiudi
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={isLoading} className="loading-modal">
+        <Modal.Body className="d-flex justify-content-center">
+          <div className="spinner2">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </Container>
   );
 };
