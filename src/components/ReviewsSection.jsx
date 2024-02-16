@@ -5,6 +5,7 @@ import { Rating } from "react-simple-star-rating";
 
 import topBg from "../assets/img/reviews_top.svg";
 import bottomBg from "../assets/img/reviews_bottom.svg";
+import { Alert } from "@mui/material";
 
 const ReviewsSection = () => {
   const [reviews, setReviews] = useState(null);
@@ -17,6 +18,8 @@ const ReviewsSection = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [error, setError] = useState(false);
 
   const responsive = {
     desktop: {
@@ -38,8 +41,6 @@ const ReviewsSection = () => {
 
   const handleRating = (rate) => {
     setRating(rate);
-
-    // other logic
   };
 
   const showStarsRating = (obj) => {
@@ -58,24 +59,31 @@ const ReviewsSection = () => {
   };
 
   const saveReview = () => {
-    fetch("http://localhost:3030/reviews/new", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("tokenUser"),
-      },
-      body: JSON.stringify(reviewPayload),
-    })
-      .then((res) => {
-        if (res.ok) {
-          console.log("Recensione salvata");
-        } else {
-          throw new Error("errore nel salvataggio della review");
-        }
+    if (message !== "" && rating > 0) {
+      fetch("http://localhost:3030/reviews/new", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("tokenUser"),
+        },
+        body: JSON.stringify(reviewPayload),
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((res) => {
+          if (res.ok) {
+            setError(false);
+            setShow(false);
+          } else {
+            throw new Error("errore nel salvataggio della review");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setShow(false);
+          setError(false);
+        });
+    } else {
+      setError(true);
+    }
   };
 
   const getAllreviews = () => {
@@ -126,11 +134,14 @@ const ReviewsSection = () => {
           >
             {reviews.map((rev, i) => {
               return (
-                <Card className="mx-md-2 p-4 rounded-4 shadow-card me-4">
+                <Card
+                  className="mx-md-2 p-4 rounded-4 shadow-card me-4"
+                  style={{ height: "180px" }}
+                >
                   <Card.Body key={i}>
                     <Card.Title>
-                      <i className="bi bi-person"></i>
-                      Autore
+                      <i className="bi bi-person me-2"></i>
+                      {rev.username}
                     </Card.Title>
                     {showStarsRating(rev)}
                     <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
@@ -179,6 +190,11 @@ const ReviewsSection = () => {
               // onPointerMove={onPointerMove}
               // /* Available Props */
             />
+            {error && (
+              <Alert severity="error" className="mt-2">
+                Inserisci un messaggio e/o valuta il servizio.
+              </Alert>
+            )}
           </Form>
         </Modal.Body>
         <Modal.Footer>
