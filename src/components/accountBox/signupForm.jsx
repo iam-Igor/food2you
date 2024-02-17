@@ -11,9 +11,14 @@ import {
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
 import { autoLoginClient } from "../../functions";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 export function SignupForm(props) {
   const { switchToSignin } = useContext(AccountContext);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // HOOKS FOR REGISTER PAYLOAD
   const [name, setName] = useState("");
@@ -58,6 +63,8 @@ export function SignupForm(props) {
       })
       .catch((err) => {
         console.log(err);
+        dispatch({ type: "SHOW_LOGIN_MODAL", payload: false });
+        navigate("/bad_request");
       });
   };
 

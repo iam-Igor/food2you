@@ -2,7 +2,7 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import userMarker from "../assets/img/pngaaa.com-2702232.png";
 import { LinearProgress } from "@mui/material";
 import ChatBubble from "./ChatBubble";
@@ -13,6 +13,7 @@ const OrderStatus = () => {
 
   const userLat = useSelector((state) => state.lat);
   const userLon = useSelector((state) => state.lon);
+  const navigate = useNavigate();
 
   const urlParams = useParams();
 
@@ -67,6 +68,7 @@ const OrderStatus = () => {
       })
       .catch((err) => {
         console.log(err);
+        navigate("/bad_request");
       });
   };
 
@@ -101,6 +103,7 @@ const OrderStatus = () => {
       })
       .catch((err) => {
         console.log(err);
+        navigate("/bad_request");
       });
   };
 

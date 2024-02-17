@@ -9,9 +9,11 @@ import {
   Row,
 } from "react-bootstrap";
 import paymenLogos from "../assets/img/Credit-Card-Icons-removebg-preview.png";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
   const target = useRef(null);
+  const navigate = useNavigate();
 
   const [imageUploaded, setImageUploaded] = useState(false);
   const [isImageUploading, setIsImageUploading] = useState(false);
@@ -74,6 +76,7 @@ const UserProfile = () => {
       })
       .catch((err) => {
         console.log(err);
+        navigate("/bad_request");
       });
   };
 
@@ -97,6 +100,7 @@ const UserProfile = () => {
       .catch((error) => {
         console.error("Si è verificato un errore durante la richiesta:", error);
         setIsImageUploading(false);
+        navigate("/bad_request");
       });
   };
 
@@ -123,6 +127,7 @@ const UserProfile = () => {
       })
       .catch((err) => {
         console.log(err);
+        navigate("/bad_request");
       });
   };
 

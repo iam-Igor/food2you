@@ -42,6 +42,7 @@ const OrdersPage = () => {
       })
       .catch((err) => {
         console.log(err);
+        navigate("/bad_request");
       });
   };
 

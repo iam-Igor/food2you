@@ -12,10 +12,13 @@ import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
 import { useDispatch } from "react-redux";
 import { Alert } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export function LoginForm(props) {
   const { switchToSignup } = useContext(AccountContext);
   const [loginError, setLoginError] = useState(false);
+
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,9 +32,7 @@ export function LoginForm(props) {
 
   const dispatch = useDispatch();
 
-  const handleClose = () => {
-    dispatch({ type: "SHOW_LOGIN_MODAL", payload: false });
-  };
+  const handleClose = () => {};
 
   const autoLoginClient = (payload) => {
     fetch("http://localhost:3030/auth/login", {
@@ -43,6 +44,7 @@ export function LoginForm(props) {
     })
       .then((res) => {
         if (res.ok) {
+          dispatch({ type: "SHOW_LOGIN_MODAL", payload: false });
           return res.json();
         } else {
           setLoginError(true);
@@ -57,6 +59,8 @@ export function LoginForm(props) {
       })
       .catch((err) => {
         console.log(err);
+        dispatch({ type: "SHOW_LOGIN_MODAL", payload: false });
+        navigate("/bad_request");
       });
   };
 

@@ -5,6 +5,7 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 import userMarker from "../assets/img/pngaaa.com-2702232.png";
 import restMarker from "../assets/img/rest_marker.png";
+import { useNavigate } from "react-router-dom";
 
 const containerStyle = {
   width: "100%",
@@ -16,6 +17,7 @@ const MainContent = () => {
   const lat = useSelector((state) => state.lat);
   const dispatch = useDispatch();
   const city = useSelector((state) => state.userPosition);
+  const navigate = useNavigate();
 
   const [restaurants, setRestaurants] = useState(null);
 
@@ -38,6 +40,7 @@ const MainContent = () => {
       })
       .catch((err) => {
         console.log(err);
+        navigate("/bad_request");
       });
   };
 

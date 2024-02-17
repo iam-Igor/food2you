@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Parallax } from "react-scroll-parallax";
+import { useNavigate } from "react-router-dom";
 
 const NewOrderPage = () => {
   const restaurantData = useSelector((state) => state.restaurantSelected);
@@ -29,6 +30,7 @@ const NewOrderPage = () => {
   const dispatch = useDispatch();
 
   const [quantity, setQuantity] = useState(0);
+  const navigate = useNavigate();
 
   console.log(typeof quantity, "quantity");
 
@@ -107,6 +109,7 @@ const NewOrderPage = () => {
       })
       .catch((err) => {
         console.log(err);
+        navigate("/bad_request");
       });
   };
 

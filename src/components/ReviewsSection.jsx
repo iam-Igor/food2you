@@ -6,6 +6,8 @@ import { Rating } from "react-simple-star-rating";
 import topBg from "../assets/img/reviews_top.svg";
 import bottomBg from "../assets/img/reviews_bottom.svg";
 import { Alert } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const ReviewsSection = () => {
   const [reviews, setReviews] = useState(null);
@@ -13,6 +15,11 @@ const ReviewsSection = () => {
   const [message, setMessage] = useState("");
 
   console.log(rating);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const userData = localStorage.getItem("tokenUser");
 
   const [show, setShow] = useState(false);
 
@@ -99,7 +106,10 @@ const ReviewsSection = () => {
         console.log(data, "reviews");
         setReviews(data);
       })
-      .catch((err) => [console.log(err)]);
+      .catch((err) => {
+        console.log(err);
+        // navigate("/bad_request");
+      });
   };
 
   useEffect(() => {
@@ -112,7 +122,7 @@ const ReviewsSection = () => {
         <img src={topBg} alt="background" style={{ width: "100%" }} />
       </div>
       <Row className="justify-content-center px-2 reviews-container">
-        <h4 className="text-center mt-2">Recensioni dei nostri clienti</h4>
+        <h4 className="text-center mt-2">Recensioni dei nostri clienti 📝</h4>
         {reviews && (
           <Carousel
             swipeable={true}
@@ -152,11 +162,23 @@ const ReviewsSection = () => {
             })}
           </Carousel>
         )}
-        <h4 className="text-center pointer" onClick={handleShow}>
-          Dicci la tua!<i className="bi bi-pencil-square ms-2"></i>
-        </h4>
+        <div className="text-center w-75 py-2">
+          {" "}
+          <Button
+            className="text-center pointer btn-warning btn w-50 rounded-4 shadow-card"
+            onClick={() => {
+              if (userData) {
+                handleShow();
+              } else {
+                dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+              }
+            }}
+          >
+            Dicci la tua!<i className="bi bi-pencil-square ms-2"></i>
+          </Button>
+        </div>
       </Row>
-      <div className="w-100">
+      <div>
         <img src={bottomBg} alt="background" style={{ width: "100%" }} />
       </div>
       <Modal
