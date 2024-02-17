@@ -100,7 +100,7 @@ const UserProfile = () => {
       .catch((error) => {
         console.error("Si è verificato un errore durante la richiesta:", error);
         setIsImageUploading(false);
-        navigate("/bad_request");
+        // navigate("/bad_request");
       });
   };
 

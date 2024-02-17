@@ -140,7 +140,7 @@ const ReviewsSection = () => {
             itemClass="carousel-item-padding-40-px"
             deviceType="desktop"
             renderDotsOutside
-            className="py-5 mb-4"
+            className="py-5 mb-4 "
           >
             {reviews.map((rev, i) => {
               return (
