@@ -121,3 +121,25 @@ export const deleteRestaurant = (id) => {
       console.log(err);
     });
 };
+
+export const filterByCityAndSummary = (city, summary) => {
+  return fetch(
+    "http://localhost:3030/restaurants/search?city=" +
+      city +
+      "&summary=" +
+      summary
+  )
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error("errore nella ricerca del ristorante");
+      }
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};

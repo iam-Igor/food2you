@@ -15,10 +15,11 @@ import createMobilePhoneNumber from "random-mobile-numbers-extended";
 import { useEffect, useState } from "react";
 import { Accordion, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { generateRandomMobileNumber } from "../functions";
 
 const ProductsRestaurant = () => {
+  const location = useLocation();
   const show = useSelector((state) => state.showOffCanvas);
   const dispatch = useDispatch();
   const restaurantData = useSelector((state) => state.restaurantSelected);
@@ -70,7 +71,9 @@ const ProductsRestaurant = () => {
   };
 
   useEffect(() => {
-    getProductsList();
+    if (location.pathname === "/restaurants/**") {
+      getProductsList();
+    }
   }, [restaurantData]);
 
   return (

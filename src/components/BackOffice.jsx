@@ -10,17 +10,30 @@ import {
 import {
   addNewRestaurant,
   deleteRestaurant,
+  filterByCityAndSummary,
   getAllRestaurants,
   updateRestaurant,
 } from "../functions";
 import { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 
 const BackOffice = () => {
   const [restaurantData, setRestaurantData] = useState(null);
+  const [mainArray, setMainArray] = useState(null);
+
   const [ordersData, setOrdersdata] = useState(null);
 
   // setto un ristorante come salvato per il trigger dell'animazione del bottone
   const [savedrestaurant, setSavedRestaurant] = useState(false);
+
+  //trigger per il confirmation modal per eliminare un ristorante
+  const [showConfirm, setShowConfirm] = useState(false);
 
   // ristorante selezionato
   const [restaurantSelected, setRestaurantSelected] = useState(null);
@@ -67,9 +80,27 @@ const BackOffice = () => {
   const getDatas = () => {
     getAllRestaurants().then((data) => {
       setRestaurantData(data);
+      setArrayToShow(data);
       setShowRestSection(!showRestSection);
     });
   };
+
+  const filteredRestArray = (city, summary) => {
+    if (citySelected !== "" && summarySelected !== "") {
+      filterByCityAndSummary(city, summary).then((data) => {
+        setMainArray(data);
+      });
+    }
+  };
+
+  const setArrayToShow = (data) => {
+    if (citySelected === "" || summarySelected === "") {
+      setMainArray(data);
+    }
+  };
+
+  const [citySelected, setCitySelected] = useState("");
+  const [summarySelected, setSummarySelected] = useState("");
 
   const saveNewRestaurant = () => {
     addNewRestaurant(restaurantPayload).then((res) => {
@@ -102,10 +133,14 @@ const BackOffice = () => {
   };
 
   useEffect(() => {
-    getAllRestaurants().then((data) => {
-      setRestaurantData(data);
-    });
-  }, [restUpdated]);
+    if (citySelected === "" && summarySelected === "") {
+      getAllRestaurants().then((data) => {
+        setRestaurantData(data);
+      });
+    } else {
+      filteredRestArray(citySelected, summarySelected);
+    }
+  }, [restUpdated, citySelected, summarySelected]);
 
   return (
     <Row>
@@ -125,25 +160,70 @@ const BackOffice = () => {
               </Button>
               <Button onClick={getDatas}>Visualizza tutti i ristoranti</Button>
             </Col>
-            {showRestSection && (
+            {showRestSection && mainArray && (
               <Col className="col-12">
-                <ListGroup as="ul" className="mt-3">
-                  {restaurantData.map((rest, i) => {
-                    return (
-                      <ListGroup.Item
-                        key={rest.id}
-                        as="li"
-                        onClick={() => {
-                          setRestaurantSelected(rest);
-                          updatePayload(rest);
-                        }}
-                      >
-                        <span className="fw-bold me-2">ID: {rest.id}</span>
-                        {rest.name}, {rest.city}, {rest.streetAddress}
-                      </ListGroup.Item>
-                    );
-                  })}
-                </ListGroup>
+                <p className="m-0 mt-2 text-center">Filtri</p>
+                <div className="d-flex flex-column flex-md-row">
+                  <Form.Select
+                    required
+                    aria-label="Default select example"
+                    className="mt-2 me-2"
+                    onChange={(e) => {
+                      setCitySelected(e.target.value);
+                      filteredRestArray(e.target.value, summarySelected);
+                    }}
+                  >
+                    <option value="">Città</option>
+                    <option value="Cosenza">Cosenza</option>
+                    <option value="Firenze">Firenze</option>
+                    <option value="Milano">Milano</option>
+                    <option value="Napoli">Napoli</option>
+                    <option value="Roma">Roma</option>
+                    <option value="Torino">Torino</option>
+                  </Form.Select>
+                  <Form.Select
+                    required
+                    aria-label="Default select example"
+                    className="mt-2"
+                    onChange={(e) => {
+                      setSummarySelected(e.target.value);
+                      filteredRestArray(citySelected, e.target.value);
+                    }}
+                  >
+                    <option value="">Tipo</option>
+                    <option value="PIZZA">Pizzeria</option>
+                    <option value="PASTA">Ristorante</option>
+                    <option value="SUSHI">Sushi</option>
+                    <option value="FAST_FOOD">Fast food</option>
+                    <option value="KEBAB">Kebab</option>
+                  </Form.Select>
+                </div>
+                {mainArray.length > 0 ? (
+                  <ListGroup as="ul" className="mt-3">
+                    {mainArray.map((rest, i) => {
+                      return (
+                        <ListGroup.Item
+                          key={rest.id}
+                          as="li"
+                          className="mt-2 d-flex pointer"
+                          onClick={() => {
+                            setRestaurantSelected(rest);
+                            updatePayload(rest);
+                          }}
+                        >
+                          <span className="fw-bold me-2">ID: {rest.id}</span>
+                          {rest.name}, {rest.city}, {rest.streetAddress}
+                          <i className="bi bi-pencil ms-auto"></i>
+                        </ListGroup.Item>
+                      );
+                    })}
+                  </ListGroup>
+                ) : (
+                  <h6 className="mt-3">
+                    Nessun ristorante trovato per i criteri di ricerca
+                    selezionati
+                  </h6>
+                )}
 
                 <Modal
                   show={showRestDetails}
@@ -264,11 +344,48 @@ const BackOffice = () => {
                         variant="danger"
                         className="mt-2 ms-2 shadow-card"
                         onClick={() => {
-                          deleteRest(restaurantSelected.id);
+                          setShowConfirm(true);
+                          // deleteRest(restaurantSelected.id);
                         }}
                       >
                         Elimina
                       </Button>
+                      <Dialog
+                        onClose={() => {
+                          setShowConfirm(false);
+                        }}
+                        open={showConfirm}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogTitle id="alert-dialog-title">
+                          {"Sicuro di volere eliminare il ristorante?"}
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            Questa azione sarà irreversibile.
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button
+                            onClick={() => {
+                              setShowConfirm(false);
+                            }}
+                          >
+                            Annulla
+                          </Button>
+                          <Button
+                            variant="danger"
+                            autoFocus
+                            onClick={() => {
+                              deleteRest(restaurantSelected.id);
+                              setShowConfirm(false);
+                            }}
+                          >
+                            Elimina
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
                     </Form>
                   </Modal.Body>
                   <Modal.Footer>
