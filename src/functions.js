@@ -1,4 +1,5 @@
 import { useDispatch } from "react-redux";
+import { json } from "react-router-dom";
 
 export function generateRandomMobileNumber() {
   const countryCode = "+39";
@@ -32,6 +33,89 @@ export const autoLoginClient = (payload) => {
 
       // setLoginError(false);
       window.location.reload();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+//BACK OFFICE
+
+// Restaurant
+
+export const getAllRestaurants = () => {
+  return fetch("http://localhost:3030/restaurants")
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error("Errore nel caricamento dei dati ristorante");
+      }
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const addNewRestaurant = (payload) => {
+  return fetch("http://localhost:3030/admin/restaurant/new", {
+    method: "POST",
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error("Errore nell' upload del ristorante");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const updateRestaurant = (id, payload) => {
+  return fetch("http://localhost:3030/admin/restaurant/update/" + id, {
+    method: "PATCH",
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => {
+      if (res.ok) {
+        console.log("modificato");
+        return res.json();
+      } else {
+        throw new Error("Errore nell' upload del ristorante");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const deleteRestaurant = (id) => {
+  return fetch("http://localhost:3030/admin/restaurant/" + id, {
+    method: "DELETE",
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+    },
+  })
+    .then((res) => {
+      if (res.ok) {
+        return true;
+      } else {
+        throw new Error("Errore nell' eliminazione del ristorante");
+      }
     })
     .catch((err) => {
       console.log(err);

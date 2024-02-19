@@ -13,12 +13,15 @@ import { AccountContext } from "./accountContext";
 import { autoLoginClient } from "../../functions";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { Alert } from "react-bootstrap";
 
 export function SignupForm(props) {
   const { switchToSignin } = useContext(AccountContext);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [registerError, setRegisterError] = useState(false);
 
   // HOOKS FOR REGISTER PAYLOAD
   const [name, setName] = useState("");
@@ -60,6 +63,7 @@ export function SignupForm(props) {
       .then((data) => {
         console.log(data);
         autoLoginClient(bodyLogin);
+        setRegisterError(false);
       })
       .catch((err) => {
         console.log(err);
@@ -114,15 +118,33 @@ export function SignupForm(props) {
           }}
         />
       </FormContainer>
+      {registerError && (
+        <Alert variant="danger" style={{ fontSize: "0.9em" }} className="mt-2">
+          Tutti i campi sono obbligatori!
+        </Alert>
+      )}
+
       <Marginer direction="vertical" margin={10} />
       <SubmitButton
         type="submit"
         onClick={() => {
-          registerUser(payload);
+          if (
+            name !== "" &&
+            surname !== "" &&
+            username !== "" &&
+            address !== "" &&
+            email !== "" &&
+            password !== ""
+          ) {
+            registerUser(payload);
+          } else {
+            setRegisterError(true);
+          }
         }}
       >
         Signup
       </SubmitButton>
+
       <Marginer direction="vertical" margin="5px" />
       <LineText>
         Hai gia un account? <BoldLink onClick={switchToSignin}>Login</BoldLink>

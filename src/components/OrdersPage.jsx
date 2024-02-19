@@ -59,11 +59,11 @@ const OrdersPage = () => {
     return content;
   };
 
-  const downloadPDF = () => {
+  const downloadPDF = (body) => {
     const content = generatePDFContent(orderSelected);
     const pdf = new jsPDF();
     pdf.text(content, 10, 10);
-    pdf.save("ordine.pdf");
+    pdf.save("fattura_N_" + body.id + "_" + body.user.username + ".pdf");
   };
 
   useEffect(() => {
@@ -176,7 +176,12 @@ const OrdersPage = () => {
                 </div>
                 <div>
                   {" "}
-                  <Button variant="success" onClick={downloadPDF}>
+                  <Button
+                    variant="success"
+                    onClick={() => {
+                      downloadPDF(orderSelected);
+                    }}
+                  >
                     Scarica
                   </Button>
                   <Button

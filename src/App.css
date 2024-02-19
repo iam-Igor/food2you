@@ -303,6 +303,10 @@ body {
 
 /* profile page */
 
+.profile-tab .nav-link {
+  color: black !important;
+}
+
 .profile-edit {
   bottom: 0%;
   left: 78%;

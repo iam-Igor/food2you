@@ -59,8 +59,6 @@ export function LoginForm(props) {
       })
       .catch((err) => {
         console.log(err);
-        dispatch({ type: "SHOW_LOGIN_MODAL", payload: false });
-        navigate("/bad_request");
       });
   };
 
