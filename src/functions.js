@@ -317,3 +317,43 @@ export const getAllorders = (page, size, order) => {
       console.log(err);
     });
 };
+
+// SEZIONE UTENTI
+
+export const getAllusers = (page, size, order) => {
+  if (!page) {
+    page = 0;
+  }
+  if (!size) {
+    size = 15;
+  }
+  if (!order) {
+    order = "id";
+  }
+
+  return fetch(
+    "http://localhost:3030/admin/users?page=" +
+      page +
+      "&size=" +
+      size +
+      "&order=" +
+      order,
+    {
+      headers: { Authorization: localStorage.getItem("tokenUser") },
+    }
+  )
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error("errore nella ricerca dei prodotti");
+      }
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
