@@ -5,7 +5,9 @@ import {
   Form,
   ListGroup,
   Modal,
+  Overlay,
   Pagination,
+  Tooltip,
 } from "react-bootstrap";
 import {
   addNewProduct,
@@ -14,8 +16,9 @@ import {
   getAllProducts,
   getAllRestaurants,
   updateProduct,
+  uploadProductPicture,
 } from "../../functions";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogActions,
@@ -25,6 +28,19 @@ import {
 } from "@mui/material";
 
 const ProductsSection = () => {
+  //overlay
+  const target = useRef(null);
+  const [showPopup, setShowPopup] = useState(false);
+
+  // sezione upload image product
+  const [image, setImage] = useState(null);
+  const data = new FormData();
+  if (image) {
+    data.append("image", image[0]);
+  }
+
+  const [imageUploading, setImageUploading] = useState(false);
+
   //variabile per i dati di tutti i ristoranti
   const [restaurants, setRestaurants] = useState(null);
 
@@ -442,6 +458,76 @@ const ProductsSection = () => {
                 </Modal.Title>
               </Modal.Header>
               <Modal.Body>
+                <div className="d-flex align-items-center">
+                  <img
+                    alt="product-img"
+                    src={chosenProduct.imageUrl}
+                    style={{ width: "30%" }}
+                  />
+                  <div className="w-100">
+                    <Button
+                      ref={target}
+                      onClick={() => {
+                        setShowPopup(!showPopup);
+                      }}
+                      className="btn-warning rounded-4 shadow-card ms-3"
+                    >
+                      <i class="bi bi-cloud-arrow-up fs-4"></i>
+                    </Button>
+                    <Overlay
+                      target={target.current}
+                      show={showPopup}
+                      placement="bottom"
+                    >
+                      {(props) => (
+                        <Tooltip
+                          {...props}
+                          className="tooltip-product shadow-card rounded-4 d-flex"
+                        >
+                          <Form className="d-flex align-items-center px-2">
+                            <Form.Control
+                              required
+                              onChange={(e) => {
+                                setImage(e.target.files);
+                              }}
+                              size="sm"
+                              type="file"
+                              className="me-3"
+                            ></Form.Control>
+                            {imageUploading ? (
+                              <div className="spinner-prod ms-2"></div>
+                            ) : (
+                              <Button
+                                onClick={() => {
+                                  if (image) {
+                                    setImageUploading(true);
+                                    uploadProductPicture(
+                                      chosenProduct.id,
+                                      data
+                                    ).then((res) => {
+                                      if (res) {
+                                        setChosenProduct({
+                                          ...chosenProduct,
+                                          imageUrl: res,
+                                        });
+                                        setImageUploading(false);
+                                        setShowPopup(false);
+                                        // setShowProdDetails(false);
+                                      }
+                                    });
+                                  }
+                                }}
+                                className="ms-auto ms-3 btn-success rounded-4 shadow-card"
+                              >
+                                <i className="bi bi-check-circle"></i>
+                              </Button>
+                            )}
+                          </Form>
+                        </Tooltip>
+                      )}
+                    </Overlay>
+                  </div>
+                </div>
                 <Form
                   onSubmit={(e) => {
                     e.preventDefault();

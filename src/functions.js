@@ -1,6 +1,27 @@
 import { useDispatch } from "react-redux";
 import { json } from "react-router-dom";
 
+// Profilo
+
+export const deleteMyProfile = () => {
+  return fetch("http://localhost:3030/users/me", {
+    method: "DELETE",
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+    },
+  })
+    .then((res) => {
+      if (res.ok) {
+        return true;
+      } else {
+        throw new Error("Errore nell' eliminazione del profilo");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 export function generateRandomMobileNumber() {
   const countryCode = "+39";
   const mobileNumber =
@@ -145,6 +166,27 @@ export const filterByCityAndSummary = (city, summary) => {
 };
 
 //PRODUCTS
+
+export const uploadProductPicture = (id, image) => {
+  return fetch("http://localhost:3030/admin/product/upload/" + id, {
+    method: "PATCH",
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+      Accept: "application/json",
+    },
+    body: image,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Errore durante la richiesta");
+      }
+
+      return response.url;
+    })
+    .catch((error) => {
+      console.error("Si è verificato un errore durante la richiesta:", error);
+    });
+};
 
 export const addNewProduct = (payload) => {
   return fetch("http://localhost:3030/admin/products/new", {

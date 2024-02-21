@@ -13,6 +13,14 @@ import {
 import paymenLogos from "../assets/img/Credit-Card-Icons-removebg-preview.png";
 import { useNavigate } from "react-router-dom";
 import BackOffice from "./BackOfficeComps/BackOffice";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
+import { deleteMyProfile } from "../functions";
 
 const UserProfile = () => {
   const target = useRef(null);
@@ -26,6 +34,9 @@ const UserProfile = () => {
   const [isImageUploading, setIsImageUploading] = useState(false);
 
   const [popup, setPopup] = useState(false);
+
+  const [showAdvnced, setShowAdvanced] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const [profileData, setProfileData] = useState({
     name: "",
@@ -486,6 +497,74 @@ const UserProfile = () => {
                   }}
                 />
               </Form.Group>
+              <div>
+                <h6
+                  className="text-end pointer"
+                  onClick={() => {
+                    setShowAdvanced(!showAdvnced);
+                  }}
+                >
+                  Avanzate <i class="bi bi-shield-lock"></i>
+                </h6>
+                {showAdvnced && (
+                  <div className="text-end">
+                    <hr></hr>
+                    <Button
+                      variant="danger"
+                      className="rounded-4 shadow-card "
+                      onClick={() => {
+                        setShowDeleteConfirm(true);
+                      }}
+                    >
+                      Elimina Profilo
+                    </Button>
+                    <hr></hr>
+                  </div>
+                )}
+                <Dialog
+                  open={showDeleteConfirm}
+                  onClose={() => {
+                    setShowDeleteConfirm(false);
+                  }}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    {"Sicuro di voler eliminare il tuo profilo?"}
+                  </DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                      <p className="fw-bold text-center">
+                        Questa azione sarà irreversibile, verranno inoltre
+                        eliminati tutti i tuoi ordini effettuati.
+                      </p>
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      variant="secondary"
+                      onClick={() => {
+                        setShowDeleteConfirm(false);
+                      }}
+                    >
+                      Annulla
+                    </Button>
+                    <Button
+                      variant="danger"
+                      onClick={() => {
+                        deleteMyProfile().then((res) => {
+                          if (res) {
+                            localStorage.removeItem("tokenUser");
+                            navigate("/");
+                          }
+                        });
+                      }}
+                    >
+                      Conferma
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </div>
 
               {savedProfile ? (
                 <div className="success-animation d-flex justify-content-start">

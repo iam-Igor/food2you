@@ -18,7 +18,7 @@
 }
 
 body {
-  font-family: "Outfit", sans-serif;
+  font-family: "Outfit", sans-serif !important;
 }
 
 .shadow-card {
@@ -633,4 +633,32 @@ body {
 .search-input-products {
   height: 38px;
   /* width: 70%; */
+}
+
+.tooltip-product .tooltip-inner {
+  background-color: white !important;
+  max-width: 100%;
+  width: 300px;
+  display: flex;
+}
+.tooltip-product {
+  width: 300px !important;
+  justify-content: space-between !important;
+}
+
+.spinner-prod {
+  width: 4.8px;
+  height: 4.8px;
+  animation: spinner-z355kx 1s infinite linear;
+  border-radius: 4.8px;
+  box-shadow: 12px 0px 0 0 #ffc107, 7.4px 9.4px 0 0 #ffc107,
+    -2.6px 11.6px 0 0 #ffc107, -10.8px 5.2px 0 0 #ffc107,
+    -10.8px -5.2px 0 0 #ffc107, -2.6px -11.6px 0 0 #ffc107,
+    7.4px -9.4px 0 0 #ffc107;
+}
+
+@keyframes spinner-z355kx {
+  to {
+    transform: rotate(360deg);
+  }
 }
