@@ -121,7 +121,7 @@ const ReviewsSection = () => {
       <div className="w-100">
         <img src={topBg} alt="background" style={{ width: "100%" }} />
       </div>
-      <Row className="justify-content-center px-2 reviews-container">
+      <Row className="justify-content-center px-2 pe-md-4 reviews-container">
         <h4 className="text-center mt-2">Recensioni dei nostri clienti 📝</h4>
         {reviews && (
           <Carousel
@@ -189,7 +189,7 @@ const ReviewsSection = () => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Aggiungi una recensione</Modal.Title>
+          <Modal.Title>Valuta la nostra app</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>

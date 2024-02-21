@@ -20,7 +20,7 @@ const NewOrderPage = () => {
   const restaurantData = useSelector((state) => state.restaurantSelected);
   const cartItems = useSelector((state) => state.cart);
 
-  console.log(cartItems);
+  const [isBouncing, setIsBouncing] = useState(false);
 
   const [food, setFood] = useState([]);
   const [drinks, setDrinks] = useState([]);
@@ -148,13 +148,15 @@ const NewOrderPage = () => {
         </Col>
         <Col className="col-4 col-md-4 text-center">
           <Button
-            className="drop-nav border-0 shadow-card"
+            className="drop-nav border-0 shadow-card rounded-4"
             onClick={() => {
               dispatch({ type: "SHOW_CART", payload: true });
             }}
           >
-            <i className="bi bi-cart4 fs-5 me-2 text-black"></i>{" "}
-            <Badge bg="danger">{cartItems.length}</Badge>
+            <i className="bi bi-cart4 fs-5 me-2 text-black "></i>{" "}
+            <Badge bg="success" className={isBouncing ? "bounce" : ""}>
+              {cartItems.length}
+            </Badge>
           </Button>
         </Col>
       </Row>
@@ -216,7 +218,10 @@ const NewOrderPage = () => {
               return (
                 <Parallax speed={10}>
                   <Col key={i} className="mt-3">
-                    <Card sx={{ maxWidth: 345 }} className="mt-3">
+                    <Card
+                      sx={{ maxWidth: 345 }}
+                      className="mt-3 rounded-3 shadow-card"
+                    >
                       <CardActionArea>
                         <CardMedia
                           component="img"
@@ -255,8 +260,11 @@ const NewOrderPage = () => {
                               className="d-flex w-100"
                               onSubmit={(e) => {
                                 e.preventDefault();
-                                console.log("carrelloooo");
                                 addItemsToCart(food);
+                                setIsBouncing(true);
+                                setTimeout(() => {
+                                  setIsBouncing(false);
+                                }, 1000);
                               }}
                             >
                               {" "}
@@ -301,7 +309,10 @@ const NewOrderPage = () => {
               return (
                 <Parallax speed={10}>
                   <Col key={i} className="mt-3">
-                    <Card sx={{ maxWidth: 345 }} className="mt-3 ">
+                    <Card
+                      sx={{ maxWidth: 345 }}
+                      className="mt-3 rounded-3 shadow-card"
+                    >
                       <CardActionArea>
                         <CardMedia
                           component="img"
@@ -341,6 +352,10 @@ const NewOrderPage = () => {
                               onSubmit={(e) => {
                                 e.preventDefault();
                                 addItemsToCart(drink);
+                                setIsBouncing(true);
+                                setTimeout(() => {
+                                  setIsBouncing(false);
+                                }, 1000);
                               }}
                             >
                               {" "}
