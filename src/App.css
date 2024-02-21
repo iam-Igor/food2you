@@ -627,3 +627,10 @@ body {
 .reviews-container {
   background-color: #bdbdbd;
 }
+
+/* BACKOFFICE SECTION */
+
+.search-input-products {
+  height: 38px;
+  /* width: 70%; */
+}

@@ -143,3 +143,137 @@ export const filterByCityAndSummary = (city, summary) => {
       console.log(err);
     });
 };
+
+//PRODUCTS
+
+export const addNewProduct = (payload) => {
+  return fetch("http://localhost:3030/admin/products/new", {
+    method: "POST",
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => {
+      if (res.ok) {
+        console.log("prodotto caricato!");
+        return res.json();
+      } else {
+        throw new Error("Errore nell' upload del prodotto");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const getAllProducts = (page, size, order) => {
+  if (!page) {
+    page = 0;
+  }
+  if (!size) {
+    size = 15;
+  }
+  if (!order) {
+    order = "id";
+  }
+  return fetch(
+    "http://localhost:3030/products?page=" +
+      page +
+      "&size=" +
+      size +
+      "&order=" +
+      order
+  )
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error("errore nel caricamento dei prodotti");
+      }
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const findProdsByName = (page, size, order, name) => {
+  if (!page) {
+    page = 0;
+  }
+  if (!size) {
+    size = 15;
+  }
+  if (!order) {
+    order = "id";
+  }
+
+  return fetch(
+    "http://localhost:3030/products/search?page=" +
+      page +
+      "&size=" +
+      size +
+      "&name=" +
+      name
+  )
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error("errore nella ricerca dei prodotti");
+      }
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const updateProduct = (payload, id) => {
+  return fetch("http://localhost:3030/admin/products/update/" + id, {
+    method: "PATCH",
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => {
+      if (res.ok) {
+        console.log("prodotto modificato!");
+        return res.json();
+      } else {
+        throw new Error("Errore nell' upload del prodotto");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const deleteProduct = (id) => {
+  return fetch("http://localhost:3030/admin/products/" + id, {
+    method: "DELETE",
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+    },
+  })
+    .then((res) => {
+      if (res.ok) {
+        return true;
+      } else {
+        throw new Error("Errore nell' eliminazione del ristorante");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};

@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import paymenLogos from "../assets/img/Credit-Card-Icons-removebg-preview.png";
 import { useNavigate } from "react-router-dom";
-import BackOffice from "./BackOffice";
+import BackOffice from "./BackOfficeComps/BackOffice";
 
 const UserProfile = () => {
   const target = useRef(null);
