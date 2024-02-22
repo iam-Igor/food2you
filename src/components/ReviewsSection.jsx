@@ -5,14 +5,20 @@ import { Rating } from "react-simple-star-rating";
 
 import topBg from "../assets/img/reviews_top.svg";
 import bottomBg from "../assets/img/reviews_bottom.svg";
+
+import topBgDark from "../assets/img/darkMode/reviews_top-dark.svg";
+import bottomBgDark from "../assets/img/darkMode/reviews_bottom-dark.svg";
+
 import { Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const ReviewsSection = () => {
   const [reviews, setReviews] = useState(null);
   const [rating, setRating] = useState(0);
   const [message, setMessage] = useState("");
+
+  const darkMode = useSelector((state) => state.darkModeEnabled);
 
   console.log(rating);
 
@@ -119,7 +125,11 @@ const ReviewsSection = () => {
   return (
     <>
       <div className="w-100">
-        <img src={topBg} alt="background" style={{ width: "100%" }} />
+        <img
+          src={darkMode ? topBgDark : topBg}
+          alt="background"
+          style={{ width: "100%" }}
+        />
       </div>
       <Row className="justify-content-center px-2 pe-md-4 reviews-container">
         <h4 className="text-center mt-2">Recensioni dei nostri clienti 📝</h4>
@@ -180,7 +190,11 @@ const ReviewsSection = () => {
         </div>
       </Row>
       <div>
-        <img src={bottomBg} alt="background" style={{ width: "100%" }} />
+        <img
+          src={darkMode ? bottomBgDark : bottomBg}
+          alt="background"
+          style={{ width: "100%" }}
+        />
       </div>
       <Modal
         show={show}

@@ -13,6 +13,8 @@ const OrderStatus = () => {
 
   const userLat = useSelector((state) => state.lat);
   const userLon = useSelector((state) => state.lon);
+  const darkMode = useSelector((state) => state.darkModeEnabled);
+
   const navigate = useNavigate();
 
   const urlParams = useParams();
@@ -148,9 +150,9 @@ const OrderStatus = () => {
   }, [orderReady, userLon, progressTime === 100]);
 
   return (
-    <Container>
+    <Container fluid className={darkMode ? "bg-black text-white" : ""}>
       {orderStatus !== "CONSEGNATO" ? (
-        <Row className="mt-4 py-4 flex-column align-items-center">
+        <Row className=" py-4 flex-column align-items-center">
           <Col className="mb-4 col-12 col-md-8">
             <h4>
               {progressTime < 100
@@ -201,9 +203,15 @@ const OrderStatus = () => {
           )}
         </Row>
       ) : (
-        <Row className="mt-4">
+        <Row className="mt-0">
           <Col>
-            <h3>Questo ordine risulta gia consegnato.</h3>
+            <h3
+              className={
+                darkMode ? "text-center mt-4 text-white" : "text-center mt-4"
+              }
+            >
+              Questo ordine risulta gia consegnato.
+            </h3>
           </Col>
         </Row>
       )}

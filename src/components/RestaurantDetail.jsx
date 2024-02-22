@@ -1,6 +1,6 @@
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import restmarker from "../assets/img/rest_marker.png";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
@@ -13,6 +13,8 @@ const RestaurantDetail = () => {
   const [city, setCity] = useState("");
   const [show, setShow] = useState(true);
   const [restaurantSelected, setRestaurantSelected] = useState([]);
+
+  const darkMode = useSelector((state) => state.darkModeEnabled);
 
   const containerStyle = {
     width: "100%",
@@ -74,15 +76,19 @@ const RestaurantDetail = () => {
   };
 
   return (
-    <Container className="py-4">
-      <Row>
+    <Container fluid className={darkMode ? "py-4 bg-black" : "py-4"}>
+      <Row className="justify-content-center">
         {restaurantSelected.length > 0 ? (
           <>
-            <h3 className="mt-4 text-center">
+            <h3
+              className={
+                darkMode ? "mt-4 text-center text-white" : "mt-4 text-center"
+              }
+            >
               Scegli uno dei ristoranti in evidenza sulla mappa
             </h3>
             <Col
-              className="mt-4 border border-2 p-0 shadow-btm "
+              className="mt-4 border border-2 p-0 shadow-btm col-10 col-md-12 "
               id="google-map-cont"
             >
               {isLoaded && (

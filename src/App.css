@@ -151,6 +151,18 @@ body {
   }
 }
 
+@media screen and (max-width: 480px) {
+  .drop-settings {
+    left: -170% !important;
+    min-width: 7rem !important;
+  }
+}
+
+.drop-settings {
+  left: -100% !important;
+  min-width: 7rem !important;
+}
+
 /* header */
 
 .header-bg {
@@ -305,6 +317,10 @@ body {
 
 .profile-tab .nav-link {
   color: black !important;
+}
+
+.profile-tab-dark .nav-link {
+  color: white !important;
 }
 
 .profile-edit {

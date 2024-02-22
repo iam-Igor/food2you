@@ -10,6 +10,7 @@ import {
 import { Parallax } from "react-scroll-parallax";
 
 import bgHeader from "../assets/img/wave-haikei.svg";
+import bgHeaderDark from "../assets/img/darkMode/wave-haikei-dark.svg";
 import gifImage from "../assets/img//giphy.gif";
 import { useEffect, useState } from "react";
 import SelectCityModal from "./SelectCityModal";
@@ -24,6 +25,8 @@ const Homepage = () => {
   const selectedCity = useSelector((state) => state.userPosition);
   const dispatch = useDispatch();
   const [showCityModal, setShowCityModal] = useState(false);
+
+  const darkMode = useSelector((state) => state.darkModeEnabled);
 
   const [show, setShow] = useState(false);
 
@@ -101,7 +104,13 @@ const Homepage = () => {
   const accessData = localStorage.getItem("tokenUser");
 
   return (
-    <Container fluid className="p-0 overflow-x-hidden">
+    <Container
+      fluid
+      className={
+        darkMode ? "p-0 overflow-x-hidden bg-black" : "p-0 overflow-x-hidden"
+      }
+      data-bs-theme={darkMode ? "dark" : "light"}
+    >
       <Row className="header-bg d-flex flex-column flex-md-row justify-content-center align-items-center">
         <h3 className="text-white text-center main-text mt-md-5">
           Sapore di consegne, rapidità di servizio: il tuo mondo a portata di
@@ -199,7 +208,7 @@ const Homepage = () => {
       </Row>
 
       <Row className="p-0">
-        <img src={bgHeader} className="p-0" />
+        <img src={darkMode ? bgHeaderDark : bgHeader} className="p-0" />
       </Row>
       {showCityModal && (
         <SelectCityModal

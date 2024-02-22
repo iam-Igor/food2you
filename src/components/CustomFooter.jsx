@@ -2,15 +2,23 @@ import { Col, Container, Row } from "react-bootstrap";
 
 import logo from "../assets/img/logo.png";
 import footerBg from "../assets/img/footer-top.svg";
+import footerBgDark from "../assets/img/darkMode/footer-top-dark.svg";
+import { useSelector } from "react-redux";
 
 const CustomFooter = () => {
   const now = new Date();
   const year = now.getFullYear();
 
+  const darkMode = useSelector((state) => state.darkModeEnabled);
+
   return (
     <>
       <div className="w-100">
-        <img src={footerBg} alt="background" style={{ width: "100%" }} />
+        <img
+          src={darkMode ? footerBgDark : footerBg}
+          alt="background"
+          style={{ width: "100%" }}
+        />
       </div>
       <Container fluid className="bg-black text-white py-5">
         <Row className="justify-content-center mb-3 ">

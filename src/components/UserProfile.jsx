@@ -21,6 +21,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import { deleteMyProfile } from "../functions";
+import { useSelector } from "react-redux";
 
 const UserProfile = () => {
   const target = useRef(null);
@@ -34,6 +35,8 @@ const UserProfile = () => {
   const [isImageUploading, setIsImageUploading] = useState(false);
 
   const [popup, setPopup] = useState(false);
+
+  const darkMode = useSelector((state) => state.darkModeEnabled);
 
   const [showAdvnced, setShowAdvanced] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -161,8 +164,12 @@ const UserProfile = () => {
   }, [imageUploaded]);
 
   return (
-    <Container fluid>
-      <h3 className="text-center mt-4">
+    <Container
+      fluid
+      className={darkMode ? "bg-black text-white pt-4" : ""}
+      data-bs-theme={darkMode ? "dark" : "light"}
+    >
+      <h3 className="text-center ">
         Account e impostazioni <i className="bi bi-gear"></i>
       </h3>
       {profileData && (
@@ -170,7 +177,7 @@ const UserProfile = () => {
           <Tabs
             defaultActiveKey="profile"
             id="fill-tab-example"
-            className="mb-3 profile-tab"
+            className={darkMode ? "mb-3 profile-tab-dark" : "mb-3 profile-tab"}
             fill
           >
             <Tab eventKey="profile" title="Profilo" className="mt-4">

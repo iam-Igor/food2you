@@ -19,6 +19,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { generateRandomMobileNumber } from "../functions";
 
 const ProductsRestaurant = () => {
+  const darkMode = useSelector((state) => state.darkModeEnabled);
+
   const location = useLocation();
   const show = useSelector((state) => state.showOffCanvas);
   const dispatch = useDispatch();
@@ -30,9 +32,6 @@ const ProductsRestaurant = () => {
 
   const [food, setFood] = useState([]);
   const [drinks, setDrinks] = useState([]);
-
-  console.log(food, "food");
-  console.log(drinks, "drinks");
 
   const setCategoryOfproducts = (param) => {
     const newFood = [];
@@ -71,7 +70,7 @@ const ProductsRestaurant = () => {
   };
 
   useEffect(() => {
-    if (location.pathname === "/restaurants/**") {
+    if (show) {
       getProductsList();
     }
   }, [restaurantData]);
@@ -80,6 +79,7 @@ const ProductsRestaurant = () => {
     <>
       {restaurantData && (
         <Offcanvas
+          data-bs-theme={darkMode ? "dark" : "light"}
           show={show}
           placement="end"
           onHide={() => dispatch({ type: "SHOW_OFF_CANVAS", payload: false })}

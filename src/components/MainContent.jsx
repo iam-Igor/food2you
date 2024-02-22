@@ -7,12 +7,14 @@ import userMarker from "../assets/img/pngaaa.com-2702232.png";
 import restMarker from "../assets/img/rest_marker.png";
 import { useNavigate } from "react-router-dom";
 
-const containerStyle = {
-  width: "100%",
-  height: "350px",
-};
-
 const MainContent = () => {
+  const darkMode = useSelector((state) => state.darkModeEnabled);
+
+  const containerStyle = {
+    width: "100%",
+    height: "350px",
+  };
+
   const long = useSelector((state) => state.lon);
   const lat = useSelector((state) => state.lat);
   const dispatch = useDispatch();
@@ -52,7 +54,7 @@ const MainContent = () => {
 
   return (
     <Row className="justify-content-center py-5">
-      <h3 className="text-center">
+      <h3 className={darkMode ? "text-center text-white" : "text-center"}>
         {restaurants ? " Clicca su uno dei punti evidenziati nella mappa" : ""}
       </h3>
       {restaurants && (

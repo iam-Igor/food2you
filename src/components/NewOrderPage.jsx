@@ -32,7 +32,7 @@ const NewOrderPage = () => {
   const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
 
-  console.log(typeof quantity, "quantity");
+  const darkMode = useSelector((state) => state.darkModeEnabled);
 
   const [sortBy, setSortBy] = useState("");
 
@@ -118,7 +118,11 @@ const NewOrderPage = () => {
   }, [restaurantData, isFoodSelected]);
 
   return (
-    <Container fluid className="pb-4">
+    <Container
+      fluid
+      className={darkMode ? "pb-4 bg-black" : "pb-4"}
+      data-bs-theme={darkMode ? "dark" : "light"}
+    >
       <Row className="d-flex flex-row justify-content-around pt-4 pb-3 filterHeader scende align-items-center">
         <Col className="col-4 col-md-3">
           <Form.Select
@@ -165,6 +169,7 @@ const NewOrderPage = () => {
           {restaurantData && (
             <Col className="mt-4">
               <CardHeader
+                className={darkMode ? "text-white" : ""}
                 avatar={<Avatar aria-label="recipe">F2Y</Avatar>}
                 action={<IconButton aria-label="settings"></IconButton>}
                 title={restaurantData.name}
@@ -209,7 +214,11 @@ const NewOrderPage = () => {
 
       {food && isFoodSelected && (
         <>
-          <h4 className="text-center mt-3">
+          <h4
+            className={
+              darkMode ? "text-center mt-3 text-white" : "text-center mt-3"
+            }
+          >
             Seleziona i prodotti da aggiungere al carrello
           </h4>
 

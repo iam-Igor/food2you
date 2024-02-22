@@ -130,6 +130,33 @@ const MainNavbar = () => {
                 </Dropdown>
               </>
             )}
+            <Dropdown className="d-flex ms-2 ">
+              <Dropdown.Toggle
+                style={{ backgroundColor: "#009688" }}
+                className="rounded-circle border-0 text-white text-center p-0"
+              >
+                <i className="bi bi-brightness-high fs-3"></i>
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="drop-settings">
+                <Dropdown.Item
+                  className="d-flex align-items-center"
+                  onClick={() => {
+                    dispatch({ type: "ENABLE_DARK_MODE", payload: false });
+                  }}
+                >
+                  <i className="bi bi-brightness-high-fill me-1"></i>
+                  Light
+                </Dropdown.Item>
+                <Dropdown.Item
+                  className="d-flex align-items-center"
+                  onClick={() => {
+                    dispatch({ type: "ENABLE_DARK_MODE", payload: true });
+                  }}
+                >
+                  <i className="bi bi-moon-stars-fill me-1"></i>Dark
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Nav>
         </Container>
       </Navbar>

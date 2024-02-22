@@ -14,7 +14,7 @@ import kebab from "../assets/img/kebab.jpeg";
 import fastfood from "../assets/img/fast-food.jpeg";
 import Carousel from "react-multi-carousel";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const RestaurantsCarousel = () => {
   const navigate = useNavigate();
@@ -22,6 +22,7 @@ const RestaurantsCarousel = () => {
   const dispatch = useDispatch();
 
   const accessData = localStorage.getItem("tokenUser");
+  const darkMode = useSelector((state) => state.darkModeEnabled);
 
   const responsive = {
     desktop: {
@@ -43,7 +44,15 @@ const RestaurantsCarousel = () => {
 
   return (
     <>
-      <h3 className="text-center mt-3 mb-0">Cosa vuoi mangiare oggi?</h3>
+      <h3
+        className={
+          darkMode
+            ? "text-center mt-3 mb-0 text-white"
+            : "text-center mt-3 mb-0"
+        }
+      >
+        Cosa vuoi mangiare oggi?
+      </h3>
       <Parallax speed={20}>
         <Carousel
           swipeable={true}

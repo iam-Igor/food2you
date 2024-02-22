@@ -8,11 +8,14 @@ const Cart = () => {
   const show = useSelector((state) => state.showCart);
 
   const [showCheckout, setShowCheckout] = useState(false);
+  const darkMode = useSelector((state) => state.darkModeEnabled);
 
   const cartContent = useSelector((state) => state.cart);
   const restaurantData = useSelector((state) => state.restaurantSelected);
 
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const [backgroundColor, setBackgroundColor] = useState("background.paper");
 
   let payload = {
     productIds: [],
@@ -28,8 +31,6 @@ const Cart = () => {
     dispatch({ type: "SAVE_ORDER_PAYLOAD", payload: payload });
     setShowCheckout(true);
   };
-
-  console.log(payload);
 
   const setTotalOfCart = () => {
     let total = 0;
@@ -50,15 +51,27 @@ const Cart = () => {
     }
   }, []);
 
+  useEffect(() => {
+    setBackgroundColor(darkMode ? "background.black" : "background.paper");
+  }, [darkMode]);
+
   return (
     <Offcanvas
+      className={darkMode ? "bg-dark text-white" : ""}
       show={show}
       placement="end"
       onHide={() => dispatch({ type: "SHOW_CART", payload: false })}
     >
-      <Offcanvas.Header closeButton>
+      <Offcanvas.Header closeButton data-bs-theme={darkMode ? "dark" : "light"}>
         <Offcanvas.Title>
-          Il tuo carrello <i className="bi bi-cart4 fs-5 ms-2 text-black"></i>
+          Il tuo carrello{" "}
+          <i
+            className={
+              darkMode
+                ? "bi bi-cart4 fs-5 ms-2 text-white"
+                : "bi bi-cart4 fs-5 ms-2 text-black"
+            }
+          ></i>
         </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
@@ -103,7 +116,7 @@ const Cart = () => {
                 sx={{
                   width: "100%",
                   maxWidth: 360,
-                  bgcolor: "background.paper",
+                  bgcolor: backgroundColor,
                 }}
               >
                 {cartContent.map((item, i) => {

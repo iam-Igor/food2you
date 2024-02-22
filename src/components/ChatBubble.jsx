@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Button, Container, Form } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 const ChatBubble = () => {
   const [openChat, setOpenChat] = useState(false);
   const [visible, setVisible] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+
+  const darkMode = useSelector((state) => state.darkModeEnabled);
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -21,7 +24,7 @@ const ChatBubble = () => {
       }`}
     >
       <i
-        className="bi bi-chat-text fs-1 pointer"
+        className="bi bi-chat-text fs-1 pointer text-black"
         onClick={() => {
           setOpenChat(!openChat);
           setVisible(true);
@@ -43,7 +46,9 @@ const ChatBubble = () => {
           </div>
           <div className="chat-container d-flex flex-column pb-5">
             <div className="chat-message rounded-4 w-75 d-flex align-items-center py-2 px-1 mt-2 ms-1 shadow-card">
-              <p className="m-0">Ciao, sono sotto casa!</p>
+              <p className={darkMode ? "m-0 text-black" : "m-0"}>
+                Ciao, sono sotto casa!
+              </p>
             </div>
 
             {messages.map((msg, index) => (

@@ -12,6 +12,7 @@ const initialState = {
   orderCompleted: false,
   showOrdersBadge: false,
   newestOrder: 0,
+  darkModeEnabled: false,
 };
 
 const mainReducer = (state = initialState, action) => {
@@ -30,6 +31,11 @@ const mainReducer = (state = initialState, action) => {
       return {
         ...state,
         showNotification: action.payload,
+      };
+    case "ENABLE_DARK_MODE":
+      return {
+        ...state,
+        darkModeEnabled: action.payload,
       };
     case "SET_ORDER_COMPLETED":
       return {

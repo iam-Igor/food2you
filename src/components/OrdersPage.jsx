@@ -9,11 +9,13 @@ import {
   Modal,
   Row,
 } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState(null);
+
+  const darkMode = useSelector((state) => state.darkModeEnabled);
 
   const [orderSelected, setOrderSelected] = useState(null);
   const [show, setShow] = useState(false);
@@ -71,9 +73,13 @@ const OrdersPage = () => {
   }, []);
 
   return (
-    <Container fluid>
+    <Container
+      fluid
+      data-bs-theme={darkMode ? "dark" : "light"}
+      className={darkMode ? "bg-black text-white" : ""}
+    >
       {orders && (
-        <Row className="mt-4 py-4">
+        <Row className={darkMode ? "mt-0 py-4 bg-black" : "mt-0 py-4"}>
           <h2 className="text-center">
             {orders.length <= 0 ? "Non hai alcun ordine" : "I tuoi ordini "}
             <i className="fs-4 bi bi-bag ms-2"></i>

@@ -7,11 +7,22 @@ import sofa from "../assets/img/sofa.png";
 import bottomBg from "../assets/img/wave-bottom.svg";
 import topBg from "../assets/img/wave-top.svg";
 
+import bottomBgDsrk from "../assets/img/darkMode/wave-bottom-dark.svg";
+import topBgDark from "../assets/img/darkMode/wave-top-dark.svg";
+
+import { useSelector } from "react-redux";
+
 const InfoSection = () => {
+  const darkMode = useSelector((state) => state.darkModeEnabled);
+
   return (
     <>
       <div className="w-100">
-        <img src={topBg} alt="background" style={{ width: "100%" }} />
+        <img
+          src={darkMode ? topBgDark : topBg}
+          alt="background"
+          style={{ width: "100%" }}
+        />
       </div>
       <Row className="flex-column flex-md-row  align-items-center restaurant-target py-5">
         <Col className="align-self-start">
@@ -50,7 +61,11 @@ const InfoSection = () => {
         </Col>
       </Row>
       <div className="w-100">
-        <img src={bottomBg} alt="background" style={{ width: "100%" }} />
+        <img
+          src={darkMode ? bottomBgDsrk : bottomBg}
+          alt="background"
+          style={{ width: "100%" }}
+        />
       </div>
     </>
   );
