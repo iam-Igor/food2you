@@ -165,6 +165,27 @@ export const filterByCityAndSummary = (city, summary) => {
     });
 };
 
+export const uploadRestaurantPicture = (id, image) => {
+  return fetch("http://localhost:3030/admin/restaurant/upload/" + id, {
+    method: "PATCH",
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+      Accept: "application/json",
+    },
+    body: image,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Errore durante la richiesta");
+      }
+
+      return response.url;
+    })
+    .catch((error) => {
+      console.error("Si è verificato un errore durante la richiesta:", error);
+    });
+};
+
 //PRODUCTS
 
 export const uploadProductPicture = (id, image) => {

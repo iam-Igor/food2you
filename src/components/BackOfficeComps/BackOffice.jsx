@@ -5,7 +5,9 @@ import {
   Form,
   ListGroup,
   Modal,
+  Overlay,
   Row,
+  Tooltip,
 } from "react-bootstrap";
 import {
   addNewRestaurant,
@@ -13,8 +15,9 @@ import {
   filterByCityAndSummary,
   getAllRestaurants,
   updateRestaurant,
+  uploadRestaurantPicture,
 } from "../../functions";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Dialog,
   DialogActions,
@@ -29,8 +32,20 @@ import UserSection from "./UsersSection";
 const BackOffice = () => {
   const [restaurantData, setRestaurantData] = useState(null);
   const [mainArray, setMainArray] = useState(null);
-
+  const target2 = useRef(null);
   const [ordersData, setOrdersdata] = useState(null);
+
+  const [imageUploaded, setImageUploaded] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  // sezione upload image product
+  const [image, setImage] = useState(null);
+  const data = new FormData();
+  if (image) {
+    data.append("image", image[0]);
+  }
 
   // setto un ristorante come salvato per il trigger dell'animazione del bottone
   const [savedrestaurant, setSavedRestaurant] = useState(false);
@@ -41,6 +56,7 @@ const BackOffice = () => {
   // ristorante selezionato
   const [restaurantSelected, setRestaurantSelected] = useState(null);
 
+  console.log(restaurantSelected);
   //variabile che cambia se un ristornate viene modificato
   const [restUpdated, setRestUpdated] = useState(false);
 
@@ -228,180 +244,251 @@ const BackOffice = () => {
                   </h6>
                 )}
 
-                <Modal
-                  show={showRestDetails}
-                  onHide={() => {
-                    setShowRestdetails(false);
-                  }}
-                >
-                  <Modal.Header closeButton>
-                    <Modal.Title>Modifica un ristorante</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <Form>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label>Nome</Form.Label>
-                        <Form.Control
-                          value={restaurantName}
-                          required
-                          type="text"
-                          onChange={(e) => {
-                            setRestaurantName(e.target.value);
-                          }}
+                {showRestDetails && restaurantSelected && (
+                  <Modal
+                    show={showRestDetails}
+                    onHide={() => {
+                      setShowRestdetails(false);
+                    }}
+                  >
+                    <Modal.Header closeButton>
+                      <Modal.Title>Modifica un ristorante</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                      <div className="d-flex align-items-center">
+                        <img
+                          alt="product-img"
+                          src={restaurantSelected.imageUrl}
+                          style={{ width: "30%" }}
                         />
-                      </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label>Indirizzo</Form.Label>
-                        <Form.Control
-                          value={streetAddress}
-                          required
-                          type="text"
-                          placeholder="Via e numero civico"
-                          onChange={(e) => {
-                            setStreetAddress(e.target.value);
-                          }}
-                        />
-                        <Form.Select
-                          value={restaurantCity}
-                          required
-                          aria-label="Default select example"
-                          className="mt-2"
-                          onChange={(e) => {
-                            setRestaurantCity(e.target.value);
-                          }}
+                        <div className="w-100">
+                          <Button
+                            ref={target2}
+                            onClick={() => {
+                              setShowPopup(!showPopup);
+                            }}
+                            className="btn-warning rounded-4 shadow-card ms-3"
+                          >
+                            <i class="bi bi-cloud-arrow-up fs-4"></i>
+                          </Button>
+                          <Overlay
+                            target={target2.current}
+                            show={showPopup}
+                            placement="bottom"
+                          >
+                            {(props) => (
+                              <Tooltip
+                                {...props}
+                                className="tooltip-product shadow-card rounded-4 d-flex"
+                              >
+                                <Form className="d-flex align-items-center px-2">
+                                  <Form.Control
+                                    required
+                                    onChange={(e) => {
+                                      setImage(e.target.files);
+                                    }}
+                                    size="sm"
+                                    type="file"
+                                    className="me-3"
+                                  ></Form.Control>
+                                  {imageUploading ? (
+                                    <div className="spinner-prod ms-2"></div>
+                                  ) : (
+                                    <Button
+                                      onClick={() => {
+                                        if (image) {
+                                          setImageUploading(true);
+                                          uploadRestaurantPicture(
+                                            restaurantSelected.id,
+                                            data
+                                          ).then((res) => {
+                                            if (res) {
+                                              setRestaurantSelected({
+                                                ...restaurantSelected,
+                                                imageUrl: res,
+                                              });
+                                              setImageUploading(false);
+                                              setShowPopup(false);
+                                            }
+                                          });
+                                        }
+                                      }}
+                                      className="ms-auto ms-3 btn-success rounded-4 shadow-card"
+                                    >
+                                      <i className="bi bi-check-circle"></i>
+                                    </Button>
+                                  )}
+                                </Form>
+                              </Tooltip>
+                            )}
+                          </Overlay>
+                        </div>
+                      </div>
+                      <Form>
+                        <Form.Group
+                          className="mb-3"
+                          controlId="exampleForm.ControlInput1"
                         >
-                          <option value={0}>Città</option>
-                          <option value="Cosenza">Cosenza</option>
-                          <option value="Firenze">Firenze</option>
-                          <option value="Milano">Milano</option>
-                          <option value="Napoli">Napoli</option>
-                          <option value="Roma">Roma</option>
-                          <option value="Torino">Torino</option>
-                        </Form.Select>
-                      </Form.Group>
-                      <Form.Group
-                        className="mb-3 d-flex mt-3 justify-content-between"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <div className="text-center">
-                          <Form.Label>Latitudine</Form.Label>
+                          <Form.Label>Nome</Form.Label>
                           <Form.Control
-                            value={longitude}
-                            step="0.01"
-                            min="0"
+                            value={restaurantName}
                             required
-                            type="number"
+                            type="text"
                             onChange={(e) => {
-                              setLongitude(parseInt(e.target.value));
+                              setRestaurantName(e.target.value);
                             }}
                           />
-                        </div>
-                        <div className="text-center">
-                          <Form.Label>Longitudine</Form.Label>
+                        </Form.Group>
+                        <Form.Group
+                          className="mb-3"
+                          controlId="exampleForm.ControlInput1"
+                        >
+                          <Form.Label>Indirizzo</Form.Label>
                           <Form.Control
-                            value={latitude}
-                            step="0.01"
-                            min="0"
+                            value={streetAddress}
                             required
-                            type="number"
+                            type="text"
+                            placeholder="Via e numero civico"
                             onChange={(e) => {
-                              setLatitude(parseInt(e.target.value));
+                              setStreetAddress(e.target.value);
                             }}
                           />
-                        </div>
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Select
-                          value={summary}
-                          required
-                          aria-label="Default select example"
-                          className="mt-2"
-                          onChange={(e) => {
-                            setSummary(e.target.value);
+                          <Form.Select
+                            value={restaurantCity}
+                            required
+                            aria-label="Default select example"
+                            className="mt-2"
+                            onChange={(e) => {
+                              setRestaurantCity(e.target.value);
+                            }}
+                          >
+                            <option value={0}>Città</option>
+                            <option value="Cosenza">Cosenza</option>
+                            <option value="Firenze">Firenze</option>
+                            <option value="Milano">Milano</option>
+                            <option value="Napoli">Napoli</option>
+                            <option value="Roma">Roma</option>
+                            <option value="Torino">Torino</option>
+                          </Form.Select>
+                        </Form.Group>
+                        <Form.Group
+                          className="mb-3 d-flex mt-3 justify-content-between"
+                          controlId="exampleForm.ControlInput1"
+                        >
+                          <div className="text-center">
+                            <Form.Label>Latitudine</Form.Label>
+                            <Form.Control
+                              value={longitude}
+                              step="0.01"
+                              min="0"
+                              required
+                              type="number"
+                              onChange={(e) => {
+                                setLongitude(parseInt(e.target.value));
+                              }}
+                            />
+                          </div>
+                          <div className="text-center">
+                            <Form.Label>Longitudine</Form.Label>
+                            <Form.Control
+                              value={latitude}
+                              step="0.01"
+                              min="0"
+                              required
+                              type="number"
+                              onChange={(e) => {
+                                setLatitude(parseInt(e.target.value));
+                              }}
+                            />
+                          </div>
+                        </Form.Group>
+                        <Form.Group>
+                          <Form.Select
+                            value={summary}
+                            required
+                            aria-label="Default select example"
+                            className="mt-2"
+                            onChange={(e) => {
+                              setSummary(e.target.value);
+                            }}
+                          >
+                            <option value={0}>Tipo</option>
+                            <option value="PIZZA">Pizzeria</option>
+                            <option value="PASTA">Ristorante</option>
+                            <option value="SUSHI">Sushi</option>
+                            <option value="FAST_FOOD">Fast food</option>
+                            <option value="KEBAB">Kebab</option>
+                          </Form.Select>
+                        </Form.Group>
+                        <Button
+                          variant="warning"
+                          className="mt-2 shadow-card"
+                          onClick={() => {
+                            updateRest(restaurantSelected.id);
                           }}
                         >
-                          <option value={0}>Tipo</option>
-                          <option value="PIZZA">Pizzeria</option>
-                          <option value="PASTA">Ristorante</option>
-                          <option value="SUSHI">Sushi</option>
-                          <option value="FAST_FOOD">Fast food</option>
-                          <option value="KEBAB">Kebab</option>
-                        </Form.Select>
-                      </Form.Group>
+                          Modifica
+                        </Button>
+                        <Button
+                          variant="danger"
+                          className="mt-2 ms-2 shadow-card"
+                          onClick={() => {
+                            setShowConfirm(true);
+                            // deleteRest(restaurantSelected.id);
+                          }}
+                        >
+                          Elimina
+                        </Button>
+                        <Dialog
+                          onClose={() => {
+                            setShowConfirm(false);
+                          }}
+                          open={showConfirm}
+                          aria-labelledby="alert-dialog-title"
+                          aria-describedby="alert-dialog-description"
+                        >
+                          <DialogTitle id="alert-dialog-title">
+                            {"Sicuro di volere eliminare il ristorante?"}
+                          </DialogTitle>
+                          <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                              Questa azione sarà irreversibile.
+                            </DialogContentText>
+                          </DialogContent>
+                          <DialogActions>
+                            <Button
+                              onClick={() => {
+                                setShowConfirm(false);
+                              }}
+                            >
+                              Annulla
+                            </Button>
+                            <Button
+                              variant="danger"
+                              autoFocus
+                              onClick={() => {
+                                deleteRest(restaurantSelected.id);
+                                setShowConfirm(false);
+                              }}
+                            >
+                              Elimina
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                      </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
                       <Button
-                        variant="warning"
-                        className="mt-2 shadow-card"
+                        variant="secondary"
                         onClick={() => {
-                          updateRest(restaurantSelected.id);
+                          setShowRestdetails(false);
                         }}
                       >
-                        Modifica
+                        Chiudi
                       </Button>
-                      <Button
-                        variant="danger"
-                        className="mt-2 ms-2 shadow-card"
-                        onClick={() => {
-                          setShowConfirm(true);
-                          // deleteRest(restaurantSelected.id);
-                        }}
-                      >
-                        Elimina
-                      </Button>
-                      <Dialog
-                        onClose={() => {
-                          setShowConfirm(false);
-                        }}
-                        open={showConfirm}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                      >
-                        <DialogTitle id="alert-dialog-title">
-                          {"Sicuro di volere eliminare il ristorante?"}
-                        </DialogTitle>
-                        <DialogContent>
-                          <DialogContentText id="alert-dialog-description">
-                            Questa azione sarà irreversibile.
-                          </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                          <Button
-                            onClick={() => {
-                              setShowConfirm(false);
-                            }}
-                          >
-                            Annulla
-                          </Button>
-                          <Button
-                            variant="danger"
-                            autoFocus
-                            onClick={() => {
-                              deleteRest(restaurantSelected.id);
-                              setShowConfirm(false);
-                            }}
-                          >
-                            Elimina
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
-                    </Form>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button
-                      variant="secondary"
-                      onClick={() => {
-                        setShowRestdetails(false);
-                      }}
-                    >
-                      Chiudi
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
+                    </Modal.Footer>
+                  </Modal>
+                )}
               </Col>
             )}
             <Modal
