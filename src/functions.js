@@ -420,3 +420,30 @@ export const getAllusers = (page, size, order) => {
       console.log(err);
     });
 };
+
+// GOOGLE
+
+export const getPositionData = (address, cityName) => {
+  return fetch(
+    "https://maps.googleapis.com/maps/api/geocode/json?address=Via+" +
+      address +
+      "," +
+      cityName +
+      "&key=" +
+      process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+  )
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error("error");
+      }
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};

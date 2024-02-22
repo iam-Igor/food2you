@@ -14,6 +14,7 @@ import {
   deleteRestaurant,
   filterByCityAndSummary,
   getAllRestaurants,
+  getPositionData,
   updateRestaurant,
   uploadRestaurantPicture,
 } from "../../functions";
@@ -24,10 +25,12 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  TextField,
 } from "@mui/material";
 import ProductsSection from "./ProductsSection";
 import OrdersSection from "./OrdersSection";
 import UserSection from "./UsersSection";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 
 const BackOffice = () => {
   const [restaurantData, setRestaurantData] = useState(null);
@@ -37,6 +40,8 @@ const BackOffice = () => {
 
   const [imageUploaded, setImageUploaded] = useState(false);
   const [imageUploading, setImageUploading] = useState(false);
+
+  const [showMapModal, setShowMapModal] = useState(false);
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -111,6 +116,18 @@ const BackOffice = () => {
       });
     }
   };
+
+  const containerStyle = {
+    width: "100%",
+    height: "250px",
+  };
+
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+  });
+
+  const [position, setPosition] = useState(null);
 
   const setArrayToShow = (data) => {
     if (citySelected === "" || summarySelected === "") {
@@ -546,34 +563,88 @@ const BackOffice = () => {
                     </Form.Select>
                   </Form.Group>
                   <Form.Group
-                    className="mb-3 d-flex mt-3 justify-content-between"
+                    className="mb-3"
                     controlId="exampleForm.ControlInput1"
                   >
-                    <div className="text-center">
-                      <Form.Label>Latitudine</Form.Label>
-                      <Form.Control
-                        step="0.01"
-                        min="0"
-                        required
-                        type="number"
-                        onChange={(e) => {
-                          setLongitude(parseInt(e.target.value));
+                    <div className="text-center mt-2">
+                      <Button
+                        className="btn-success rounded-3 shadow-card"
+                        onClick={() => {
+                          if (streetAddress !== "" && restaurantCity !== "") {
+                            getPositionData(streetAddress, restaurantCity).then(
+                              (res) => {
+                                if (res) {
+                                  setPosition({
+                                    lat: res.results[0].geometry.location.lat,
+                                    lng: res.results[0].geometry.location.lng,
+                                  });
+                                } else {
+                                  console.log("servizio non disponibile");
+                                }
+                              }
+                            );
+                            setShowMapModal(true);
+                          }
                         }}
-                      />
-                    </div>
-                    <div className="text-center">
-                      <Form.Label>Longitudine</Form.Label>
-                      <Form.Control
-                        step="0.01"
-                        min="0"
-                        required
-                        type="number"
-                        onChange={(e) => {
-                          setLatitude(parseInt(e.target.value));
-                        }}
-                      />
+                      >
+                        Cerca su Mappe
+                        <i className="bi bi-geo-alt-fill ms-2"></i>
+                      </Button>
                     </div>
                   </Form.Group>
+                  {showMapModal && (
+                    <Dialog
+                      open={showMapModal}
+                      onClose={() => {
+                        setShowMapModal(false);
+                      }}
+                    >
+                      <DialogTitle>Verifica posizione</DialogTitle>
+                      <DialogContent>
+                        <DialogContentText>
+                          {isLoaded && position && (
+                            <GoogleMap
+                              mapContainerStyle={containerStyle}
+                              center={{ lat: position.lat, lng: position.lng }}
+                              zoom={15}
+                            >
+                              <Marker
+                                position={{
+                                  lat: position.lat,
+                                  lng: position.lng,
+                                }}
+                              />
+                            </GoogleMap>
+                          )}
+                        </DialogContentText>
+                        <DialogContentText className="mt-2">
+                          Se la posizione è corretta clicca su Salva, altrimenti
+                          clicca Annulla
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button
+                          className="rounded-3 shadow-card"
+                          onClick={() => {
+                            setShowMapModal(false);
+                          }}
+                        >
+                          Annulla
+                        </Button>
+                        <Button
+                          variant="success"
+                          className="rounded-3 shadow-card"
+                          onClick={() => {
+                            setShowMapModal(false);
+                            setLongitude(position.lat);
+                            setLatitude(position.lng);
+                          }}
+                        >
+                          Salva
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  )}
                   <Form.Group>
                     <Form.Select
                       required

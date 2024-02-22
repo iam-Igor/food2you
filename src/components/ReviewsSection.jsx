@@ -145,7 +145,7 @@ const ReviewsSection = () => {
             {reviews.map((rev, i) => {
               return (
                 <Card
-                  key={rev.id}
+                  key={i}
                   className="mx-md-2 p-4 rounded-4 shadow-card me-4"
                   style={{ height: "180px" }}
                 >
@@ -189,7 +189,9 @@ const ReviewsSection = () => {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Valuta la nostra app</Modal.Title>
+          <Modal.Title className="d-flex justify-content-center w-100">
+            Valuta la nostra app
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
@@ -198,6 +200,7 @@ const ReviewsSection = () => {
               controlId="exampleForm.ControlTextarea1"
             >
               <Form.Control
+                maxLength={200}
                 as="textarea"
                 rows={3}
                 placeholder="Cosa pensi di noi?"
