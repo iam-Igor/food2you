@@ -1,6 +1,3 @@
-import { useDispatch } from "react-redux";
-import { json } from "react-router-dom";
-
 // Profilo
 
 export const deleteMyProfile = () => {
@@ -54,6 +51,74 @@ export const autoLoginClient = (payload) => {
 
       // setLoginError(false);
       window.location.reload();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const addCreditCard = (payload) => {
+  return fetch("http://localhost:3030/payment/new", {
+    method: "POST",
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        console.log(payload);
+        throw new Error("errore nel salvataggio della carta");
+      }
+    })
+    .then((data) => {
+      console.log(data);
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const getCreditCardInfo = () => {
+  return fetch("http://localhost:3030/users/payment/get", {
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+    },
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error("Errore nel caricamento dei dati ristorante");
+      }
+    })
+    .then((data) => {
+      console.log(data, "carta");
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const deleteCreditCard = (id) => {
+  return fetch("http://localhost:3030/payment/delete/" + id, {
+    method: "DELETE",
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+    },
+  })
+    .then((res) => {
+      if (res.ok) {
+        console.log("eliminata");
+        return true;
+      } else {
+        throw new Error("Errore nell' eliminazione della carta!");
+      }
     })
     .catch((err) => {
       console.log(err);
