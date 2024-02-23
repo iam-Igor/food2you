@@ -174,6 +174,7 @@ const ReviewsSection = () => {
         )}
         <div className="text-center w-75 py-2">
           {" "}
+          <h6>Il tuo pensiero per noi è importante 💛</h6>
           <Button
             className="text-center pointer btn-warning btn w-50 rounded-4 shadow-card"
             onClick={() => {

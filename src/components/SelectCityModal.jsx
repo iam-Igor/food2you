@@ -16,6 +16,8 @@ const SelectCityModal = ({ show, setShow }) => {
   const [cityName, setCityName] = useState("");
   const dispatch = useDispatch();
 
+  const [showAlertError, setShowAlertError] = useState(false);
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -80,6 +82,7 @@ const SelectCityModal = ({ show, setShow }) => {
               onChange={(e) => {
                 setCityName(e.target.value);
               }}
+              className="form-select-city"
             >
               <option value="">Città</option>
               <option value="Cosenza">Cosenza</option>
@@ -89,11 +92,28 @@ const SelectCityModal = ({ show, setShow }) => {
               <option value="Roma">Roma</option>
               <option value="Napoli">Napoli</option>
             </Form.Select>
-            <i className="bi bi-search ms-1 fs-4" onClick={() => getData()}></i>
+            <div className="rounded-end lente border border-start-0">
+              <i
+                className="bi bi-search ms-1 fs-4 me-1"
+                onClick={() => {
+                  if (address !== "" && cityName !== "") {
+                    getData();
+                    setShowAlertError(false);
+                  } else {
+                    setShowAlertError(true);
+                  }
+                }}
+              ></i>
+            </div>
           </Form.Group>
           <Alert severity="warning">
             Al momento l'app è disponibile solo nelle città elencate
           </Alert>
+          {showAlertError && (
+            <Alert severity="error" className="mt-3">
+              Devi riempire i campi Indirizzo e città!
+            </Alert>
+          )}
         </Col>
         <Col className="col-12 col-md-6 text-center">
           {isLoaded && position ? (

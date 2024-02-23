@@ -749,3 +749,15 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* SELECT CITY MODAL */
+
+.form-select-city {
+  border-radius: 0.5rem 0 0 0.5rem !important;
+  border-right: 0 !important;
+}
+
+.lente {
+  height: 38px !important;
+  border-left: 0 !important;
+}

@@ -147,10 +147,10 @@ const OrderStatus = () => {
   }, [orderReady, userLon, progressTime === 100]);
 
   return (
-    <Container fluid className={darkMode ? "bg-black text-white" : ""}>
+    <Container fluid className={darkMode ? "bg-black text-white p-0" : "p-0"}>
       {orderStatus !== "CONSEGNATO" ? (
-        <Row className=" py-4 flex-column align-items-center">
-          <Col className="mb-4 col-12 col-md-8">
+        <Row className=" py-5 flex-column align-items-center">
+          <Col className="mb-4 col-12 col-md-8 px-4 px-md-0">
             <h4>
               {progressTime < 100
                 ? "Il tuo ordine è in preparazione.."
@@ -163,7 +163,7 @@ const OrderStatus = () => {
             </div>
           </Col>
           {isLoaded && (
-            <Col className="col-12 col-md-8 border border-2 p-0 shadow-btm mt-4">
+            <Col className="col-10 col-md-8 border border-2 p-0 shadow-btm mt-4">
               <GoogleMap
                 mapContainerStyle={containerStyle}
                 zoom={14}
@@ -213,6 +213,7 @@ const OrderStatus = () => {
         </Row>
       )}
       {showChat && <ChatBubble />}
+      <ReviewsSection />
     </Container>
   );
 };

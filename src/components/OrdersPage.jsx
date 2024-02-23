@@ -84,17 +84,20 @@ const OrdersPage = () => {
       }
     });
   };
-
   const generatePDFContent = (order) => {
-    let content = `Dettagli ordine N. ${order.id}\n\n`;
-    content += `Ristorante: ${orderSelected.restaurant.name}\n\n`;
+    let content = `Fattura\n\n`;
+    content += `Dettagli ordine N. ${order.id}\n`;
+    content += `---------------------------------------\n`;
+    content += `Ristorante: ${order.restaurant.name}\n`;
     content += `Data: ${order.orderTime}\n\n`;
-    content += "Prodotti:\n";
+    content += `Prodotti:\n`;
     order.productList.forEach((product) => {
       content += `${product.name}: ${product.price}€\n`;
     });
-    content += `\nTotale: ${order.totalAmount}€`;
-
+    content += `---------------------------------------\n`;
+    content += `\nTotale: ${order.totalAmount}€ \n`;
+    content += `---------------------------------------\n`;
+    content += `Grazie per averci scelto!\n`;
     return content;
   };
 

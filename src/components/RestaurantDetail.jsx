@@ -87,13 +87,16 @@ const RestaurantDetail = () => {
               Scegli uno dei ristoranti in evidenza sulla mappa
             </h3>
             <Col
-              className="mt-4 border border-2 p-0 shadow-btm col-10 col-md-12 "
+              className="mt-4 border border-2 p-0 shadow-btm col-10 col-md-1o "
               id="google-map-cont"
             >
               {isLoaded && (
                 <GoogleMap
                   mapContainerStyle={containerStyle}
                   zoom={15}
+                  options={{
+                    mapTypeId: "hybrid",
+                  }}
                   center={{
                     lat: restaurantSelected[0].longitude,
                     lng: restaurantSelected[0].latitude,

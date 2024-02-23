@@ -73,6 +73,8 @@ const UserProfile = () => {
 
   const [creditCardData, setCreditCarddata] = useState(null);
 
+  const [showCvv, setShowCvv] = useState(false);
+
   const paymentPayload = {
     fullName: fullName,
     cardNumber: cardNumber,
@@ -475,10 +477,24 @@ const UserProfile = () => {
                           <span className="fw-bold">Numero carta: </span>
                           {creditCardData.cardNumber}
                         </ListGroup.Item>
-                        <ListGroup.Item>
-                          {" "}
+                        <ListGroup.Item className="d-flex">
                           <span className="fw-bold">CVV: </span>
-                          ***
+                          {showCvv ? creditCardData.cvv : "***"}
+                          {showCvv ? (
+                            <i
+                              className="bi bi-eye-slash ms-auto fs-5"
+                              onClick={() => {
+                                setShowCvv(false);
+                              }}
+                            ></i>
+                          ) : (
+                            <i
+                              className="bi bi-eye ms-auto fs-5"
+                              onClick={() => {
+                                setShowCvv(true);
+                              }}
+                            ></i>
+                          )}
                         </ListGroup.Item>
                         <ListGroup.Item>
                           {" "}
