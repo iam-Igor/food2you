@@ -16,8 +16,6 @@ const MainNavbar = () => {
 
   const userData = localStorage.getItem("tokenUser");
 
-  console.log(userData);
-
   const showBadge = useSelector((state) => state.showOrdersBadge);
   const orderSelected = useSelector((state) => state.newestOrder);
   const showNotification = useSelector((state) => state.showNotification);

@@ -59,8 +59,6 @@ const OrderStatus = () => {
         }
       })
       .then((data) => {
-        console.log(data);
-
         setRestaurantCoords({
           lat: data.restaurant.longitude,
           lon: data.restaurant.latitude,
@@ -98,7 +96,6 @@ const OrderStatus = () => {
     })
       .then((res) => {
         if (res.ok) {
-          console.log("consegnato!");
         } else {
           throw new Error("Errore nella fetch");
         }

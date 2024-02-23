@@ -104,7 +104,6 @@ const NewOrderPage = () => {
         }
       })
       .then((data) => {
-        console.log(data);
         setCategoryOfproducts(data);
       })
       .catch((err) => {

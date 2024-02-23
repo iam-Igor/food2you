@@ -59,11 +59,9 @@ const Homepage = () => {
           formattedAddress.toLowerCase().includes("Napoli") ||
           formattedAddress.toLowerCase().includes("Firenze")
         ) {
-          console.log("città ok");
         } else {
           setShow(true);
         }
-        console.log(data);
       })
       .catch((error) => {
         setError(error.message);
@@ -91,7 +89,6 @@ const Homepage = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // console.log(window.scrollY);
       if (window.scrollY > 560) {
         setFormVisible(true);
       } else {

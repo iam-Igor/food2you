@@ -58,8 +58,6 @@ const PaymentModal = ({ show, setShow, total }) => {
 
   const payloadOrder = useSelector((state) => state.orderPayload);
 
-  console.log(payloadOrder);
-
   const makeNeworder = () => {
     fetch("http://localhost:3030/orders/new", {
       method: "POST",
@@ -77,7 +75,6 @@ const PaymentModal = ({ show, setShow, total }) => {
         }
       })
       .then((data) => {
-        console.log(data);
         dispatch({ type: "SHOW_ORDER_BADGES", payload: true });
         dispatch({ type: "CLEAR_CART" });
         dispatch({ type: "SET_NEWEST_ORDER", payload: data.id });
@@ -108,8 +105,6 @@ const PaymentModal = ({ show, setShow, total }) => {
         }
       })
       .then((data) => {
-        console.log(data);
-
         dispatch({
           type: "SET_LON",
           payload: data.results[0].geometry.location.lng,
@@ -156,7 +151,6 @@ const PaymentModal = ({ show, setShow, total }) => {
         }
       })
       .then((data) => {
-        console.log(data);
         setProfileData({
           address: data.address,
         });
@@ -177,7 +171,6 @@ const PaymentModal = ({ show, setShow, total }) => {
         }
       })
       .then((data) => {
-        console.log(data);
         if (data.city.toLowerCase() === city.toLowerCase()) {
           setPaymentAccepted(true);
           setWrongCity(false);

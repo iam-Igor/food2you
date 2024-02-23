@@ -66,7 +66,6 @@ const RestaurantDetail = () => {
         }
       })
       .then((data) => {
-        console.log(data);
         setRestaurantSelected(data);
       })
       .catch((err) => {

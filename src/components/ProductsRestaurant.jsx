@@ -61,7 +61,6 @@ const ProductsRestaurant = () => {
         }
       })
       .then((data) => {
-        console.log(data);
         setCategoryOfproducts(data);
       })
       .catch((err) => {

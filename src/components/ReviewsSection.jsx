@@ -109,7 +109,6 @@ const ReviewsSection = () => {
         }
       })
       .then((data) => {
-        console.log(data, "reviews");
         setReviews(data);
       })
       .catch((err) => {

@@ -22,8 +22,6 @@ const OrdersPage = () => {
 
   const navigate = useNavigate();
 
-  console.log(orderSelected);
-
   const dispatch = useDispatch();
   const getOrdersData = () => {
     fetch("http://localhost:3030/users/orders/me", {
@@ -39,7 +37,6 @@ const OrdersPage = () => {
         }
       })
       .then((data) => {
-        console.log(data);
         setOrders(data);
       })
       .catch((err) => {

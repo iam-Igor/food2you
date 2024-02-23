@@ -130,7 +130,6 @@ const UserProfile = () => {
         }
       })
       .then((data) => {
-        console.log(data);
         setUserRole(data.role);
         setProfileData({
           name: data.name,
@@ -189,7 +188,6 @@ const UserProfile = () => {
         }
       })
       .then((data) => {
-        console.log(data);
         setSavedProfile(true);
       })
       .catch((err) => {
