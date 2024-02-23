@@ -119,12 +119,14 @@ const RestaurantDetail = () => {
             </Col>
           </>
         ) : (
-          <Col className="mt-4">
-            <h3>
+          <Col className="mt-4 text-center py-5">
+            <h3 className={darkMode ? "text-white" : ""}>
               Spiacenti nessun ristorante di tipo {category} a {city}
             </h3>
-            <div className="d-flex align-items-center mt-4">
-              <h4 className="m-0">Vuoi scegliere una nuova città?</h4>
+            <div className="d-flex align-items-center mt-4 justify-content-center">
+              <h4 className={darkMode ? "text-white m-0" : "m-0"}>
+                Vuoi scegliere una nuova città?
+              </h4>
               <i
                 className="bi bi-check-circle text-success fs-3 ms-2"
                 onClick={() => setShow(true)}

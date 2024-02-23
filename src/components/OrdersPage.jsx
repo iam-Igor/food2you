@@ -6,11 +6,13 @@ import {
   CardHeader,
   Col,
   Container,
+  Form,
   Modal,
   Row,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getOrdersData } from "../functions";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState(null);
@@ -22,27 +24,65 @@ const OrdersPage = () => {
 
   const navigate = useNavigate();
 
+  const [filterBy, setFilterBy] = useState("id");
+
   const dispatch = useDispatch();
-  const getOrdersData = () => {
-    fetch("http://localhost:3030/users/orders/me", {
-      headers: {
-        Authorization: localStorage.getItem("tokenUser"),
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw new Error();
+
+  const [rotate, setRotate] = useState(false);
+
+  const [orderFilter, setOrderFilter] = useState("asc");
+
+  const getOrders = () => {
+    let arrayTouse = [];
+
+    getOrdersData().then((res) => {
+      if (res) {
+        switch (filterBy) {
+          case "id": {
+            if (orderFilter === "asc") {
+              res.sort((a, b) => a.id - b.id);
+              break;
+            } else {
+              res.sort((a, b) => b.id - a.id);
+              break;
+            }
+          }
+          case "data": {
+            if (orderFilter === "asc") {
+              res.sort((a, b) => {
+                return a.orderTime.localeCompare(b.orderTime);
+              });
+            } else {
+              res.sort((a, b) => {
+                return b.orderTime.localeCompare(a.orderTime);
+              });
+            }
+
+            break;
+          }
+          case "totale": {
+            if (orderFilter === "asc") {
+              res.sort((a, b) => a.totalAmount - b.totalAmount);
+            } else {
+              res.sort((a, b) => b.totalAmount - a.totalAmount);
+            }
+
+            break;
+          }
+          case "stato": {
+            res.sort((a, b) => a.orderStatus - b.orderStatus);
+            break;
+          }
+          default: {
+            return res;
+          }
         }
-      })
-      .then((data) => {
-        setOrders(data);
-      })
-      .catch((err) => {
-        console.log(err);
-        navigate("/bad_request");
-      });
+
+        setOrders(res);
+      } else {
+        navigate("bad_request");
+      }
+    });
   };
 
   const generatePDFContent = (order) => {
@@ -66,8 +106,8 @@ const OrdersPage = () => {
   };
 
   useEffect(() => {
-    getOrdersData();
-  }, []);
+    getOrders();
+  }, [filterBy, orderFilter]);
 
   return (
     <Container
@@ -76,11 +116,46 @@ const OrdersPage = () => {
       className={darkMode ? "bg-black text-white" : ""}
     >
       {orders && (
-        <Row className={darkMode ? "mt-0 py-4 bg-black" : "mt-0 py-4"}>
+        <Row
+          className={
+            darkMode
+              ? "mt-0 py-4 bg-black justify-content-center"
+              : "mt-0 py-4 justify-content-center"
+          }
+        >
           <h2 className="text-center">
             {orders.length <= 0 ? "Non hai alcun ordine" : "I tuoi ordini "}
             <i className="fs-4 bi bi-bag ms-2"></i>
           </h2>
+          <Col className="col-8 d-flex align-items-center">
+            <Form.Select
+              aria-label="Default select example"
+              onChange={(e) => {
+                setFilterBy(e.target.value);
+              }}
+            >
+              <option value="id">Filtra per</option>
+              <option value="id">ID</option>
+              <option value="data">Data</option>
+              <option value="totale">Totale</option>
+              <option value="stato">Stato</option>
+            </Form.Select>
+            <i
+              className={
+                rotate
+                  ? "bi bi-arrow-down-up fs-4 ms-2 rotate"
+                  : "bi bi-arrow-down-up fs-4 ms-2 rotate-inv"
+              }
+              onClick={() => {
+                setRotate(!rotate);
+                if (rotate) {
+                  setOrderFilter("asc");
+                } else {
+                  setOrderFilter("desc");
+                }
+              }}
+            ></i>
+          </Col>
           {orders.map((order, i) => {
             return (
               <Col

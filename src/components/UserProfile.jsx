@@ -490,7 +490,7 @@ const UserProfile = () => {
                     <div className="mt-2">
                       <Button
                         variant="danger"
-                        className="rounded-3"
+                        className="rounded-4 shadow-card"
                         onClick={() => {
                           setShowDeleteCardConfirm(true);
                         }}

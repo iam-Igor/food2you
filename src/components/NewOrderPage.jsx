@@ -1,4 +1,12 @@
-import { Badge, Button, Col, Container, Form, Row } from "react-bootstrap";
+import {
+  Badge,
+  Button,
+  Col,
+  Container,
+  Form,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { generateRandomMobileNumber } from "../functions";
 import {
@@ -35,6 +43,10 @@ const NewOrderPage = () => {
   const darkMode = useSelector((state) => state.darkModeEnabled);
 
   const [sortBy, setSortBy] = useState("");
+
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const [showProductDetail, setShowProductDetail] = useState(false);
 
   const setCategoryOfproducts = (param) => {
     let newFood = [];
@@ -236,6 +248,10 @@ const NewOrderPage = () => {
                           height="140"
                           image={food.imageUrl}
                           alt="food"
+                          onClick={() => {
+                            setSelectedItem(food);
+                            setShowProductDetail(true);
+                          }}
                         />
                         <CardContent>
                           <Typography gutterBottom variant="h5" component="div">
@@ -327,6 +343,10 @@ const NewOrderPage = () => {
                           height="140"
                           image={drink.imageUrl}
                           alt="food"
+                          onClick={() => {
+                            setSelectedItem(drink);
+                            setShowProductDetail(true);
+                          }}
                         />
                         <CardContent>
                           <Typography gutterBottom variant="h5" component="div">
@@ -397,6 +417,47 @@ const NewOrderPage = () => {
             })}
           </Row>
         </>
+      )}
+      {showProductDetail && selectedItem && (
+        <Modal
+          show={showProductDetail}
+          onHide={() => {
+            setShowProductDetail(false);
+          }}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Dettagli prodotto</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="text-center">
+              <img
+                alt="product-img"
+                src={selectedItem.imageUrl}
+                style={{ width: "40%" }}
+                className="rounded-3 shadow-card"
+              />
+            </div>
+            <div>
+              <h6 className="text-center mt-4">{selectedItem.name}</h6>
+              <ul>
+                <li>Calorie: {selectedItem.calories}</li>
+                <li>Ingredienti: {selectedItem.ingredients}</li>
+                <li>Prezzo: {selectedItem.price}€</li>
+              </ul>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              className="rounded-3 shadow-card"
+              variant="secondary"
+              onClick={() => {
+                setShowProductDetail(false);
+              }}
+            >
+              Chiudi
+            </Button>
+          </Modal.Footer>
+        </Modal>
       )}
     </Container>
   );

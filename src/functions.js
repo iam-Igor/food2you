@@ -486,6 +486,27 @@ export const getAllusers = (page, size, order) => {
     });
 };
 
+export const getOrdersData = () => {
+  return fetch("http://localhost:3030/users/orders/me", {
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+    },
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error();
+      }
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 // GOOGLE
 
 export const getPositionData = (address, cityName) => {
