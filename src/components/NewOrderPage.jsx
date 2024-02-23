@@ -316,8 +316,8 @@ const NewOrderPage = () => {
           <Row className="row-cols-1 row-cols-md-4">
             {drinks.map((drink, i) => {
               return (
-                <Parallax speed={10}>
-                  <Col key={i} className="mt-3">
+                <Parallax key={drink.id} speed={10}>
+                  <Col className="mt-3">
                     <Card
                       sx={{ maxWidth: 345 }}
                       className="mt-3 rounded-3 shadow-card"

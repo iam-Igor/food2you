@@ -88,7 +88,7 @@ const OrdersPage = () => {
             return (
               <Col
                 key={order.id}
-                className="d-flex  border border-2 py-3 rounded-4 shadow-card col-12 col-md-8 ms-md-2 mt-3"
+                className="d-flex  border border-2 py-3 rounded-4 shadow-card col-12 col-md-8 ms-md-2 mt-3 pointer"
               >
                 <div className="d-flex flex-column ms-3">
                   <h6 className="m-0 mt-1">

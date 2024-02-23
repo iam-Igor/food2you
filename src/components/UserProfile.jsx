@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Button,
+  Card,
   Col,
   Container,
   Form,
+  ListGroup,
   Modal,
   Overlay,
   Row,
@@ -20,7 +22,12 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
-import { deleteMyProfile } from "../functions";
+import {
+  addCreditCard,
+  deleteCreditCard,
+  deleteMyProfile,
+  getCreditCardInfo,
+} from "../functions";
 import { useSelector } from "react-redux";
 
 const UserProfile = () => {
@@ -29,7 +36,7 @@ const UserProfile = () => {
 
   const [userRole, setUserRole] = useState(null);
 
-  console.log("ruolo", userRole);
+  const [showDeleteCardConfirm, setShowDeleteCardConfirm] = useState(false);
 
   const [imageUploaded, setImageUploaded] = useState(false);
   const [isImageUploading, setIsImageUploading] = useState(false);
@@ -56,6 +63,38 @@ const UserProfile = () => {
   const [image, setImage] = useState(null);
 
   const [password, setpassword] = useState("");
+
+  //hooks per salvare carta di credito
+
+  const [fullName, setFullName] = useState("");
+  const [cardNumber, setCardNumber] = useState(0);
+  const [cvv, setCvv] = useState(0);
+  const [expiringDate, setExpiringdate] = useState("");
+
+  const [creditCardData, setCreditCarddata] = useState(null);
+
+  const paymentPayload = {
+    fullName: fullName,
+    cardNumber: cardNumber,
+    cvv: cvv,
+    expiringDate: expiringDate,
+  };
+
+  const addPayment = () => {
+    if (
+      fullName !== "" &&
+      cardNumber !== 0 &&
+      cvv !== 0 &&
+      expiringDate !== ""
+    ) {
+      addCreditCard(paymentPayload).then((res) => {
+        if (res) {
+          setSaved(true);
+          return res;
+        }
+      });
+    }
+  };
 
   const [value, setValue] = useState("1");
 
@@ -160,6 +199,11 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
+    getCreditCardInfo().then((res) => {
+      if (res) {
+        setCreditCarddata(res);
+      }
+    });
     getUserData();
   }, [imageUploaded]);
 
@@ -282,116 +326,216 @@ const UserProfile = () => {
             </Tab>
             <Tab eventKey="pagamenti" title="Pagamenti" className="mt-4">
               {/* 2 */}
-              <Row className="px-2 py-2">
+              <Row className="px-2 py-2 justify-content-center">
                 {" "}
-                <Col className="col-12 col-md-8 border border-1 rounded-3 shadow-card mt-4 p-3">
-                  <div className="d-flex align-items-center">
-                    <h3>
-                      <span className="fs-6 fw-light">
-                        Metodo di pagamento:{" "}
-                      </span>
-                    </h3>
-                    <img
-                      src={paymenLogos}
-                      alt="payment-logos"
-                      style={{ width: "40%" }}
-                    />
-                  </div>
+                {!creditCardData ? (
+                  <Col className="col-12 col-md-8 border border-1 rounded-3 shadow-card mt-4 p-3">
+                    <div className="d-flex align-items-center">
+                      <h3>
+                        <span className="fs-6 fw-light">
+                          Metodo di pagamento:{" "}
+                        </span>
+                      </h3>
+                      <img
+                        src={paymenLogos}
+                        alt="payment-logos"
+                        style={{ width: "40%" }}
+                      />
+                    </div>
 
-                  <Form.Select
-                    aria-label="Default select example"
-                    onChange={(e) => {
-                      setPaymentSelected(e.target.value);
-                    }}
-                  >
-                    <option>Seleziona un metodo:</option>
-                    <option value="1">Paypal</option>
-                    <option value="2">Carta di credito</option>
-                  </Form.Select>
-                  {paymentSelected === "2" ? (
-                    <Form className="mt-3">
-                      <p>Aggiungi nuova carta di credito</p>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label>Titolare carta</Form.Label>
-                        <Form.Control
-                          type="text"
-                          placeholder="Es. Mario Rossi"
-                          required
-                        />
-                      </Form.Group>
-                      <Form.Group
-                        className="mb-3"
-                        controlId="exampleForm.ControlInput1"
-                      >
-                        <Form.Label>Numero carta</Form.Label>
-                        <Form.Control
-                          type="number"
-                          placeholder="Es. 1234567"
-                          required
-                        />
+                    <Form.Select
+                      aria-label="Default select example"
+                      onChange={(e) => {
+                        setPaymentSelected(e.target.value);
+                      }}
+                    >
+                      <option>Seleziona un metodo:</option>
+                      <option value="1">Paypal</option>
+                      <option value="2">Carta di credito</option>
+                    </Form.Select>
+                    {paymentSelected === "2" ? (
+                      <Form className="mt-3">
+                        <p>Aggiungi nuova carta di credito</p>
+                        <Form.Group
+                          className="mb-3"
+                          controlId="exampleForm.ControlInput1"
+                        >
+                          <Form.Label>Titolare carta</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Es. Mario Rossi"
+                            required
+                            onChange={(e) => {
+                              setFullName(e.target.value);
+                            }}
+                          />
+                        </Form.Group>
+                        <Form.Group
+                          className="mb-3"
+                          controlId="exampleForm.ControlInput1"
+                        >
+                          <Form.Label>Numero carta</Form.Label>
+                          <Form.Control
+                            type="number"
+                            placeholder="Es. 1234567"
+                            required
+                            onChange={(e) => {
+                              setCardNumber(parseInt(e.target.value));
+                            }}
+                          />
 
-                        <Form.Label>CCV</Form.Label>
-                        <Form.Control
-                          type="number"
-                          placeholder="CCV"
-                          required
-                        />
+                          <Form.Label>CCV</Form.Label>
+                          <Form.Control
+                            type="number"
+                            placeholder="CCV"
+                            required
+                            minLength={3}
+                            maxLength={3}
+                            onChange={(e) => {
+                              setCvv(parseInt(e.target.value));
+                            }}
+                          />
 
-                        <Form.Label>Scadenza MM/YYYY</Form.Label>
-                        <Form.Control type="month" required />
-                      </Form.Group>
-                      {saved ? (
-                        <div className="success-animation d-flex justify-content-start">
-                          <svg
-                            className="checkmark"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 52 52"
+                          <Form.Label>Scadenza MM/YYYY</Form.Label>
+                          <Form.Control
+                            type="month"
+                            required
+                            onChange={(e) => {
+                              setExpiringdate(e.target.value + "-01");
+                            }}
+                          />
+                        </Form.Group>
+                        {saved ? (
+                          <div className="success-animation d-flex justify-content-start">
+                            <svg
+                              className="checkmark"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 52 52"
+                            >
+                              <circle
+                                className="checkmark__circle"
+                                cx="26"
+                                cy="26"
+                                r="25"
+                                fill="none"
+                              />
+                              <path
+                                className="checkmark__check"
+                                fill="none"
+                                d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                              />
+                            </svg>
+                          </div>
+                        ) : (
+                          <Button
+                            variant="success rounded-4"
+                            onClick={() => {
+                              addPayment();
+                              setTimeout(() => {
+                                window.location.reload();
+                              }, 2000);
+                            }}
                           >
-                            <circle
-                              className="checkmark__circle"
-                              cx="26"
-                              cy="26"
-                              r="25"
-                              fill="none"
-                            />
-                            <path
-                              className="checkmark__check"
-                              fill="none"
-                              d="M14.1 27.2l7.1 7.2 16.7-16.8"
-                            />
-                          </svg>
-                        </div>
-                      ) : (
+                            Salva
+                          </Button>
+                        )}
+                      </Form>
+                    ) : paymentSelected === "1" ? (
+                      <div className="mt-3">
+                        <p>
+                          Login su{" "}
+                          <a
+                            className="text-primary"
+                            href="http://www.paypal.com"
+                          >
+                            PayPal
+                          </a>
+                          <i className=" ms-2 bi bi-paypal text-primary"></i>
+                        </p>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </Col>
+                ) : (
+                  <Col className="d-flex flex-column align-items-center">
+                    <h6 className="text-center">
+                      Sul tuo account risulta salvata la seguente carta:
+                    </h6>
+                    <Card style={{ width: "18rem" }}>
+                      <Card.Header>
+                        <span className="fw-bold">ID Carta: </span>
+                        {creditCardData.id}
+                      </Card.Header>
+                      <ListGroup variant="flush">
+                        <ListGroup.Item>
+                          <span className="fw-bold">Titolare: </span>
+                          {creditCardData.fullName}
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          {" "}
+                          <span className="fw-bold">Numero carta: </span>
+                          {creditCardData.cardNumber}
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          {" "}
+                          <span className="fw-bold">CVV: </span>
+                          ***
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          {" "}
+                          <span className="fw-bold">Scadenza: </span>
+                          {creditCardData.expiringDate.slice(0, 7)}
+                        </ListGroup.Item>
+                      </ListGroup>
+                    </Card>
+                    <div className="mt-2">
+                      <Button
+                        variant="danger"
+                        className="rounded-3"
+                        onClick={() => {
+                          setShowDeleteCardConfirm(true);
+                        }}
+                      >
+                        Elimina carta
+                      </Button>
+                    </div>
+                    <Modal
+                      show={showDeleteCardConfirm}
+                      onHide={() => {
+                        setShowDeleteCardConfirm(false);
+                      }}
+                    >
+                      <Modal.Header closeButton></Modal.Header>
+                      <Modal.Body>
+                        Sicuro di voler eliminare la carta?
+                      </Modal.Body>
+                      <Modal.Footer>
                         <Button
-                          variant="success rounded-4"
+                          variant="secondary"
                           onClick={() => {
-                            setSaved(true);
+                            setShowDeleteCardConfirm(false);
                           }}
                         >
-                          Salva
+                          Annulla
                         </Button>
-                      )}
-                    </Form>
-                  ) : paymentSelected === "1" ? (
-                    <div className="mt-3">
-                      <p>
-                        Login su{" "}
-                        <a
-                          className="text-primary"
-                          href="http://www.paypal.com"
+                        <Button
+                          variant="danger"
+                          onClick={() => {
+                            deleteCreditCard(creditCardData.id).then((res) => {
+                              if (res) {
+                                setShowDeleteCardConfirm(false);
+                                window.location.reload();
+                              }
+                            });
+                          }}
                         >
-                          PayPal
-                        </a>
-                        <i className=" ms-2 bi bi-paypal text-primary"></i>
-                      </p>
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                </Col>
+                          Elimina
+                        </Button>
+                      </Modal.Footer>
+                    </Modal>
+                  </Col>
+                )}
               </Row>
             </Tab>
             {userRole === "ADMIN" && (

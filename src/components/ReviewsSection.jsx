@@ -20,8 +20,6 @@ const ReviewsSection = () => {
 
   const darkMode = useSelector((state) => state.darkModeEnabled);
 
-  console.log(rating);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -60,7 +58,9 @@ const ReviewsSection = () => {
     const starsArray = [];
 
     for (let i = 0; i < obj.rating; i++) {
-      starsArray.push(<i className="bi bi-star-fill text-warning"></i>);
+      starsArray.push(
+        <i key={`${obj.id}-${i}`} className="bi bi-star-fill text-warning"></i>
+      );
     }
 
     return starsArray;
@@ -155,16 +155,16 @@ const ReviewsSection = () => {
             {reviews.map((rev, i) => {
               return (
                 <Card
-                  key={i}
+                  key={rev.id}
                   className="mx-md-2 p-4 rounded-4 shadow-card me-4"
                   style={{ height: "180px" }}
                 >
-                  <Card.Body key={i}>
+                  <Card.Body>
                     <Card.Title>
                       <i className="bi bi-person me-2"></i>
                       {rev.username}
                     </Card.Title>
-                    {showStarsRating(rev)}
+                    {showStarsRating(rev, i)}
                     <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
                     <Card.Text>{rev.message}</Card.Text>
                   </Card.Body>

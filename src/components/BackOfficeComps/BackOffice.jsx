@@ -699,7 +699,15 @@ const BackOffice = () => {
                     variant="primary"
                     type="submit"
                     onClick={() => {
-                      saveNewRestaurant();
+                      if (
+                        restaurantName !== "" &&
+                        streetAddress !== "" &&
+                        restaurantCity !== "" &&
+                        position !== "" &&
+                        summary !== ""
+                      ) {
+                        saveNewRestaurant();
+                      }
                     }}
                   >
                     Salva
