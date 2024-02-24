@@ -111,7 +111,7 @@ const MainNavbar = () => {
                         dispatch({ type: "SHOW_CART", payload: true });
                       }}
                     >
-                      <i class="bi bi-cart4 fs-4 me-2"></i>Carrello
+                      <i className="bi bi-cart4 fs-4 me-2"></i>Carrello
                     </Dropdown.Item>
                     <Dropdown.Item
                       className="d-flex align-items-center"
@@ -121,7 +121,7 @@ const MainNavbar = () => {
                         window.location.reload();
                       }}
                     >
-                      <i class="bi bi-box-arrow-right fs-4 me-2"></i>
+                      <i className="bi bi-box-arrow-right fs-4 me-2"></i>
                       Logout
                     </Dropdown.Item>
                   </Dropdown.Menu>

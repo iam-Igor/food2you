@@ -105,15 +105,6 @@ const PaymentModal = ({ show, setShow, total }) => {
         }
       })
       .then((data) => {
-        dispatch({
-          type: "SET_LON",
-          payload: data.results[0].geometry.location.lng,
-        });
-        dispatch({
-          type: "SET_LAT",
-          payload: data.results[0].geometry.location.lat,
-        });
-
         dispatch({ type: "SET_ORDER_COMPLETED", payload: true });
         setOrder(true);
         setTimeout(() => {
@@ -172,6 +163,10 @@ const PaymentModal = ({ show, setShow, total }) => {
       })
       .then((data) => {
         if (data.city.toLowerCase() === city.toLowerCase()) {
+          dispatch({
+            type: "ADD_POSITION_ORDER",
+            payload: street + "," + city,
+          });
           setPaymentAccepted(true);
           setWrongCity(false);
         } else {

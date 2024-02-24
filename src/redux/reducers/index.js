@@ -4,8 +4,6 @@ const initialState = {
   showOffCanvas: false,
   showCart: false,
   userPosition: "",
-  lon: 0,
-  lat: 0,
   cart: [],
   orderPayload: {},
   showNotification: false,
@@ -57,6 +55,11 @@ const mainReducer = (state = initialState, action) => {
         ...state,
         orderPayload: action.payload,
       };
+    case "ADD_POSITION_ORDER":
+      return {
+        ...state,
+        orderPayload: { ...state.orderPayload, userAddress: action.payload },
+      };
     case "ADD_TO_CART":
       return {
         ...state,
@@ -87,17 +90,6 @@ const mainReducer = (state = initialState, action) => {
         ...state,
         restaurantSelected: action.payload,
       };
-    case "SET_LON":
-      return {
-        ...state,
-        lon: action.payload,
-      };
-    case "SET_LAT":
-      return {
-        ...state,
-        lat: action.payload,
-      };
-
     default:
       return state;
   }
