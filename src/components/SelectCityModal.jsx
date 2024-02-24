@@ -70,7 +70,7 @@ const SelectCityModal = ({ show, setShow }) => {
           <Form.Group className="mb-3 d-flex align-items-center">
             <Form.Control
               type="text"
-              placeholder="Es. Via Roma 50"
+              placeholder="Indirizzo: Es. Via Roma 50"
               onChange={(e) => {
                 setAddress(e.target.value);
               }}

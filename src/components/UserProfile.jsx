@@ -479,17 +479,21 @@ const UserProfile = () => {
                         </ListGroup.Item>
                         <ListGroup.Item className="d-flex">
                           <span className="fw-bold">CVV: </span>
-                          {showCvv ? creditCardData.cvv : "***"}
+                          {showCvv ? (
+                            creditCardData.cvv
+                          ) : (
+                            <p className="m-0 mt-1">***</p>
+                          )}
                           {showCvv ? (
                             <i
-                              className="bi bi-eye-slash ms-auto fs-5"
+                              className="bi bi-eye-slash ms-auto fs-5 pointer"
                               onClick={() => {
                                 setShowCvv(false);
                               }}
                             ></i>
                           ) : (
                             <i
-                              className="bi bi-eye ms-auto fs-5"
+                              className="bi bi-eye ms-auto fs-5 pointer"
                               onClick={() => {
                                 setShowCvv(true);
                               }}
