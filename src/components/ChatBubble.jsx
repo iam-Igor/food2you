@@ -19,7 +19,7 @@ const ChatBubble = () => {
 
   return (
     <div
-      className={`chat-bubble rounded-circle px-2 shadow-card text-center ${
+      className={`chat-bubble rounded-circle px-2  text-center ${
         !openChat ? "heartbeat" : ""
       }`}
     >
@@ -32,11 +32,12 @@ const ChatBubble = () => {
       ></i>
       {visible && (
         <div
-          className={`chat-box d-flex flex-column rounded-4 shadow-card ${
-            openChat ? "chat-on" : "chat-off"
-          }`}
+          transition-style={
+            openChat ? "in:square:top-left" : "out:square:bottom-right"
+          }
+          className="chat-box d-flex flex-column rounded-4 pb-4 px-2"
         >
-          <div className="d-flex align-items-center chat-inner px-2 rounded-top-4">
+          <div className="d-flex align-items-center chat-inner px-2 rounded-top-4 ">
             <i className="bi bi-person-circle fs-2"></i>
             <p className="m-0 ms-3">Rider</p>
             <i
@@ -62,7 +63,7 @@ const ChatBubble = () => {
               </div>
             ))}
           </div>
-          <div className="d-flex align-items-center py-2 ps-2 bg-white rounded-bottom-4">
+          <div className="d-flex align-items-center py-2 ps-2 bg-white rounded-bottom-4 shadow-card">
             <Form
               className="d-flex"
               onSubmit={(e) => {

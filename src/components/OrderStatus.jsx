@@ -7,7 +7,7 @@ import userMarker from "../assets/img/pngaaa.com-2702232.png";
 import { LinearProgress } from "@mui/material";
 import ChatBubble from "./ChatBubble";
 import ReviewsSection from "./ReviewsSection";
-import { getPositionData, getPositionDataSingleString } from "../functions";
+import { getPositionDataSingleString } from "../functions";
 
 const OrderStatus = () => {
   const dispatch = useDispatch();
@@ -157,7 +157,14 @@ const OrderStatus = () => {
   }, [orderReady, progressTime === 100]);
 
   return (
-    <Container fluid className={darkMode ? "bg-black text-white p-0" : "p-0"}>
+    <Container
+      fluid
+      className={
+        darkMode
+          ? "bg-black text-white p-0 overflow-x-hidden "
+          : "p-0 overflow-x-hidden "
+      }
+    >
       {orderStatus !== "CONSEGNATO" ? (
         <Row className=" py-5 flex-column align-items-center">
           <Col className="mb-4 col-12 col-md-8 px-4 px-md-0">
