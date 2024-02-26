@@ -7,12 +7,14 @@ import userMarker from "../assets/img/pngaaa.com-2702232.png";
 import { LinearProgress } from "@mui/material";
 import ChatBubble from "./ChatBubble";
 import ReviewsSection from "./ReviewsSection";
+import { getPositionDataSingleString } from "../functions";
 
 const OrderStatus = () => {
   const dispatch = useDispatch();
 
-  const userLat = useSelector((state) => state.lat);
-  const userLon = useSelector((state) => state.lon);
+  const [userLat, setUserLat] = useState(0);
+  const [userLon, setUserLon] = useState(0);
+
   const darkMode = useSelector((state) => state.darkModeEnabled);
 
   const navigate = useNavigate();
@@ -65,6 +67,14 @@ const OrderStatus = () => {
         });
 
         setOrderStatus(data.orderStatus);
+        if (data.orderStatus !== "CONSEGNATO") {
+          getPositionDataSingleString(data.userPosition).then((res) => {
+            if (res) {
+              setUserLat(res.results[0].geometry.location.lat);
+              setUserLon(res.results[0].geometry.location.lng);
+            }
+          });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -144,10 +154,17 @@ const OrderStatus = () => {
     }
 
     updateTimer();
-  }, [orderReady, userLon, progressTime === 100]);
+  }, [orderReady, progressTime === 100]);
 
   return (
-    <Container fluid className={darkMode ? "bg-black text-white p-0" : "p-0"}>
+    <Container
+      fluid
+      className={
+        darkMode
+          ? "bg-black text-white p-0 overflow-x-hidden "
+          : "p-0 overflow-x-hidden "
+      }
+    >
       {orderStatus !== "CONSEGNATO" ? (
         <Row className=" py-5 flex-column align-items-center">
           <Col className="mb-4 col-12 col-md-8 px-4 px-md-0">

@@ -1,15 +1,6 @@
 import jsPDF from "jspdf";
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  CardHeader,
-  Col,
-  Container,
-  Form,
-  Modal,
-  Row,
-} from "react-bootstrap";
+import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getOrdersData } from "../functions";
@@ -20,6 +11,7 @@ const OrdersPage = () => {
   const darkMode = useSelector((state) => state.darkModeEnabled);
 
   const [orderSelected, setOrderSelected] = useState(null);
+
   const [show, setShow] = useState(false);
 
   const navigate = useNavigate();
@@ -33,8 +25,6 @@ const OrdersPage = () => {
   const [orderFilter, setOrderFilter] = useState("asc");
 
   const getOrders = () => {
-    let arrayTouse = [];
-
     getOrdersData().then((res) => {
       if (res) {
         switch (filterBy) {
@@ -110,6 +100,7 @@ const OrdersPage = () => {
 
   useEffect(() => {
     getOrders();
+    window.scrollTo(0, 0);
   }, [filterBy, orderFilter]);
 
   return (
@@ -219,6 +210,7 @@ const OrdersPage = () => {
               </Modal.Header>
               <Modal.Body>
                 <h6>Data: {orderSelected.orderTime}</h6>
+                <h6>Indirizzo di consegna: {orderSelected.userPosition}</h6>
                 <h6>
                   {orderSelected.restaurant.name},{" "}
                   {orderSelected.restaurant.streetAddress},
@@ -229,7 +221,7 @@ const OrdersPage = () => {
                 <ul className="list-unstyled">
                   {orderSelected.productList.map((product, i) => {
                     return (
-                      <li>
+                      <li key={product.id}>
                         {product.name}{" "}
                         <span className="ms-auto">{product.price}€</span>
                       </li>

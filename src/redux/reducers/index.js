@@ -57,6 +57,11 @@ const mainReducer = (state = initialState, action) => {
         ...state,
         orderPayload: action.payload,
       };
+    case "ADD_POSITION_ORDER":
+      return {
+        ...state,
+        orderPayload: { ...state.orderPayload, userAddress: action.payload },
+      };
     case "ADD_TO_CART":
       return {
         ...state,

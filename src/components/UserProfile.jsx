@@ -205,6 +205,7 @@ const UserProfile = () => {
       }
     });
     getUserData();
+    window.scrollTo(0, 0);
   }, [imageUploaded]);
 
   return (
@@ -213,7 +214,7 @@ const UserProfile = () => {
       className={darkMode ? "bg-black text-white pt-4" : ""}
       data-bs-theme={darkMode ? "dark" : "light"}
     >
-      <h3 className="text-center ">
+      <h3 className="text-center mt-4 ">
         Account e impostazioni <i className="bi bi-gear"></i>
       </h3>
       {profileData && (

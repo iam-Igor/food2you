@@ -7,7 +7,7 @@ const BadRequestPage = () => {
       <Row>
         <Col className="d-flex justify-content-center align-items-center">
           <img alt="not-found-img" src={badReq} style={{ width: "50%" }} />
-          <h1>400-Qualcosa è andato storto.</h1>
+          <h1>Oh no! Qualcosa è andato storto.</h1>
         </Col>
       </Row>
     </Container>

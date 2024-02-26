@@ -30,6 +30,8 @@
 .dropdown-menu {
   background-color: #00796b;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  --bs-dropdown-link-active-color: black;
+  --bs-dropdown-link-active-bg: lightgray;
 }
 
 .dropdown-menu[data-bs-popper] {
@@ -38,4 +40,27 @@
 
 .dropdown-menu a {
   color: white;
+}
+
+// custom accordion backoffice
+
+.accordion-item {
+  --bs-accordion-active-bg: #b2dfdb;
+  --bs-accordion-btn-focus-box-shadow: 0px 0px 4px 3px rgba(178, 223, 219, 0.86);
+}
+
+.accordion-button:not(.collapsed) {
+  color: black;
+}
+
+button:not(
+    .mode-button,
+    #fill-tab-example-tab-back-office,
+    #fill-tab-example-tab-pagamenti,
+    #fill-tab-example-tab-profile,
+    .button-off-canvas-products,
+    .send-btn,
+    .btn-close
+  ) {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }

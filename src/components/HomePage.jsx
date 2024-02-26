@@ -111,7 +111,7 @@ const Homepage = () => {
       <Row className="header-bg d-flex flex-column flex-md-row justify-content-center align-items-center">
         <h3 className="text-white text-center main-text mt-md-5">
           Sapore di consegne, rapidità di servizio: il tuo mondo a portata di
-          clic con <span className="fw-bold">Food2You! 😁</span>
+          click con <span className="fw-bold">Food2You! 😁</span>
         </h3>
         <Col className=" align-items-center justify-content-around py-2 col-md-4">
           <div className="d-flex justify-content-center">
@@ -141,7 +141,7 @@ const Homepage = () => {
                 <Form.Group>
                   <Form.Control
                     type="email"
-                    placeholder="Es. Napoli"
+                    placeholder="Dove lo consegniamo?"
                     className="rounded-4"
                     onClick={() => {
                       if (accessData) {
@@ -189,7 +189,7 @@ const Homepage = () => {
             <Form.Group>
               <Form.Control
                 type="email"
-                placeholder="Es. Napoli"
+                placeholder="Dove lo consegniamo?"
                 className="rounded-4 w-100"
                 onClick={() => {
                   if (accessData) {

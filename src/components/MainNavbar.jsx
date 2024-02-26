@@ -50,7 +50,7 @@ const MainNavbar = () => {
               src={logo}
               width="90"
               height="90"
-              className="d-inline-block align-top rounded-circle"
+              className="d-inline-block align-top rounded-circle pointer shadow-card"
               onClick={() => navigate("/")}
             />
           </Navbar.Brand>
@@ -91,7 +91,7 @@ const MainNavbar = () => {
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item
-                      className="d-flex align-items-center"
+                      className="d-flex align-items-center "
                       onClick={() => {
                         navigate("/orders/me");
                       }}
@@ -111,7 +111,7 @@ const MainNavbar = () => {
                         dispatch({ type: "SHOW_CART", payload: true });
                       }}
                     >
-                      <i class="bi bi-cart4 fs-4 me-2"></i>Carrello
+                      <i className="bi bi-cart4 fs-4 me-2"></i>Carrello
                     </Dropdown.Item>
                     <Dropdown.Item
                       className="d-flex align-items-center"
@@ -121,7 +121,7 @@ const MainNavbar = () => {
                         window.location.reload();
                       }}
                     >
-                      <i class="bi bi-box-arrow-right fs-4 me-2"></i>
+                      <i className="bi bi-box-arrow-right fs-4 me-2"></i>
                       Logout
                     </Dropdown.Item>
                   </Dropdown.Menu>
@@ -131,7 +131,7 @@ const MainNavbar = () => {
             <Dropdown className="d-flex ms-2 ">
               <Dropdown.Toggle
                 style={{ backgroundColor: "#009688" }}
-                className="rounded-circle border-0 text-white text-center p-0"
+                className="rounded-circle border-0 text-white text-center p-0 mode-button"
               >
                 <i className="bi bi-brightness-high fs-3"></i>
               </Dropdown.Toggle>
