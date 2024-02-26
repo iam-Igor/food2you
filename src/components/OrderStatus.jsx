@@ -229,7 +229,7 @@ const OrderStatus = () => {
           </Col>
         </Row>
       )}
-      {!showChat && <ChatBubble />}
+      {showChat && <ChatBubble />}
       <ReviewsSection />
     </Container>
   );

@@ -18,6 +18,7 @@ import {
   CardHeader,
   CardMedia,
   IconButton,
+  Skeleton,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -40,6 +41,8 @@ const NewOrderPage = () => {
   const [quantity, setQuantity] = useState(0);
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const darkMode = useSelector((state) => state.darkModeEnabled);
 
   const [sortBy, setSortBy] = useState("");
@@ -47,6 +50,8 @@ const NewOrderPage = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const [showProductDetail, setShowProductDetail] = useState(false);
+
+  const skeletonArray = [];
 
   const setCategoryOfproducts = (param) => {
     let newFood = [];
@@ -116,7 +121,10 @@ const NewOrderPage = () => {
         }
       })
       .then((data) => {
-        setCategoryOfproducts(data);
+        setTimeout(() => {
+          setCategoryOfproducts(data);
+          setIsLoading(false);
+        }, 2000);
       })
       .catch((err) => {
         console.log(err);
@@ -232,94 +240,207 @@ const NewOrderPage = () => {
             Seleziona i prodotti da aggiungere al carrello
           </h4>
 
-          <Row className="row-cols-1 row-cols-md-4">
-            {food.map((food, i) => {
-              return (
-                <Parallax speed={10}>
-                  <Col key={i} className="mt-3">
-                    <Card
-                      sx={{ maxWidth: 345 }}
-                      className="mt-3 rounded-3 shadow-card"
-                    >
-                      <CardActionArea>
-                        <CardMedia
-                          component="img"
-                          height="140"
-                          image={food.imageUrl}
-                          alt="food"
-                          onClick={() => {
-                            setSelectedItem(food);
-                            setShowProductDetail(true);
-                          }}
-                        />
-                        <CardContent>
-                          <Typography gutterBottom variant="h5" component="div">
-                            {food.name}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            className="truncate"
-                          >
-                            {food.description}
-                          </Typography>
-
-                          <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            className="mt-2 truncate"
-                          >
-                            Ingredienti: {food.ingredients}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            className="mt-2"
-                          >
-                            {food.price}€
-                          </Typography>
-                          <CardActions className="ps-0">
-                            <Form
-                              className="d-flex w-100"
-                              onSubmit={(e) => {
-                                e.preventDefault();
-                                addItemsToCart(food);
-                                setIsBouncing(true);
-                                setTimeout(() => {
-                                  setIsBouncing(false);
-                                }, 1000);
-                              }}
+          {food && !isLoading ? (
+            <Row className="row-cols-1 row-cols-md-4">
+              {food.map((food, i) => {
+                return (
+                  <Parallax speed={10}>
+                    <Col key={i} className="mt-3">
+                      <Card
+                        sx={{ maxWidth: 345 }}
+                        className="mt-3 rounded-3 shadow-card"
+                      >
+                        <CardActionArea>
+                          <CardMedia
+                            component="img"
+                            height="140"
+                            image={food.imageUrl}
+                            alt="food"
+                            onClick={() => {
+                              setSelectedItem(food);
+                              setShowProductDetail(true);
+                            }}
+                          />
+                          <CardContent>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="div"
                             >
-                              {" "}
-                              <Button
-                                type="submit"
-                                size="small"
-                                color="primary"
-                                className="drop-nav border-0 shadow-card me-2"
-                              >
-                                <i className="bi bi-cart4 fs-5 me-2 text-black"></i>
-                              </Button>
-                              <Form.Select
-                                required
-                                onChange={(e) => {
-                                  setQuantity(e.target.value);
+                              {food.name}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              className="truncate"
+                            >
+                              {food.description}
+                            </Typography>
+
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              className="mt-2 truncate"
+                            >
+                              Ingredienti: {food.ingredients}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              className="mt-2"
+                            >
+                              {food.price}€
+                            </Typography>
+                            <CardActions className="ps-0">
+                              <Form
+                                className="d-flex w-100"
+                                onSubmit={(e) => {
+                                  e.preventDefault();
+                                  addItemsToCart(food);
+                                  setIsBouncing(true);
+                                  setTimeout(() => {
+                                    setIsBouncing(false);
+                                  }, 1000);
                                 }}
                               >
-                                <option value="">Quantità</option>
-                                <option value={1}>1</option>
-                                <option value={2}>2</option>
-                                <option value={3}>3</option>
-                              </Form.Select>
-                            </Form>
-                          </CardActions>
-                        </CardContent>
-                      </CardActionArea>
-                    </Card>
-                  </Col>
-                </Parallax>
-              );
-            })}
-          </Row>
+                                {" "}
+                                <Button
+                                  type="submit"
+                                  size="small"
+                                  color="primary"
+                                  className="drop-nav border-0 shadow-card me-2"
+                                >
+                                  <i className="bi bi-cart4 fs-5 me-2 text-black"></i>
+                                </Button>
+                                <Form.Select
+                                  required
+                                  onChange={(e) => {
+                                    setQuantity(e.target.value);
+                                  }}
+                                >
+                                  <option value="">Quantità</option>
+                                  <option value={1}>1</option>
+                                  <option value={2}>2</option>
+                                  <option value={3}>3</option>
+                                </Form.Select>
+                              </Form>
+                            </CardActions>
+                          </CardContent>
+                        </CardActionArea>
+                      </Card>
+                    </Col>
+                  </Parallax>
+                );
+              })}
+            </Row>
+          ) : (
+            <Row className="row-cols-1 row-cols-md-4">
+              <Col className="mt-3">
+                <Skeleton
+                  variant="rectangular"
+                  width={300}
+                  height={130}
+                  className="mx-auto"
+                />
+                <Skeleton variant="text" sx={{ fontSize: "2rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1.5rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+              </Col>
+              <Col className="mt-3">
+                <Skeleton
+                  variant="rectangular"
+                  width={300}
+                  height={130}
+                  className="mx-auto"
+                />
+                <Skeleton variant="text" sx={{ fontSize: "2rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1.5rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+              </Col>
+              <Col className="mt-3">
+                <Skeleton
+                  variant="rectangular"
+                  width={300}
+                  height={130}
+                  className="mx-auto"
+                />
+                <Skeleton variant="text" sx={{ fontSize: "2rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1.5rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+              </Col>
+              <Col className="mt-3">
+                <Skeleton
+                  variant="rectangular"
+                  width={300}
+                  height={130}
+                  className="mx-auto"
+                />
+                <Skeleton variant="text" sx={{ fontSize: "2rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1.5rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+              </Col>
+              <Col className="mt-3">
+                <Skeleton
+                  variant="rectangular"
+                  width={300}
+                  height={130}
+                  className="mx-auto"
+                />
+                <Skeleton variant="text" sx={{ fontSize: "2rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1.5rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+              </Col>
+              <Col className="mt-3">
+                <Skeleton
+                  variant="rectangular"
+                  width={300}
+                  height={130}
+                  className="mx-auto"
+                />
+                <Skeleton variant="text" sx={{ fontSize: "2rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1.5rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+              </Col>
+              <Col className="mt-3">
+                <Skeleton
+                  variant="rectangular"
+                  width={300}
+                  height={130}
+                  className="mx-auto"
+                />
+                <Skeleton variant="text" sx={{ fontSize: "2rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1.5rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+              </Col>{" "}
+              <Col className="mt-3">
+                <Skeleton
+                  variant="rectangular"
+                  width={300}
+                  height={130}
+                  className="mx-auto"
+                />
+                <Skeleton variant="text" sx={{ fontSize: "2rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1.5rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+                <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+              </Col>
+            </Row>
+          )}
         </>
       )}
       {drinks && !isFoodSelected && (
@@ -327,94 +448,100 @@ const NewOrderPage = () => {
           <h4 className="text-center mt-3">
             Seleziona i prodotti da aggiungere al carrello
           </h4>
-          <Row className="row-cols-1 row-cols-md-4">
-            {drinks.map((drink, i) => {
-              return (
-                <Parallax key={drink.id} speed={10}>
-                  <Col className="mt-3">
-                    <Card
-                      sx={{ maxWidth: 345 }}
-                      className="mt-3 rounded-3 shadow-card"
-                    >
-                      <CardActionArea>
-                        <CardMedia
-                          component="img"
-                          height="140"
-                          image={drink.imageUrl}
-                          alt="food"
-                          onClick={() => {
-                            setSelectedItem(drink);
-                            setShowProductDetail(true);
-                          }}
-                        />
-                        <CardContent>
-                          <Typography gutterBottom variant="h5" component="div">
-                            {drink.name}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            className="truncate"
-                          >
-                            {drink.description}
-                          </Typography>
-
-                          <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            className="mt-2 truncate"
-                          >
-                            Ingredienti: {drink.ingredients}
-                          </Typography>
-                          <Typography
-                            variant="body2"
-                            color="text.secondary"
-                            className="mt-2"
-                          >
-                            {drink.price}€
-                          </Typography>
-                          <CardActions className="ps-0">
-                            <Form
-                              className="d-flex w-100"
-                              onSubmit={(e) => {
-                                e.preventDefault();
-                                addItemsToCart(drink);
-                                setIsBouncing(true);
-                                setTimeout(() => {
-                                  setIsBouncing(false);
-                                }, 1000);
-                              }}
+          {drinks && !isLoading && (
+            <Row className="row-cols-1 row-cols-md-4">
+              {drinks.map((drink, i) => {
+                return (
+                  <Parallax key={drink.id} speed={10}>
+                    <Col className="mt-3">
+                      <Card
+                        sx={{ maxWidth: 345 }}
+                        className="mt-3 rounded-3 shadow-card"
+                      >
+                        <CardActionArea>
+                          <CardMedia
+                            component="img"
+                            height="140"
+                            image={drink.imageUrl}
+                            alt="food"
+                            onClick={() => {
+                              setSelectedItem(drink);
+                              setShowProductDetail(true);
+                            }}
+                          />
+                          <CardContent>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="div"
                             >
-                              {" "}
-                              <Button
-                                type="submit"
-                                size="small"
-                                color="primary"
-                                className="drop-nav border-0 shadow-card me-2"
-                              >
-                                <i className="bi bi-cart4 fs-5 me-2 text-black"></i>
-                              </Button>
-                              <Form.Select
-                                required
-                                onChange={(e) => {
-                                  setQuantity(e.target.value);
+                              {drink.name}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              className="truncate"
+                            >
+                              {drink.description}
+                            </Typography>
+
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              className="mt-2 truncate"
+                            >
+                              Ingredienti: {drink.ingredients}
+                            </Typography>
+                            <Typography
+                              variant="body2"
+                              color="text.secondary"
+                              className="mt-2"
+                            >
+                              {drink.price}€
+                            </Typography>
+                            <CardActions className="ps-0">
+                              <Form
+                                className="d-flex w-100"
+                                onSubmit={(e) => {
+                                  e.preventDefault();
+                                  addItemsToCart(drink);
+                                  setIsBouncing(true);
+                                  setTimeout(() => {
+                                    setIsBouncing(false);
+                                  }, 1000);
                                 }}
                               >
-                                <option value="">Quantità</option>
-                                <option value={1}>1</option>
-                                <option value={2}>2</option>
-                                <option value={3}>3</option>
-                              </Form.Select>
-                            </Form>
-                          </CardActions>
-                        </CardContent>
-                      </CardActionArea>
-                    </Card>
-                  </Col>
-                </Parallax>
-              );
-            })}
-          </Row>
+                                {" "}
+                                <Button
+                                  type="submit"
+                                  size="small"
+                                  color="primary"
+                                  className="drop-nav border-0 shadow-card me-2"
+                                >
+                                  <i className="bi bi-cart4 fs-5 me-2 text-black"></i>
+                                </Button>
+                                <Form.Select
+                                  required
+                                  onChange={(e) => {
+                                    setQuantity(e.target.value);
+                                  }}
+                                >
+                                  <option value="">Quantità</option>
+                                  <option value={1}>1</option>
+                                  <option value={2}>2</option>
+                                  <option value={3}>3</option>
+                                </Form.Select>
+                              </Form>
+                            </CardActions>
+                          </CardContent>
+                        </CardActionArea>
+                      </Card>
+                    </Col>
+                  </Parallax>
+                );
+              })}
+            </Row>
+          )}
         </>
       )}
       {showProductDetail && selectedItem && (
