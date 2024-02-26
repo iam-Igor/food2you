@@ -205,6 +205,7 @@ const UserProfile = () => {
       }
     });
     getUserData();
+    window.scrollTo(0, 0);
   }, [imageUploaded]);
 
   return (

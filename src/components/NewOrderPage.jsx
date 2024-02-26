@@ -134,6 +134,7 @@ const NewOrderPage = () => {
 
   useEffect(() => {
     getProductsList();
+    window.scrollTo(0, 0);
   }, [restaurantData, isFoodSelected]);
 
   return (

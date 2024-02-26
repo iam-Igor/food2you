@@ -50,7 +50,7 @@ const MainNavbar = () => {
               src={logo}
               width="90"
               height="90"
-              className="d-inline-block align-top rounded-circle"
+              className="d-inline-block align-top rounded-circle pointer shadow-card"
               onClick={() => navigate("/")}
             />
           </Navbar.Brand>

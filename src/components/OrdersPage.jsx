@@ -100,6 +100,7 @@ const OrdersPage = () => {
 
   useEffect(() => {
     getOrders();
+    window.scrollTo(0, 0);
   }, [filterBy, orderFilter]);
 
   return (
