@@ -91,7 +91,7 @@ const MainNavbar = () => {
                   </Dropdown.Toggle>
                   <Dropdown.Menu>
                     <Dropdown.Item
-                      className="d-flex align-items-center"
+                      className="d-flex align-items-center "
                       onClick={() => {
                         navigate("/orders/me");
                       }}
@@ -131,7 +131,7 @@ const MainNavbar = () => {
             <Dropdown className="d-flex ms-2 ">
               <Dropdown.Toggle
                 style={{ backgroundColor: "#009688" }}
-                className="rounded-circle border-0 text-white text-center p-0"
+                className="rounded-circle border-0 text-white text-center p-0 mode-button"
               >
                 <i className="bi bi-brightness-high fs-3"></i>
               </Dropdown.Toggle>

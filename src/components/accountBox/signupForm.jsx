@@ -142,7 +142,7 @@ export function SignupForm(props) {
           }
         }}
       >
-        Signup
+        Registrati
       </SubmitButton>
 
       <Marginer direction="vertical" margin="5px" />

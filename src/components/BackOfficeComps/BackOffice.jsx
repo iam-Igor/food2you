@@ -180,7 +180,7 @@ const BackOffice = () => {
 
   return (
     <Row>
-      <Accordion>
+      <Accordion className="profile-accordion">
         <Accordion.Item eventKey="0">
           <Accordion.Header>Sezione Ristoranti</Accordion.Header>
           <Accordion.Body className="d-flex flex-column align-items-center">

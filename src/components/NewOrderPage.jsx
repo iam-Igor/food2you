@@ -182,7 +182,6 @@ const NewOrderPage = () => {
               <CardHeader
                 className={darkMode ? "text-white" : ""}
                 avatar={<Avatar aria-label="recipe">F2Y</Avatar>}
-                action={<IconButton aria-label="settings"></IconButton>}
                 title={restaurantData.name}
               />
               <Card

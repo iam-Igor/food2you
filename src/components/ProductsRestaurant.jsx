@@ -88,7 +88,6 @@ const ProductsRestaurant = () => {
             <Card sx={{ maxWidth: 345 }}>
               <CardHeader
                 avatar={<Avatar aria-label="recipe">F2Y</Avatar>}
-                action={<IconButton aria-label="settings"></IconButton>}
                 title={restaurantData.name}
               />
               <CardMedia
@@ -120,6 +119,7 @@ const ProductsRestaurant = () => {
               </CardContent>
               <CardActions>
                 <Button
+                  className="button-off-canvas-products"
                   size="small"
                   color="primary"
                   onClick={() => {
@@ -130,6 +130,7 @@ const ProductsRestaurant = () => {
                   Ordina
                 </Button>
                 <Button
+                  className="button-off-canvas-products"
                   size="small"
                   color="primary"
                   onClick={() => {
