@@ -19,6 +19,8 @@ import MainContent from "./MainContent";
 import RestaurantsCarousel from "./RestaurantsCarousel";
 import InfoSection from "./InfoSection";
 import ReviewsSection from "./ReviewsSection";
+import { getCategoriesMostUsed } from "../functions";
+import MostUsedCategories from "./MostUsedCategories";
 
 const Homepage = () => {
   const [formVisible, setFormVisible] = useState(false);
@@ -215,6 +217,7 @@ const Homepage = () => {
       )}
       <MainContent />
       <RestaurantsCarousel />
+      <MostUsedCategories />
       <InfoSection />
       {/* REVIEWS */}
       <ReviewsSection />

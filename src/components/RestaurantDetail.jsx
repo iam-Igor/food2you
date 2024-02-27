@@ -74,9 +74,13 @@ const RestaurantDetail = () => {
       });
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <Container fluid className={darkMode ? "py-4 bg-black" : "py-4"}>
-      <Row className="justify-content-center">
+    <Container fluid className={darkMode ? "py-2 bg-black" : "py-2"}>
+      <Row className="justify-content-center py-5">
         {restaurantSelected.length > 0 ? (
           <>
             <h3

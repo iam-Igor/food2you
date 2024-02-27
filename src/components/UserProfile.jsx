@@ -29,6 +29,7 @@ import {
   getCreditCardInfo,
 } from "../functions";
 import { useSelector } from "react-redux";
+import masterCardLogo from "../assets/img/kisspng-logo-mastercard-pentagram-flat-design-5cf7d971c33dd7.2271635715597469297997.png";
 
 const UserProfile = () => {
   const target = useRef(null);
@@ -227,19 +228,18 @@ const UserProfile = () => {
           >
             <Tab eventKey="profile" title="Profilo" className="mt-4">
               <Row className="flex-column flex-md-row px-2 py-2">
-                <Col className="col-12 col-md-3 text-center position-relative border border-1 me-2 shadow-card rounded-4 p-2">
+                <Col className="col-12 col-md-3 text-center position-relative border border-1 me-2 shadow-card rounded-4 p-3">
                   <img
                     alt="user-img"
-                    className="rounded-circle"
                     src={
                       profileData.avatarUrl !== null
                         ? profileData.avatarUrl
                         : "https://cdn-icons-png.flaticon.com/512/3607/3607444.png"
                     }
-                    style={{ width: "80%" }}
+                    style={{ width: "60%" }}
                   />
                   <i
-                    className="bi bi-pencil-square fs-3 position-absolute profile-edit"
+                    className="bi bi-pencil-square fs-3 position-absolute profile-edit pointer"
                     onClick={() => setPopup(!popup)}
                     ref={target}
                   ></i>
@@ -319,7 +319,7 @@ const UserProfile = () => {
                     {profileData.username}
                   </h6>
                   <i
-                    className="bi bi-pencil-square fs-3 text-end mt-auto"
+                    className="bi bi-pencil-square fs-3 text-end mt-auto pointer"
                     onClick={() => setShowModalPost(true)}
                   ></i>
                 </Col>
@@ -463,10 +463,16 @@ const UserProfile = () => {
                     <h6 className="text-center">
                       Sul tuo account risulta salvata la seguente carta:
                     </h6>
-                    <Card style={{ width: "18rem" }}>
-                      <Card.Header>
+                    <Card style={{ width: "20rem" }} className="shadow-card">
+                      <Card.Header className="d-flex align-items-center">
                         <span className="fw-bold">ID Carta: </span>
                         {creditCardData.id}
+                        <img
+                          className="ms-auto"
+                          alt="mastercard-logo"
+                          src={masterCardLogo}
+                          style={{ width: "20%" }}
+                        />
                       </Card.Header>
                       <ListGroup variant="flush">
                         <ListGroup.Item>

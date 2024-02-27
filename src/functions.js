@@ -556,3 +556,24 @@ export const getPositionDataSingleString = (address) => {
       console.log(err);
     });
 };
+
+export const getCategoriesMostUsed = () => {
+  return fetch("http://localhost:3030/users/orders/most_used", {
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+    },
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error("Errore nella rcierca delle categorie più usate");
+      }
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
