@@ -246,10 +246,10 @@ const NewOrderPage = () => {
               {food.map((food, i) => {
                 return (
                   <Parallax speed={10}>
-                    <Col key={i} className="mt-3">
+                    <Col key={i} className="mt-3 ">
                       <Card
                         sx={{ maxWidth: 345 }}
-                        className="mt-3 rounded-3 shadow-card"
+                        className="mt-3 rounded-3 shadow-btm"
                       >
                         <CardActionArea>
                           <CardMedia

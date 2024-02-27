@@ -565,12 +565,14 @@ export const getCategoriesMostUsed = () => {
   })
     .then((res) => {
       if (res.ok) {
+        console.log(res);
         return res.json();
       } else {
-        throw new Error("Errore nella rcierca delle categorie più usate");
+        throw new Error("Errore nella ricerca delle categorie più usate");
       }
     })
     .then((data) => {
+      console.log(data);
       return data;
     })
     .catch((err) => {

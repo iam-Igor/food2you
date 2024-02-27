@@ -125,7 +125,7 @@ const RestaurantDetail = () => {
               )}
             </Col>
           </>
-        ) : (
+        ) : city !== "" ? (
           <Col className="mt-4 text-center py-5">
             <h3 className={darkMode ? "text-white" : ""}>
               Spiacenti nessun ristorante di tipo {category} a {city}
@@ -144,6 +144,8 @@ const RestaurantDetail = () => {
               ></i>
             </div>
           </Col>
+        ) : (
+          <></>
         )}
       </Row>
       <Modal show={show}>

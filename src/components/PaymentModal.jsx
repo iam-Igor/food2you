@@ -455,6 +455,15 @@ const PaymentModal = ({ show, setShow, total }) => {
                       La città scelta è troppo distante dal tuo indirizzo!
                     </Alert>
                   )}
+                  <Form.Select
+                    aria-label="Default select example"
+                    className="mb-3"
+                  >
+                    <option>Quando?</option>
+                    <option value="1">Adesso</option>
+                    <option value="2">Tra un'ora</option>
+                    <option value="3">Tra due ore</option>
+                  </Form.Select>
                 </Form>
                 {paymentAccepted ? (
                   <div className="success-animation d-flex justify-content-start">

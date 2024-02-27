@@ -14,6 +14,7 @@ const MostUsedCategories = () => {
   const [categories, setCategories] = useState({});
   const darkMode = useSelector((state) => state.darkModeEnabled);
   const navigate = useNavigate();
+  const token = localStorage.getItem("tokenUser");
 
   const getCategories = () => {
     getCategoriesMostUsed().then((res) => {
@@ -31,7 +32,7 @@ const MostUsedCategories = () => {
         obj[category] = count;
         array.push(
           <div
-            key={count}
+            key={count * Math.random() * 100}
             className="single-category-show rounded-5 shadow-card zoom"
             onClick={() => {
               navigate("/restaurants/" + category.toLowerCase());
@@ -47,13 +48,19 @@ const MostUsedCategories = () => {
   };
 
   useEffect(() => {
-    getCategories();
+    if (token) {
+      getCategories();
+    }
+
     if (categories) {
       showCategories();
     }
   }, []);
 
-  if (Object.keys(categories).length > 0) {
+  if (
+    Object.keys(categories).length > 0 &&
+    Object.values(categories).some((count) => count >= 2)
+  ) {
     return (
       <>
         <div className="w-100">
@@ -73,7 +80,7 @@ const MostUsedCategories = () => {
             </h4>
           </Col>
           {categories && (
-            <Col className="d-flex justify-content-center my-4">
+            <Col className="d-flex justify-content-center my-4 flex-wrap">
               {showCategories()}
             </Col>
           )}
