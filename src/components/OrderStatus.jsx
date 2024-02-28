@@ -7,7 +7,7 @@ import userMarker from "../assets/img/pngaaa.com-2702232.png";
 import { LinearProgress } from "@mui/material";
 import ChatBubble from "./ChatBubble";
 import ReviewsSection from "./ReviewsSection";
-import { getPositionDataSingleString } from "../functions";
+import { evaluateError, getPositionDataSingleString } from "../functions";
 
 const OrderStatus = () => {
   const dispatch = useDispatch();
@@ -57,7 +57,7 @@ const OrderStatus = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("errore nel fetching dell'ordine");
+          throw res;
         }
       })
       .then((data) => {
@@ -72,13 +72,15 @@ const OrderStatus = () => {
             if (res) {
               setUserLat(res.results[0].geometry.location.lat);
               setUserLon(res.results[0].geometry.location.lng);
+            } else {
+              evaluateError(res.status, navigate, dispatch);
             }
           });
         }
       })
       .catch((err) => {
         console.log(err);
-        navigate("/bad_request");
+        evaluateError(err.status, navigate, dispatch);
       });
   };
 
@@ -107,12 +109,12 @@ const OrderStatus = () => {
       .then((res) => {
         if (res.ok) {
         } else {
-          throw new Error("Errore nella fetch");
+          throw res;
         }
       })
       .catch((err) => {
         console.log(err);
-        navigate("/bad_request");
+        evaluateError(err.status, navigate, dispatch);
       });
   };
 

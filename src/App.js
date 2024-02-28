@@ -15,6 +15,8 @@ import BadRequestPage from "./components/BadRequestPage";
 import OrdersPage from "./components/OrdersPage";
 import OrderStatus from "./components/OrderStatus";
 import { ParallaxProvider } from "react-scroll-parallax";
+import AccessDeniedPage from "./components/AccessDeniedPage";
+import ServerErrorPage from "./components/ServerErrorPage";
 
 function App() {
   return (
@@ -26,9 +28,11 @@ function App() {
           <Route path="/profile" element={<UserProfile />} />
           <Route path="/order" element={<NewOrderPage />} />
           <Route path="/restaurants/:summary" element={<RestaurantDetail />} />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path="/*" element={<NotFoundPage />} />
           <Route path="/orders/me" element={<OrdersPage />} />
           <Route path="/bad_request" element={<BadRequestPage />} />
+          <Route path="/access_denied" element={<AccessDeniedPage />} />
+          <Route path="/server_error" element={<ServerErrorPage />} />
           <Route path="/order/status/:id" element={<OrderStatus />} />
         </Routes>
         <ProductsRestaurant />

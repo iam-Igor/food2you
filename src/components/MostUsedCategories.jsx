@@ -1,27 +1,32 @@
 import { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import { getCategoriesMostUsed } from "../functions";
+import { evaluateError, getCategoriesMostUsed } from "../functions";
 
 import topBg from "../assets/img/categories-top.svg";
 import bottomBg from "../assets/img/categories-bottom.svg";
 
 import topBgDark from "../assets/img/darkMode/categories-top-dark.svg";
 import bottomBgDark from "../assets/img/darkMode/categories-bottom-dark.svg";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const MostUsedCategories = () => {
   const [categories, setCategories] = useState({});
   const darkMode = useSelector((state) => state.darkModeEnabled);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const token = localStorage.getItem("tokenUser");
 
   const getCategories = () => {
-    getCategoriesMostUsed().then((res) => {
-      if (res) {
-        setCategories(res);
-      }
-    });
+    getCategoriesMostUsed()
+      .then((res) => {
+        if (res) {
+          setCategories(res);
+        }
+      })
+      .catch((err) => {
+        evaluateError(err.status, navigate, dispatch);
+      });
   };
 
   const showCategories = () => {

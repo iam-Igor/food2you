@@ -6,6 +6,7 @@ import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import userMarker from "../assets/img/pngaaa.com-2702232.png";
 import restMarker from "../assets/img/rest_marker.png";
 import { useNavigate } from "react-router-dom";
+import { evaluateError } from "../functions";
 
 const MainContent = () => {
   const darkMode = useSelector((state) => state.darkModeEnabled);
@@ -34,15 +35,15 @@ const MainContent = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("Errore nel caricamento della città selezionata");
+          throw res;
         }
       })
       .then((data) => {
         setRestaurants(data);
       })
       .catch((err) => {
-        console.log(err);
-        navigate("/bad_request");
+        console.log(err.status);
+        evaluateError(err.status, navigate, dispatch);
       });
   };
 

@@ -4,6 +4,7 @@ import { LoginForm } from "./loginForm";
 import { SignupForm } from "./signupForm";
 import { motion } from "framer-motion";
 import { AccountContext } from "./accountContext";
+import { useSelector } from "react-redux";
 
 const BoxContainer = styled.div`
   width: 350px;
@@ -120,7 +121,7 @@ export default function AccountBox(props) {
   };
 
   const contextValue = { switchToSignup, switchToSignin };
-
+  const tokenValidation = useSelector((state) => state.isTokenExpired);
   return (
     <AccountContext.Provider value={contextValue}>
       <BoxContainer>
@@ -133,8 +134,19 @@ export default function AccountBox(props) {
           />
           {active === "signin" && (
             <HeaderContainer>
-              <HeaderText>Ben tornato!</HeaderText>
-              <SmallText>Esegui il login per continuare</SmallText>
+              {!tokenValidation ? (
+                <>
+                  {" "}
+                  <HeaderText>Ben tornato!</HeaderText>
+                  <SmallText>Esegui il login per continuare</SmallText>
+                </>
+              ) : (
+                <>
+                  {" "}
+                  <HeaderText>Sessione scaduta</HeaderText>
+                  <SmallText>Per favore esegui di nuovo il login</SmallText>
+                </>
+              )}
             </HeaderContainer>
           )}
           {active === "signup" && (

@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { Accordion, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import { generateRandomMobileNumber } from "../functions";
+import { evaluateError, generateRandomMobileNumber } from "../functions";
 
 const ProductsRestaurant = () => {
   const darkMode = useSelector((state) => state.darkModeEnabled);
@@ -57,7 +57,7 @@ const ProductsRestaurant = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error();
+          throw res;
         }
       })
       .then((data) => {
@@ -65,6 +65,7 @@ const ProductsRestaurant = () => {
       })
       .catch((err) => {
         console.log(err);
+        evaluateError(err.status, navigate, dispatch);
       });
   };
 

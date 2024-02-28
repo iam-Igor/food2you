@@ -8,7 +8,7 @@ import {
   Row,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { generateRandomMobileNumber } from "../functions";
+import { evaluateError, generateRandomMobileNumber } from "../functions";
 import {
   Avatar,
   Card,
@@ -117,7 +117,7 @@ const NewOrderPage = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error();
+          throw res;
         }
       })
       .then((data) => {
@@ -127,8 +127,7 @@ const NewOrderPage = () => {
         }, 2000);
       })
       .catch((err) => {
-        console.log(err);
-        navigate("/bad_request");
+        evaluateError(err.status, navigate, dispatch);
       });
   };
 

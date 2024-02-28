@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import mapPlaceholder from "../assets/img/map-placeholder.jpg";
 import { Alert } from "@mui/material";
+import { evaluateError } from "../functions";
+import { useNavigate } from "react-router-dom";
 
 const containerStyle = {
   width: "100%",
@@ -15,6 +17,7 @@ const SelectCityModal = ({ show, setShow }) => {
   const [address, setAddress] = useState("");
   const [cityName, setCityName] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [showAlertError, setShowAlertError] = useState(false);
 
@@ -36,7 +39,7 @@ const SelectCityModal = ({ show, setShow }) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("error");
+          throw res;
         }
       })
       .then((data) => {
@@ -56,6 +59,7 @@ const SelectCityModal = ({ show, setShow }) => {
       })
       .catch((err) => {
         console.log(err);
+        evaluateError(err.status, navigate, dispatch);
       });
   };
 

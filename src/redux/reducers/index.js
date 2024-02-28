@@ -13,6 +13,7 @@ const initialState = {
   showOrdersBadge: false,
   newestOrder: 0,
   darkModeEnabled: false,
+  isTokenExpired: false,
 };
 
 const mainReducer = (state = initialState, action) => {
@@ -21,6 +22,11 @@ const mainReducer = (state = initialState, action) => {
       return {
         ...state,
         showModalregister: action.payload,
+      };
+    case "SET_TOKEN_EXPIRED":
+      return {
+        ...state,
+        isTokenExpired: action.payload,
       };
     case "SHOW_ORDER_BADGES":
       return {

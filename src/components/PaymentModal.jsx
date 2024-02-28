@@ -12,7 +12,7 @@ import paymenLogos from "../assets/img/Credit-Card-Icons-removebg-preview.png";
 import { Alert } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addCreditCard, getCreditCardInfo } from "../functions";
+import { addCreditCard, evaluateError, getCreditCardInfo } from "../functions";
 
 const PaymentModal = ({ show, setShow, total }) => {
   const [fullName, setFullName] = useState("");
@@ -45,8 +45,10 @@ const PaymentModal = ({ show, setShow, total }) => {
 
   const getPaymentInfo = () => {
     getCreditCardInfo().then((res) => {
-      if (res) {
+      if (typeof res === Object) {
         setPaymentData(res);
+      } else {
+        console.log(res);
       }
     });
   };
@@ -71,7 +73,7 @@ const PaymentModal = ({ show, setShow, total }) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("errore nel login");
+          throw res;
         }
       })
       .then((data) => {
@@ -84,7 +86,7 @@ const PaymentModal = ({ show, setShow, total }) => {
       })
       .catch((err) => {
         console.log(err);
-        navigate("/bad_request");
+        evaluateError(err.status, navigate, dispatch);
       });
   };
 
@@ -101,7 +103,7 @@ const PaymentModal = ({ show, setShow, total }) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("error");
+          throw res;
         }
       })
       .then((data) => {
@@ -117,6 +119,7 @@ const PaymentModal = ({ show, setShow, total }) => {
       })
       .catch((err) => {
         console.log(err);
+        evaluateError(err.status, navigate, dispatch);
       });
   };
 
@@ -138,7 +141,7 @@ const PaymentModal = ({ show, setShow, total }) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("ERRORE NEL CARICAMENTO DEI DATI UTENTE");
+          throw res;
         }
       })
       .then((data) => {
@@ -148,7 +151,7 @@ const PaymentModal = ({ show, setShow, total }) => {
       })
       .catch((err) => {
         console.log(err);
-        navigate("/bad_request");
+        evaluateError(err.status, navigate, dispatch);
       });
   };
 
@@ -158,7 +161,7 @@ const PaymentModal = ({ show, setShow, total }) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("errore nel caricamento dei dati");
+          throw res;
         }
       })
       .then((data) => {
@@ -175,7 +178,7 @@ const PaymentModal = ({ show, setShow, total }) => {
       })
       .catch((err) => {
         console.log(err);
-        navigate("/bad_request");
+        evaluateError(err.status, navigate, dispatch);
       });
   };
 
@@ -191,6 +194,8 @@ const PaymentModal = ({ show, setShow, total }) => {
           setSaved(true);
           setSavedPaymentInfo(true);
           setPaymentData(res);
+        } else {
+          evaluateError(res.status, navigate, dispatch);
         }
       });
     }

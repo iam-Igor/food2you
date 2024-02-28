@@ -12,6 +12,7 @@ import bottomBgDark from "../assets/img/darkMode/reviews_bottom-dark.svg";
 import { Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { evaluateError } from "../functions";
 
 const ReviewsSection = () => {
   const [reviews, setReviews] = useState(null);
@@ -86,13 +87,14 @@ const ReviewsSection = () => {
             setError(false);
             setShow(false);
           } else {
-            throw new Error("errore nel salvataggio della review");
+            throw res;
           }
         })
         .catch((err) => {
           console.log(err);
           setShow(false);
           setError(false);
+          evaluateError(err.status, navigate, dispatch);
         });
     } else {
       setError(true);
@@ -105,7 +107,7 @@ const ReviewsSection = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("Error in fetching reviews data");
+          throw res;
         }
       })
       .then((data) => {
@@ -113,7 +115,7 @@ const ReviewsSection = () => {
       })
       .catch((err) => {
         console.log(err);
-        // navigate("/bad_request");
+        evaluateError(err.status, navigate, dispatch);
       });
   };
 

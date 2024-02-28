@@ -26,9 +26,10 @@ import {
   addCreditCard,
   deleteCreditCard,
   deleteMyProfile,
+  evaluateError,
   getCreditCardInfo,
 } from "../functions";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import masterCardLogo from "../assets/img/kisspng-logo-mastercard-pentagram-flat-design-5cf7d971c33dd7.2271635715597469297997.png";
 
 const UserProfile = () => {
@@ -71,6 +72,7 @@ const UserProfile = () => {
   const [cardNumber, setCardNumber] = useState(0);
   const [cvv, setCvv] = useState(0);
   const [expiringDate, setExpiringdate] = useState("");
+  const dispatch = useDispatch();
 
   const [creditCardData, setCreditCarddata] = useState(null);
 
@@ -94,6 +96,8 @@ const UserProfile = () => {
         if (res) {
           setSaved(true);
           return res;
+        } else {
+          evaluateError(res.status, navigate, dispatch);
         }
       });
     }
@@ -129,7 +133,7 @@ const UserProfile = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("ERRORE NEL CARICAMENTO DEI DATI UTENTE");
+          throw res;
         }
       })
       .then((data) => {
@@ -145,7 +149,7 @@ const UserProfile = () => {
       })
       .catch((err) => {
         console.log(err);
-        navigate("/bad_request");
+        evaluateError(err.status, navigate, dispatch);
       });
   };
 
@@ -160,7 +164,7 @@ const UserProfile = () => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Errore durante la richiesta");
+          throw response;
         }
         setImageUploaded(true);
         setIsImageUploading(false);
@@ -169,7 +173,6 @@ const UserProfile = () => {
       .catch((error) => {
         console.error("Si è verificato un errore durante la richiesta:", error);
         setIsImageUploading(false);
-        // navigate("/bad_request");
       });
   };
 
@@ -187,7 +190,7 @@ const UserProfile = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("errore nel login");
+          throw res;
         }
       })
       .then((data) => {
@@ -195,7 +198,7 @@ const UserProfile = () => {
       })
       .catch((err) => {
         console.log(err);
-        navigate("/bad_request");
+        evaluateError(err.status, navigate, dispatch);
       });
   };
 
@@ -203,6 +206,7 @@ const UserProfile = () => {
     getCreditCardInfo().then((res) => {
       if (res) {
         setCreditCarddata(res);
+      } else {
       }
     });
     getUserData();
@@ -551,6 +555,8 @@ const UserProfile = () => {
                               if (res) {
                                 setShowDeleteCardConfirm(false);
                                 window.location.reload();
+                              } else {
+                                console.log(res);
                               }
                             });
                           }}

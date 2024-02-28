@@ -19,13 +19,15 @@ import MainContent from "./MainContent";
 import RestaurantsCarousel from "./RestaurantsCarousel";
 import InfoSection from "./InfoSection";
 import ReviewsSection from "./ReviewsSection";
-import { getCategoriesMostUsed } from "../functions";
+import { evaluateError } from "../functions";
 import MostUsedCategories from "./MostUsedCategories";
+import { useNavigate } from "react-router-dom";
 
 const Homepage = () => {
   const [formVisible, setFormVisible] = useState(false);
   const selectedCity = useSelector((state) => state.userPosition);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showCityModal, setShowCityModal] = useState(false);
 
   const darkMode = useSelector((state) => state.darkModeEnabled);
@@ -46,7 +48,7 @@ const Homepage = () => {
       .then((response) => {
         if (!response.ok) {
           setIsLoading(false);
-          throw new Error("Failed to fetch data");
+          throw response;
         }
         setIsLoading(false);
         return response.json();
@@ -66,7 +68,8 @@ const Homepage = () => {
         }
       })
       .catch((error) => {
-        setError(error.message);
+        setError(error.status);
+        evaluateError(error.status, navigate, dispatch);
       });
   };
 

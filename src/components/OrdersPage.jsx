@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getOrdersData } from "../functions";
+import { evaluateError, getOrdersData } from "../functions";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState(null);
@@ -70,7 +70,7 @@ const OrdersPage = () => {
 
         setOrders(res);
       } else {
-        navigate("bad_request");
+        evaluateError(res.status, navigate, dispatch);
       }
     });
   };

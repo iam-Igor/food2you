@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import restmarker from "../assets/img/rest_marker.png";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { evaluateError } from "../functions";
 
 const RestaurantDetail = () => {
   const urlParams = useParams();
@@ -62,7 +63,7 @@ const RestaurantDetail = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error();
+          throw res;
         }
       })
       .then((data) => {
@@ -70,7 +71,7 @@ const RestaurantDetail = () => {
       })
       .catch((err) => {
         console.log(err);
-        navigate("/bad_request");
+        evaluateError(err.status, navigate, dispatch);
       });
   };
 

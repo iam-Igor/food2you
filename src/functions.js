@@ -1,5 +1,3 @@
-// Profilo
-
 export const deleteMyProfile = () => {
   return fetch("http://localhost:3030/users/me", {
     method: "DELETE",
@@ -11,11 +9,12 @@ export const deleteMyProfile = () => {
       if (res.ok) {
         return true;
       } else {
-        throw new Error("Errore nell' eliminazione del profilo");
+        throw res;
       }
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -42,7 +41,7 @@ export const autoLoginClient = (payload) => {
         return res.json();
       } else {
         // setLoginError(true);
-        throw new Error("errore nel login");
+        throw res;
       }
     })
     .then((data) => {
@@ -54,6 +53,7 @@ export const autoLoginClient = (payload) => {
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -71,7 +71,7 @@ export const addCreditCard = (payload) => {
         return res.json();
       } else {
         console.log(payload);
-        throw new Error("errore nel salvataggio della carta");
+        throw res;
       }
     })
     .then((data) => {
@@ -80,6 +80,7 @@ export const addCreditCard = (payload) => {
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -93,7 +94,7 @@ export const getCreditCardInfo = () => {
       if (res.ok) {
         return res.json();
       } else {
-        throw new Error("Errore nel caricamento dei dati ristorante");
+        throw res;
       }
     })
     .then((data) => {
@@ -117,7 +118,7 @@ export const deleteCreditCard = (id) => {
         console.log("eliminata");
         return true;
       } else {
-        throw new Error("Errore nell' eliminazione della carta!");
+        throw res;
       }
     })
     .catch((err) => {
@@ -135,7 +136,7 @@ export const getAllRestaurants = () => {
       if (res.ok) {
         return res.json();
       } else {
-        throw new Error("Errore nel caricamento dei dati ristorante");
+        throw res;
       }
     })
     .then((data) => {
@@ -143,6 +144,7 @@ export const getAllRestaurants = () => {
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -159,11 +161,12 @@ export const addNewRestaurant = (payload) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw new Error("Errore nell' upload del ristorante");
+        throw res;
       }
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -181,11 +184,12 @@ export const updateRestaurant = (id, payload) => {
         console.log("modificato");
         return res.json();
       } else {
-        throw new Error("Errore nell' upload del ristorante");
+        throw res;
       }
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -200,11 +204,12 @@ export const deleteRestaurant = (id) => {
       if (res.ok) {
         return true;
       } else {
-        throw new Error("Errore nell' eliminazione del ristorante");
+        throw res;
       }
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -219,7 +224,7 @@ export const filterByCityAndSummary = (city, summary) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw new Error("errore nella ricerca del ristorante");
+        throw res;
       }
     })
     .then((data) => {
@@ -227,6 +232,7 @@ export const filterByCityAndSummary = (city, summary) => {
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -241,13 +247,14 @@ export const uploadRestaurantPicture = (id, image) => {
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error("Errore durante la richiesta");
+        throw response;
       }
 
       return response.url;
     })
     .catch((error) => {
       console.error("Si è verificato un errore durante la richiesta:", error);
+      throw error;
     });
 };
 
@@ -264,13 +271,14 @@ export const uploadProductPicture = (id, image) => {
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error("Errore durante la richiesta");
+        throw response;
       }
 
       return response.url;
     })
     .catch((error) => {
       console.error("Si è verificato un errore durante la richiesta:", error);
+      throw error;
     });
 };
 
@@ -288,11 +296,12 @@ export const addNewProduct = (payload) => {
         console.log("prodotto caricato!");
         return res.json();
       } else {
-        throw new Error("Errore nell' upload del prodotto");
+        throw res;
       }
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -318,7 +327,7 @@ export const getAllProducts = (page, size, order) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw new Error("errore nel caricamento dei prodotti");
+        throw res;
       }
     })
     .then((data) => {
@@ -327,6 +336,7 @@ export const getAllProducts = (page, size, order) => {
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -353,7 +363,7 @@ export const findProdsByName = (page, size, order, name) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw new Error("errore nella ricerca dei prodotti");
+        throw res;
       }
     })
     .then((data) => {
@@ -362,6 +372,7 @@ export const findProdsByName = (page, size, order, name) => {
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -379,11 +390,12 @@ export const updateProduct = (payload, id) => {
         console.log("prodotto modificato!");
         return res.json();
       } else {
-        throw new Error("Errore nell' upload del prodotto");
+        throw res;
       }
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -398,11 +410,12 @@ export const deleteProduct = (id) => {
       if (res.ok) {
         return true;
       } else {
-        throw new Error("Errore nell' eliminazione del ristorante");
+        throw res;
       }
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -434,7 +447,7 @@ export const getAllorders = (page, size, order) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw new Error("errore nella ricerca dei prodotti");
+        throw res;
       }
     })
     .then((data) => {
@@ -443,6 +456,7 @@ export const getAllorders = (page, size, order) => {
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -474,7 +488,7 @@ export const getAllusers = (page, size, order) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw new Error("errore nella ricerca dei prodotti");
+        throw res;
       }
     })
     .then((data) => {
@@ -483,6 +497,7 @@ export const getAllusers = (page, size, order) => {
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -496,7 +511,7 @@ export const getOrdersData = () => {
       if (res.ok) {
         return res.json();
       } else {
-        throw new Error();
+        throw res;
       }
     })
     .then((data) => {
@@ -504,6 +519,7 @@ export const getOrdersData = () => {
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -522,7 +538,7 @@ export const getPositionData = (address, cityName) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw new Error("error");
+        throw res;
       }
     })
     .then((data) => {
@@ -531,6 +547,7 @@ export const getPositionData = (address, cityName) => {
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -545,7 +562,7 @@ export const getPositionDataSingleString = (address) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw new Error("error");
+        throw res;
       }
     })
     .then((data) => {
@@ -554,6 +571,7 @@ export const getPositionDataSingleString = (address) => {
     })
     .catch((err) => {
       console.log(err);
+      throw err;
     });
 };
 
@@ -568,7 +586,7 @@ export const getCategoriesMostUsed = () => {
         console.log(res);
         return res.json();
       } else {
-        throw new Error("Errore nella ricerca delle categorie più usate");
+        throw res;
       }
     })
     .then((data) => {
@@ -576,6 +594,37 @@ export const getCategoriesMostUsed = () => {
       return data;
     })
     .catch((err) => {
-      console.log(err);
+      throw err;
     });
+};
+
+// VALUTAZIONE ERRORI
+
+export const evaluateError = (err, navigate, dispatch) => {
+  switch (err) {
+    case 400: {
+      navigate("/bad_request");
+      break;
+    }
+    case 401: {
+      dispatch({ type: "SET_TOKEN_EXPIRED", payload: true });
+      dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+      break;
+    }
+    case 403: {
+      navigate("/access_denied");
+      break;
+    }
+    case 404: {
+      navigate("/*");
+      break;
+    }
+    case 500: {
+      navigate("/server_error");
+      break;
+    }
+    default: {
+      navigate("/server_error");
+    }
+  }
 };
