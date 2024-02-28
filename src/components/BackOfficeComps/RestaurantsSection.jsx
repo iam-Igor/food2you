@@ -11,6 +11,7 @@ import {
 import {
   addNewRestaurant,
   deleteRestaurant,
+  evaluateError,
   filterByCityAndSummary,
   getAllRestaurants,
   getPositionData,
@@ -28,6 +29,7 @@ import {
 
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const RestaurantsSection = () => {
   const [restaurantData, setRestaurantData] = useState(null);
@@ -36,6 +38,7 @@ const RestaurantsSection = () => {
   const [ordersData, setOrdersdata] = useState(null);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [showAddressError, setShowAddressError] = useState(false);
 
@@ -103,16 +106,24 @@ const RestaurantsSection = () => {
 
   const getDatas = () => {
     getAllRestaurants().then((data) => {
-      setRestaurantData(data);
-      setArrayToShow(data);
-      setShowRestSection(!showRestSection);
+      if (typeof data !== "number") {
+        setRestaurantData(data);
+        setArrayToShow(data);
+        setShowRestSection(!showRestSection);
+      } else {
+        evaluateError(data, navigate, dispatch);
+      }
     });
   };
 
   const filteredRestArray = (city, summary) => {
     if (citySelected !== "" && summarySelected !== "") {
       filterByCityAndSummary(city, summary).then((data) => {
-        setMainArray(data);
+        if (typeof data !== "number") {
+          setMainArray(data);
+        } else {
+          evaluateError(data, navigate, dispatch);
+        }
       });
     }
   };
@@ -140,30 +151,35 @@ const RestaurantsSection = () => {
 
   const saveNewRestaurant = () => {
     addNewRestaurant(restaurantPayload).then((res) => {
-      if (res) {
+      if (typeof res !== "number") {
         setSavedRestaurant(true);
         setTimeout(() => {
           setAddNewrest(false);
           setSavedRestaurant(false);
         }, 2000);
       } else {
+        evaluateError(res, navigate, dispatch);
       }
     });
   };
 
   const updateRest = (id) => {
     updateRestaurant(id, restaurantPayload).then((res) => {
-      if (res) {
+      if (typeof res !== "number") {
         setRestUpdated(!restUpdated);
+      } else {
+        evaluateError(res, navigate, dispatch);
       }
     });
   };
 
   const deleteRest = (id) => {
     deleteRestaurant(id).then((res) => {
-      if (res) {
+      if (typeof res !== "number") {
         setRestUpdated(!restUpdated);
         setShowRestdetails(false);
+      } else {
+        evaluateError(res, navigate, dispatch);
       }
     });
   };
@@ -171,7 +187,11 @@ const RestaurantsSection = () => {
   useEffect(() => {
     if (citySelected === "" && summarySelected === "") {
       getAllRestaurants().then((data) => {
-        setRestaurantData(data);
+        if (typeof data !== "number") {
+          setRestaurantData(data);
+        } else {
+          evaluateError(data, navigate, dispatch);
+        }
       });
     } else {
       filteredRestArray(citySelected, summarySelected);

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Form, ListGroup, Modal } from "react-bootstrap";
-import { getAllusers } from "../../functions";
+import { evaluateError, getAllusers } from "../../functions";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const UserSection = () => {
   const [showSection, setShowSection] = useState(false);
@@ -15,9 +17,16 @@ const UserSection = () => {
 
   const [selectedUser, setSelectedUser] = useState(null);
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const getUsers = () => {
     getAllusers(page, size, order).then((data) => {
-      setUserData(data);
+      if (typeof data !== "number") {
+        setUserData(data);
+      } else {
+        evaluateError(data, navigate, dispatch);
+      }
     });
   };
 

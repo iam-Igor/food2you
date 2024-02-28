@@ -57,7 +57,7 @@ const OrderStatus = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res;
+          evaluateError(res.status, navigate, dispatch);
         }
       })
       .then((data) => {
@@ -69,7 +69,7 @@ const OrderStatus = () => {
         setOrderStatus(data.orderStatus);
         if (data.orderStatus !== "CONSEGNATO") {
           getPositionDataSingleString(data.userPosition).then((res) => {
-            if (res) {
+            if (typeof res !== "number") {
               setUserLat(res.results[0].geometry.location.lat);
               setUserLon(res.results[0].geometry.location.lng);
             } else {
@@ -109,12 +109,11 @@ const OrderStatus = () => {
       .then((res) => {
         if (res.ok) {
         } else {
-          throw res;
+          evaluateError(res.status, navigate, dispatch);
         }
       })
       .catch((err) => {
         console.log(err);
-        evaluateError(err.status, navigate, dispatch);
       });
   };
 

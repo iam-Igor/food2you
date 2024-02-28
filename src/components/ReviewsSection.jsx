@@ -87,14 +87,13 @@ const ReviewsSection = () => {
             setError(false);
             setShow(false);
           } else {
-            throw res;
+            evaluateError(res.status, navigate, dispatch);
           }
         })
         .catch((err) => {
           console.log(err);
           setShow(false);
           setError(false);
-          evaluateError(err.status, navigate, dispatch);
         });
     } else {
       setError(true);
@@ -107,7 +106,7 @@ const ReviewsSection = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res;
+          evaluateError(res.status, navigate, dispatch);
         }
       })
       .then((data) => {
@@ -115,7 +114,6 @@ const ReviewsSection = () => {
       })
       .catch((err) => {
         console.log(err);
-        evaluateError(err.status, navigate, dispatch);
       });
   };
 

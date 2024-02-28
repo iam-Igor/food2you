@@ -26,7 +26,7 @@ const OrdersPage = () => {
 
   const getOrders = () => {
     getOrdersData().then((res) => {
-      if (res) {
+      if (typeof res !== "number") {
         switch (filterBy) {
           case "id": {
             if (orderFilter === "asc") {
@@ -70,7 +70,7 @@ const OrdersPage = () => {
 
         setOrders(res);
       } else {
-        evaluateError(res.status, navigate, dispatch);
+        evaluateError(res, navigate, dispatch);
       }
     });
   };

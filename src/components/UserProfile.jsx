@@ -93,11 +93,11 @@ const UserProfile = () => {
       expiringDate !== ""
     ) {
       addCreditCard(paymentPayload).then((res) => {
-        if (res) {
+        if (typeof res !== "number") {
           setSaved(true);
           return res;
         } else {
-          evaluateError(res.status, navigate, dispatch);
+          evaluateError(res, navigate, dispatch);
         }
       });
     }
@@ -133,7 +133,7 @@ const UserProfile = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res;
+          evaluateError(res.status, navigate, dispatch);
         }
       })
       .then((data) => {
@@ -149,7 +149,6 @@ const UserProfile = () => {
       })
       .catch((err) => {
         console.log(err);
-        evaluateError(err.status, navigate, dispatch);
       });
   };
 
@@ -164,7 +163,7 @@ const UserProfile = () => {
     })
       .then((response) => {
         if (!response.ok) {
-          throw response;
+          evaluateError(response.status, navigate, dispatch);
         }
         setImageUploaded(true);
         setIsImageUploading(false);
@@ -190,7 +189,7 @@ const UserProfile = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res;
+          evaluateError(res.status, navigate, dispatch);
         }
       })
       .then((data) => {
@@ -198,15 +197,15 @@ const UserProfile = () => {
       })
       .catch((err) => {
         console.log(err);
-        evaluateError(err.status, navigate, dispatch);
       });
   };
 
   useEffect(() => {
     getCreditCardInfo().then((res) => {
-      if (res) {
+      if (typeof res !== "number") {
         setCreditCarddata(res);
       } else {
+        evaluateError(res, navigate, dispatch);
       }
     });
     getUserData();

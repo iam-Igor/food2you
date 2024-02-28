@@ -63,7 +63,7 @@ const RestaurantDetail = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res;
+          evaluateError(res.status, navigate, dispatch);
         }
       })
       .then((data) => {
@@ -71,7 +71,6 @@ const RestaurantDetail = () => {
       })
       .catch((err) => {
         console.log(err);
-        evaluateError(err.status, navigate, dispatch);
       });
   };
 

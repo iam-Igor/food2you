@@ -45,10 +45,10 @@ const PaymentModal = ({ show, setShow, total }) => {
 
   const getPaymentInfo = () => {
     getCreditCardInfo().then((res) => {
-      if (typeof res === Object) {
+      if (typeof res !== "number") {
         setPaymentData(res);
       } else {
-        console.log(res);
+        evaluateError(res, navigate, dispatch);
       }
     });
   };
@@ -73,7 +73,7 @@ const PaymentModal = ({ show, setShow, total }) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res;
+          evaluateError(res.status, navigate, dispatch);
         }
       })
       .then((data) => {
@@ -86,7 +86,6 @@ const PaymentModal = ({ show, setShow, total }) => {
       })
       .catch((err) => {
         console.log(err);
-        evaluateError(err.status, navigate, dispatch);
       });
   };
 
@@ -103,7 +102,7 @@ const PaymentModal = ({ show, setShow, total }) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res;
+          evaluateError(res.status, navigate, dispatch);
         }
       })
       .then((data) => {
@@ -119,7 +118,6 @@ const PaymentModal = ({ show, setShow, total }) => {
       })
       .catch((err) => {
         console.log(err);
-        evaluateError(err.status, navigate, dispatch);
       });
   };
 
@@ -141,7 +139,7 @@ const PaymentModal = ({ show, setShow, total }) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res;
+          evaluateError(res.status, navigate, dispatch);
         }
       })
       .then((data) => {
@@ -151,7 +149,6 @@ const PaymentModal = ({ show, setShow, total }) => {
       })
       .catch((err) => {
         console.log(err);
-        evaluateError(err.status, navigate, dispatch);
       });
   };
 
@@ -161,7 +158,7 @@ const PaymentModal = ({ show, setShow, total }) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res;
+          evaluateError(res.status, navigate, dispatch);
         }
       })
       .then((data) => {
@@ -178,7 +175,6 @@ const PaymentModal = ({ show, setShow, total }) => {
       })
       .catch((err) => {
         console.log(err);
-        evaluateError(err.status, navigate, dispatch);
       });
   };
 
@@ -190,12 +186,12 @@ const PaymentModal = ({ show, setShow, total }) => {
       expiringDate !== ""
     ) {
       addCreditCard(paymentPayload).then((res) => {
-        if (res) {
+        if (typeof res !== "number") {
           setSaved(true);
           setSavedPaymentInfo(true);
           setPaymentData(res);
         } else {
-          evaluateError(res.status, navigate, dispatch);
+          evaluateError(res, navigate, dispatch);
         }
       });
     }

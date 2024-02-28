@@ -9,12 +9,11 @@ export const deleteMyProfile = () => {
       if (res.ok) {
         return true;
       } else {
-        throw res;
+        return res.status;
       }
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -41,7 +40,7 @@ export const autoLoginClient = (payload) => {
         return res.json();
       } else {
         // setLoginError(true);
-        throw res;
+        return res.status;
       }
     })
     .then((data) => {
@@ -53,7 +52,6 @@ export const autoLoginClient = (payload) => {
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -70,8 +68,7 @@ export const addCreditCard = (payload) => {
       if (res.ok) {
         return res.json();
       } else {
-        console.log(payload);
-        throw res;
+        return res.status;
       }
     })
     .then((data) => {
@@ -80,7 +77,6 @@ export const addCreditCard = (payload) => {
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -94,7 +90,7 @@ export const getCreditCardInfo = () => {
       if (res.ok) {
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .then((data) => {
@@ -118,7 +114,7 @@ export const deleteCreditCard = (id) => {
         console.log("eliminata");
         return true;
       } else {
-        throw res;
+        return res.status;
       }
     })
     .catch((err) => {
@@ -136,7 +132,7 @@ export const getAllRestaurants = () => {
       if (res.ok) {
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .then((data) => {
@@ -144,7 +140,6 @@ export const getAllRestaurants = () => {
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -161,12 +156,11 @@ export const addNewRestaurant = (payload) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -184,12 +178,11 @@ export const updateRestaurant = (id, payload) => {
         console.log("modificato");
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -204,12 +197,11 @@ export const deleteRestaurant = (id) => {
       if (res.ok) {
         return true;
       } else {
-        throw res;
+        return res.status;
       }
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -224,7 +216,7 @@ export const filterByCityAndSummary = (city, summary) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .then((data) => {
@@ -232,7 +224,6 @@ export const filterByCityAndSummary = (city, summary) => {
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -247,14 +238,13 @@ export const uploadRestaurantPicture = (id, image) => {
   })
     .then((response) => {
       if (!response.ok) {
-        throw response;
+        return response.status;
       }
 
       return response.url;
     })
     .catch((error) => {
       console.error("Si è verificato un errore durante la richiesta:", error);
-      throw error;
     });
 };
 
@@ -271,14 +261,13 @@ export const uploadProductPicture = (id, image) => {
   })
     .then((response) => {
       if (!response.ok) {
-        throw response;
+        return response.status;
       }
 
       return response.url;
     })
     .catch((error) => {
       console.error("Si è verificato un errore durante la richiesta:", error);
-      throw error;
     });
 };
 
@@ -296,12 +285,11 @@ export const addNewProduct = (payload) => {
         console.log("prodotto caricato!");
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -327,7 +315,7 @@ export const getAllProducts = (page, size, order) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .then((data) => {
@@ -336,7 +324,6 @@ export const getAllProducts = (page, size, order) => {
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -363,7 +350,7 @@ export const findProdsByName = (page, size, order, name) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .then((data) => {
@@ -372,7 +359,6 @@ export const findProdsByName = (page, size, order, name) => {
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -390,12 +376,11 @@ export const updateProduct = (payload, id) => {
         console.log("prodotto modificato!");
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -410,12 +395,11 @@ export const deleteProduct = (id) => {
       if (res.ok) {
         return true;
       } else {
-        throw res;
+        return res.status;
       }
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -447,7 +431,7 @@ export const getAllorders = (page, size, order) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .then((data) => {
@@ -456,7 +440,6 @@ export const getAllorders = (page, size, order) => {
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -488,7 +471,7 @@ export const getAllusers = (page, size, order) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .then((data) => {
@@ -497,7 +480,6 @@ export const getAllusers = (page, size, order) => {
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -511,7 +493,7 @@ export const getOrdersData = () => {
       if (res.ok) {
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .then((data) => {
@@ -519,7 +501,6 @@ export const getOrdersData = () => {
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -538,7 +519,7 @@ export const getPositionData = (address, cityName) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .then((data) => {
@@ -547,7 +528,6 @@ export const getPositionData = (address, cityName) => {
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -562,7 +542,7 @@ export const getPositionDataSingleString = (address) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .then((data) => {
@@ -571,7 +551,6 @@ export const getPositionDataSingleString = (address) => {
     })
     .catch((err) => {
       console.log(err);
-      throw err;
     });
 };
 
@@ -586,7 +565,7 @@ export const getCategoriesMostUsed = () => {
         console.log(res);
         return res.json();
       } else {
-        throw res;
+        return res.status;
       }
     })
     .then((data) => {
@@ -594,7 +573,7 @@ export const getCategoriesMostUsed = () => {
       return data;
     })
     .catch((err) => {
-      throw err;
+      console.log(err);
     });
 };
 

@@ -48,7 +48,8 @@ const Homepage = () => {
       .then((response) => {
         if (!response.ok) {
           setIsLoading(false);
-          throw response;
+          evaluateError(response.status, navigate, dispatch);
+          throw new Error();
         }
         setIsLoading(false);
         return response.json();
@@ -69,7 +70,6 @@ const Homepage = () => {
       })
       .catch((error) => {
         setError(error.status);
-        evaluateError(error.status, navigate, dispatch);
       });
   };
 

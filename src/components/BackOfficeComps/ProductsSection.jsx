@@ -12,6 +12,7 @@ import {
 import {
   addNewProduct,
   deleteProduct,
+  evaluateError,
   findProdsByName,
   getAllProducts,
   getAllRestaurants,
@@ -26,6 +27,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const ProductsSection = () => {
   //overlay
@@ -68,6 +71,9 @@ const ProductsSection = () => {
   // setto il prodotto scelto
   const [chosenProduct, setChosenProduct] = useState(null);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   // hooks per il payload
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0.0);
@@ -89,7 +95,11 @@ const ProductsSection = () => {
 
   const getProducts = () => {
     getAllProducts(page, size, order).then((data) => {
-      setProducts(data);
+      if (typeof data !== "number") {
+        setProducts(data);
+      } else {
+        evaluateError(data, navigate, dispatch);
+      }
     });
   };
 
@@ -114,7 +124,11 @@ const ProductsSection = () => {
 
   const getRestaurants = () => {
     getAllRestaurants().then((data) => {
-      setRestaurants(data);
+      if (typeof data !== "number") {
+        setRestaurants(data);
+      } else {
+        evaluateError(data, navigate, dispatch);
+      }
     });
   };
 
@@ -133,7 +147,11 @@ const ProductsSection = () => {
     getProducts();
     if (searchInput !== "") {
       findProdsByName(page, size, order, searchInput).then((data) => {
-        setProducts(data);
+        if (typeof data !== "number") {
+          setProducts(data);
+        } else {
+          evaluateError(data, navigate, dispatch);
+        }
       });
     }
   }, [order, page, size, searchInput]);

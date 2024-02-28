@@ -1,6 +1,8 @@
 import { Button, Col, Form, ListGroup, Modal } from "react-bootstrap";
-import { getAllorders } from "../../functions";
+import { evaluateError, getAllorders } from "../../functions";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const OrdersSection = () => {
   const [page, setpage] = useState(0);
@@ -17,9 +19,16 @@ const OrdersSection = () => {
 
   const [showOrders, setShowOrders] = useState(false);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const getOrders = () => {
     getAllorders(page, size, order).then((data) => {
-      setOrderdata(data);
+      if (typeof data !== "number") {
+        setOrderdata(data);
+      } else {
+        evaluateError(data, navigate, dispatch);
+      }
     });
   };
 

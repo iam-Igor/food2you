@@ -35,7 +35,7 @@ const MainContent = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res;
+          evaluateError(res.status, navigate, dispatch);
         }
       })
       .then((data) => {
@@ -43,7 +43,6 @@ const MainContent = () => {
       })
       .catch((err) => {
         console.log(err.status);
-        evaluateError(err.status, navigate, dispatch);
       });
   };
 

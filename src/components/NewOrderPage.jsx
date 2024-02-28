@@ -117,7 +117,7 @@ const NewOrderPage = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res;
+          evaluateError(res.status, navigate, dispatch);
         }
       })
       .then((data) => {
@@ -127,7 +127,7 @@ const NewOrderPage = () => {
         }, 2000);
       })
       .catch((err) => {
-        evaluateError(err.status, navigate, dispatch);
+        console.log(err);
       });
   };
 

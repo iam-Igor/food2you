@@ -39,7 +39,7 @@ const SelectCityModal = ({ show, setShow }) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res;
+          evaluateError(res.status, navigate, dispatch);
         }
       })
       .then((data) => {
@@ -59,7 +59,6 @@ const SelectCityModal = ({ show, setShow }) => {
       })
       .catch((err) => {
         console.log(err);
-        evaluateError(err.status, navigate, dispatch);
       });
   };
 
