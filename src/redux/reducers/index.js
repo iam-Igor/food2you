@@ -14,6 +14,7 @@ const initialState = {
   newestOrder: 0,
   darkModeEnabled: false,
   isTokenExpired: false,
+  showFirstLoginNotification: false,
 };
 
 const mainReducer = (state = initialState, action) => {
@@ -37,6 +38,11 @@ const mainReducer = (state = initialState, action) => {
       return {
         ...state,
         showNotification: action.payload,
+      };
+    case "SHOW_LOGIN_NOTIFICATION":
+      return {
+        ...state,
+        showFirstLoginNotification: action.payload,
       };
     case "ENABLE_DARK_MODE":
       return {

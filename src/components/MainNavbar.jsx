@@ -8,6 +8,7 @@ import { Badge } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
+import { evaluateError, getUserData } from "../functions";
 
 const MainNavbar = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,29 @@ const MainNavbar = () => {
   const showBadge = useSelector((state) => state.showOrdersBadge);
   const orderSelected = useSelector((state) => state.newestOrder);
   const showNotification = useSelector((state) => state.showNotification);
+
+  const showLoginNotification = useSelector(
+    (state) => state.showFirstLoginNotification
+  );
+
+  const notifyUserLogin = () => {
+    getUserData().then((res) => {
+      if (typeof res !== "number") {
+        toast("Bentornato, " + res.username + " 🤩", {
+          position: "top-center",
+          hideProgressBar: false,
+          theme: "light",
+          autoClose: 3000,
+          toastId: "customId2",
+        });
+        setTimeout(() => {
+          dispatch({ type: "SHOW_LOGIN_NOTIFICATION", payload: false });
+        }, 4000);
+      } else {
+        evaluateError(res, navigate, dispatch);
+      }
+    });
+  };
 
   const notify = () => {
     toast("🍔  Il tuo ordine è quasi pronto!", {
@@ -38,7 +62,10 @@ const MainNavbar = () => {
     if (showNotification) {
       notify();
     }
-  });
+    if (userData && showLoginNotification) {
+      notifyUserLogin();
+    }
+  }, [userData, showNotification]);
 
   return (
     <>
@@ -172,6 +199,23 @@ const MainNavbar = () => {
           rtl={false}
           pauseOnFocusLoss={false}
           draggable={false}
+          theme="light"
+        />
+      )}
+      {showLoginNotification && (
+        <ToastContainer
+          id="customId2"
+          onClick={() => {
+            dispatch({ type: "SHOW_LOGIN_NOTIFICATION", payload: false });
+          }}
+          position="top-center"
+          limit={1}
+          autoClose={false}
+          newestOnTop={false}
+          closeOnClick={false}
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable={true}
           theme="light"
         />
       )}

@@ -210,7 +210,7 @@ const OrderStatus = () => {
             </Col>
           )}
           {orderDelivered && (
-            <Col className="mb-4 col-12 col-md-8 mt-5">
+            <Col className="mb-4 col-10 col-md-8 mt-5">
               <h4>
                 Il rider è arrivato a destinazione, apri la chat per info!
               </h4>

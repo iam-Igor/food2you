@@ -17,6 +17,27 @@ export const deleteMyProfile = () => {
     });
 };
 
+export const getUserData = () => {
+  return fetch("http://localhost:3030/users/me", {
+    headers: {
+      Authorization: localStorage.getItem("tokenUser"),
+    },
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        return res.status;
+      }
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 export function generateRandomMobileNumber() {
   const countryCode = "+39";
   const mobileNumber =

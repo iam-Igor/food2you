@@ -60,7 +60,8 @@ export function LoginForm(props) {
         console.log(data);
         localStorage.setItem("tokenUser", "Bearer " + data.token);
         setLoginError(false);
-        window.location.reload();
+        // window.location.reload();
+        dispatch({ type: "SHOW_LOGIN_NOTIFICATION", payload: true });
       })
       .catch((err) => {
         console.log(err);
