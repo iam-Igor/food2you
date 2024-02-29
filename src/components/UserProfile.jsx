@@ -95,7 +95,9 @@ const UserProfile = () => {
       addCreditCard(paymentPayload).then((res) => {
         if (typeof res !== "number") {
           setSaved(true);
-          return res;
+          setTimeout(() => {
+            getCreditCard();
+          }, 1500);
         } else {
           evaluateError(res, navigate, dispatch);
         }
@@ -200,7 +202,7 @@ const UserProfile = () => {
       });
   };
 
-  useEffect(() => {
+  const getCreditCard = () => {
     getCreditCardInfo().then((res) => {
       if (typeof res !== "number") {
         setCreditCarddata(res);
@@ -208,6 +210,10 @@ const UserProfile = () => {
         evaluateError(res, navigate, dispatch);
       }
     });
+  };
+
+  useEffect(() => {
+    getCreditCard();
     getUserData();
     window.scrollTo(0, 0);
   }, [imageUploaded]);
@@ -435,9 +441,6 @@ const UserProfile = () => {
                             variant="success rounded-4"
                             onClick={() => {
                               addPayment();
-                              setTimeout(() => {
-                                window.location.reload();
-                              }, 2000);
                             }}
                           >
                             Salva
@@ -551,11 +554,12 @@ const UserProfile = () => {
                           variant="danger"
                           onClick={() => {
                             deleteCreditCard(creditCardData.id).then((res) => {
-                              if (res) {
+                              if (typeof res !== "number") {
                                 setShowDeleteCardConfirm(false);
-                                window.location.reload();
+                                getCreditCard();
+                                setSaved(false);
                               } else {
-                                console.log(res);
+                                evaluateError(res, navigate, dispatch);
                               }
                             });
                           }}

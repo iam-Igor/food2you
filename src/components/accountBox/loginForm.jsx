@@ -13,6 +13,7 @@ import { AccountContext } from "./accountContext";
 import { useDispatch, useSelector } from "react-redux";
 import { Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { evaluateError } from "../../functions";
 
 export function LoginForm(props) {
   const { switchToSignup } = useContext(AccountContext);
@@ -47,8 +48,12 @@ export function LoginForm(props) {
           dispatch({ type: "SHOW_LOGIN_MODAL", payload: false });
           return res.json();
         } else {
-          setLoginError(true);
-          throw new Error("errore nel login");
+          if (res.status === 401) {
+            setLoginError(true);
+          } else {
+            evaluateError(res.status, navigate, dispatch);
+            throw new Error("errore nel login");
+          }
         }
       })
       .then((data) => {

@@ -10,7 +10,7 @@ import {
 } from "./common";
 import { Marginer } from "../marginer";
 import { AccountContext } from "./accountContext";
-import { autoLoginClient } from "../../functions";
+import { autoLoginClient, evaluateError } from "../../functions";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Alert } from "react-bootstrap";
@@ -57,6 +57,7 @@ export function SignupForm(props) {
         if (res.ok) {
           return res.json();
         } else {
+          evaluateError(res.status, navigate, dispatch);
           throw new Error("errore nella registrazione");
         }
       })
