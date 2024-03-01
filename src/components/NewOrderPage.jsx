@@ -8,7 +8,11 @@ import {
   Row,
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { evaluateError, generateRandomMobileNumber } from "../functions";
+import {
+  evaluateError,
+  generateRandomMobileNumber,
+  getRestaurantById,
+} from "../functions";
 import {
   Avatar,
   Card,
@@ -23,11 +27,13 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Parallax } from "react-scroll-parallax";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const NewOrderPage = () => {
-  const restaurantData = useSelector((state) => state.restaurantSelected);
+  const [restaurantData, setRestaurantData] = useState(null);
   const cartItems = useSelector((state) => state.cart);
+
+  const params = useParams();
 
   const [isBouncing, setIsBouncing] = useState(false);
 
@@ -103,6 +109,17 @@ const NewOrderPage = () => {
     }
   };
 
+  const getRestaurant = () => {
+    getRestaurantById(params.rest_id).then((res) => {
+      if (typeof res !== "number") {
+        setRestaurantData(res);
+      } else {
+        evaluateError(res, navigate, dispatch);
+        console.log(res);
+      }
+    });
+  };
+
   const addItemsToCart = (item) => {
     let quantityToInt = parseInt(quantity);
     const itemToAdd = { ...item, quantity: quantityToInt };
@@ -110,9 +127,7 @@ const NewOrderPage = () => {
   };
 
   const getProductsList = () => {
-    fetch(
-      "http://localhost:3030/restaurants/" + restaurantData.id + "/products"
-    )
+    fetch("http://localhost:3030/restaurants/" + params.rest_id + "/products")
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -133,8 +148,9 @@ const NewOrderPage = () => {
 
   useEffect(() => {
     getProductsList();
+    getRestaurant();
     window.scrollTo(0, 0);
-  }, [restaurantData, isFoodSelected]);
+  }, [isFoodSelected]);
 
   return (
     <Container
@@ -244,8 +260,8 @@ const NewOrderPage = () => {
             <Row className="row-cols-1 row-cols-md-4">
               {food.map((food, i) => {
                 return (
-                  <Parallax speed={10}>
-                    <Col key={i} className="mt-3 ">
+                  <Parallax key={food.id} speed={10}>
+                    <Col className="mt-3 ">
                       <Card
                         sx={{ maxWidth: 345 }}
                         className="mt-3 rounded-3 shadow-btm"

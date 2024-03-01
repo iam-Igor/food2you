@@ -106,160 +106,163 @@ const Homepage = () => {
   const accessData = localStorage.getItem("tokenUser");
 
   return (
-    <Container
-      fluid
-      className={
-        darkMode ? "p-0 overflow-x-hidden bg-black" : "p-0 overflow-x-hidden"
-      }
-      data-bs-theme={darkMode ? "dark" : "light"}
-    >
-      <Row className="header-bg d-flex flex-column flex-md-row justify-content-center align-items-center">
-        <h3 className="text-white text-center main-text mt-md-5">
-          Sapore di consegne, rapidità di servizio: il tuo mondo a portata di
-          click con <span className="fw-bold">Food2You! 😁</span>
-        </h3>
-        <Col className=" align-items-center justify-content-around py-2 col-md-4">
-          <div className="d-flex justify-content-center">
-            <img alt="hamburger" src={gifImage} style={{ width: "100%" }} />
-          </div>
-        </Col>
-        {selectedCity !== "" ? (
-          <Col className="col-12 text-center text-white ">
-            <h3 className="heartbeat">
-              Scorri in basso per scegliere il tuo ristorante su: {selectedCity}
-            </h3>
-          </Col>
-        ) : (
-          <Parallax
-            speed={12}
-            className="d-flex justify-content-center mt-md-5 mb-2"
-          >
-            <Col className="col-md-4">
-              <Form className="d-flex  flex-column px-2">
-                <p className="text-white text-center">
-                  Cerca la tua città o{" "}
-                  <span className="fw-bold pointer" onClick={getLocation}>
-                    usa la tua posizione
-                  </span>
-                  <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
-                </p>
-                <Form.Group>
-                  <Form.Control
-                    type="email"
-                    placeholder="Dove lo consegniamo?"
-                    className="rounded-4"
-                    onClick={() => {
-                      if (accessData) {
-                        setShowCityModal(true);
-                      } else {
-                        dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
-                      }
-                    }}
-                  />
-                </Form.Group>
-              </Form>
-            </Col>
-          </Parallax>
-        )}
-
-        <Col
-          className={
-            formVisible
-              ? "col-12 scende mt-3 topbar py-3 header-nav"
-              : "col-12 sale topbar py-3 header-nav"
-          }
-        >
-          <Form className="d-flex  flex-column align-items-center justify-content-center">
-            {selectedCity ? (
-              <>
-                <p className="text-white">
-                  Hai sbagliato città? Cercala o{" "}
-                  <span className="fw-bold pointer" onClick={getLocation}>
-                    usa la tua posizione
-                  </span>
-                  <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="text-white">
-                  Cerca la tua città o{" "}
-                  <span className="fw-bold pointer" onClick={getLocation}>
-                    usa la tua posizione
-                  </span>
-                  <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
-                </p>
-              </>
-            )}
-            <Form.Group>
-              <Form.Control
-                type="email"
-                placeholder="Dove lo consegniamo?"
-                className="rounded-4 w-100"
-                onClick={() => {
-                  if (accessData) {
-                    setShowCityModal(true);
-                  } else {
-                    dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
-                  }
-                }}
-              />
-            </Form.Group>
-          </Form>
-        </Col>
-      </Row>
-
-      <Row className="p-0">
-        <img src={darkMode ? bgHeaderDark : bgHeader} className="p-0" />
-      </Row>
-      {showCityModal && (
-        <SelectCityModal
-          show={showCityModal}
-          setShow={() => setShowCityModal(false)}
-        />
-      )}
-      <MainContent />
-      <RestaurantsCarousel />
-      <MostUsedCategories />
-      <InfoSection />
-      {/* REVIEWS */}
-      <ReviewsSection />
-      <Modal
-        show={show}
-        onHide={() => {
-          setShow(false);
-        }}
+    <>
+      <Container
+        fluid
+        className={
+          darkMode ? "p-0 overflow-x-hidden bg-black" : "p-0 overflow-x-hidden"
+        }
+        data-bs-theme={darkMode ? "dark" : "light"}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Spiacenti :(</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Al momento il tuo indirizzo non è supportato dalla nostra app.
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            className="shadow-card"
-            variant="warning"
-            onClick={() => {
-              setShow(false);
-            }}
+        <Row className="header-bg d-flex flex-column flex-md-row justify-content-center align-items-center">
+          <h3 className="text-white text-center main-text mt-md-5">
+            Sapore di consegne, rapidità di servizio: il tuo mondo a portata di
+            click con <span className="fw-bold">Food2You! 😁</span>
+          </h3>
+          <Col className=" align-items-center justify-content-around py-2 col-md-4">
+            <div className="d-flex justify-content-center">
+              <img alt="hamburger" src={gifImage} style={{ width: "100%" }} />
+            </div>
+          </Col>
+          {selectedCity !== "" ? (
+            <Col className="col-12 text-center text-white ">
+              <h3 className="heartbeat">
+                Scorri in basso per scegliere il tuo ristorante su:{" "}
+                {selectedCity}
+              </h3>
+            </Col>
+          ) : (
+            <Parallax
+              speed={12}
+              className="d-flex justify-content-center mt-md-5 mb-2"
+            >
+              <Col className="col-md-4">
+                <Form className="d-flex  flex-column px-2">
+                  <p className="text-white text-center">
+                    Cerca la tua città o{" "}
+                    <span className="fw-bold pointer" onClick={getLocation}>
+                      usa la tua posizione
+                    </span>
+                    <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
+                  </p>
+                  <Form.Group>
+                    <Form.Control
+                      type="email"
+                      placeholder="Dove lo consegniamo?"
+                      className="rounded-4"
+                      onClick={() => {
+                        if (accessData) {
+                          setShowCityModal(true);
+                        } else {
+                          dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+                        }
+                      }}
+                    />
+                  </Form.Group>
+                </Form>
+              </Col>
+            </Parallax>
+          )}
+
+          <Col
+            className={
+              formVisible
+                ? "col-12 scende mt-3 topbar py-3 header-nav"
+                : "col-12 sale topbar py-3 header-nav"
+            }
           >
-            Chiudi
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <Modal show={isLoading} className="loading-modal">
-        <Modal.Body className="d-flex justify-content-center">
-          <div className="spinner2">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </div>
-        </Modal.Body>
-      </Modal>
-    </Container>
+            <Form className="d-flex  flex-column align-items-center justify-content-center">
+              {selectedCity ? (
+                <>
+                  <p className="text-white">
+                    Hai sbagliato città? Cercala o{" "}
+                    <span className="fw-bold pointer" onClick={getLocation}>
+                      usa la tua posizione
+                    </span>
+                    <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-white">
+                    Cerca la tua città o{" "}
+                    <span className="fw-bold pointer" onClick={getLocation}>
+                      usa la tua posizione
+                    </span>
+                    <i className="bi bi-geo-alt-fill fs-4 ms-2"></i>
+                  </p>
+                </>
+              )}
+              <Form.Group>
+                <Form.Control
+                  type="email"
+                  placeholder="Dove lo consegniamo?"
+                  className="rounded-4 w-100"
+                  onClick={() => {
+                    if (accessData) {
+                      setShowCityModal(true);
+                    } else {
+                      dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
+                    }
+                  }}
+                />
+              </Form.Group>
+            </Form>
+          </Col>
+        </Row>
+
+        <Row className="p-0">
+          <img src={darkMode ? bgHeaderDark : bgHeader} className="p-0" />
+        </Row>
+        {showCityModal && (
+          <SelectCityModal
+            show={showCityModal}
+            setShow={() => setShowCityModal(false)}
+          />
+        )}
+        <MainContent />
+        <RestaurantsCarousel />
+        <MostUsedCategories />
+        <InfoSection />
+        {/* REVIEWS */}
+        <ReviewsSection />
+        <Modal
+          show={show}
+          onHide={() => {
+            setShow(false);
+          }}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Spiacenti :(</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Al momento il tuo indirizzo non è supportato dalla nostra app.
+          </Modal.Body>
+          <Modal.Footer>
+            <Button
+              className="shadow-card"
+              variant="warning"
+              onClick={() => {
+                setShow(false);
+              }}
+            >
+              Chiudi
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <Modal show={isLoading} className="loading-modal">
+          <Modal.Body className="d-flex justify-content-center">
+            <div className="spinner2">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </Modal.Body>
+        </Modal>
+      </Container>
+    </>
   );
 };
 

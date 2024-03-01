@@ -26,7 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/profile" element={<UserProfile />} />
-          <Route path="/order" element={<NewOrderPage />} />
+          <Route path="/order/:rest_id" element={<NewOrderPage />} />
           <Route path="/restaurants/:summary" element={<RestaurantDetail />} />
           <Route path="/*" element={<NotFoundPage />} />
           <Route path="/orders/me" element={<OrdersPage />} />

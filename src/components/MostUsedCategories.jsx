@@ -60,7 +60,7 @@ const MostUsedCategories = () => {
     if (categories) {
       showCategories();
     }
-  }, []);
+  }, [token]);
 
   if (
     Object.keys(categories).length > 0 &&
