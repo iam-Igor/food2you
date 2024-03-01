@@ -1,5 +1,5 @@
 import { Button, Col, Container, Form, Modal, Row } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import restmarker from "../assets/img/rest_marker.png";
@@ -14,6 +14,9 @@ const RestaurantDetail = () => {
   const [city, setCity] = useState("");
   const [show, setShow] = useState(true);
   const [restaurantSelected, setRestaurantSelected] = useState([]);
+
+  const [focus, setFocus] = useState(false);
+  const inputRef = useRef(null);
 
   const darkMode = useSelector((state) => state.darkModeEnabled);
 
@@ -76,7 +79,10 @@ const RestaurantDetail = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    if (focus) {
+      inputRef.current.focus();
+    }
+  }, [focus]);
 
   return (
     <Container fluid className={darkMode ? "py-2 bg-black" : "py-2"}>
@@ -154,12 +160,19 @@ const RestaurantDetail = () => {
         </Modal.Header>
         <Modal.Body>
           <Form.Select
+            ref={inputRef}
+            onFocus={() => {
+              setFocus(true);
+            }}
+            onBlur={() => {
+              setFocus(false);
+            }}
             aria-label="Default select example"
             onChange={(e) => {
               setCity(e.target.value);
             }}
           >
-            <option>Seleziona la città</option>
+            <option value="">Seleziona la città</option>
             <option value="Cosenza">Cosenza</option>
             <option value="Firenze">Firenze</option>
             <option value="Milano">Milano</option>
@@ -172,7 +185,12 @@ const RestaurantDetail = () => {
           <Button
             variant="secondary"
             onClick={() => {
-              setShow(false);
+              if (city !== "") {
+                setShow(false);
+              } else {
+                setShow(false);
+                navigate("/");
+              }
             }}
           >
             Chiudi
@@ -180,8 +198,12 @@ const RestaurantDetail = () => {
           <Button
             variant="primary"
             onClick={() => {
-              getRestaurantData();
-              setShow(false);
+              if (city !== "") {
+                getRestaurantData();
+                setShow(false);
+              } else {
+                setFocus(true);
+              }
             }}
           >
             Salva
