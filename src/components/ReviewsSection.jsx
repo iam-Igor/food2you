@@ -26,7 +26,12 @@ const ReviewsSection = () => {
 
   const userData = localStorage.getItem("tokenUser");
 
+  const showLoginNotification = useSelector(
+    (state) => state.showFirstLoginNotification
+  );
   const [show, setShow] = useState(false);
+
+  const [update, setUpdate] = useState(true);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -86,6 +91,7 @@ const ReviewsSection = () => {
           if (res.ok) {
             setError(false);
             setShow(false);
+            getAllreviews();
           } else {
             evaluateError(res.status, navigate, dispatch);
           }
@@ -119,7 +125,7 @@ const ReviewsSection = () => {
 
   useEffect(() => {
     getAllreviews();
-  }, []);
+  }, [showLoginNotification]);
 
   return (
     <>
@@ -178,7 +184,7 @@ const ReviewsSection = () => {
           <Button
             className="text-center pointer btn-warning btn w-50 rounded-4 shadow-card"
             onClick={() => {
-              if (userData) {
+              if (userData !== null) {
                 handleShow();
               } else {
                 dispatch({ type: "SHOW_LOGIN_MODAL", payload: true });
