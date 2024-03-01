@@ -6,7 +6,6 @@ import PaymentModal from "./PaymentModal";
 
 const Cart = () => {
   const show = useSelector((state) => state.showCart);
-
   const [showCheckout, setShowCheckout] = useState(false);
   const darkMode = useSelector((state) => state.darkModeEnabled);
 
