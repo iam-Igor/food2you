@@ -15,7 +15,7 @@ import createMobilePhoneNumber from "random-mobile-numbers-extended";
 import { useEffect, useState } from "react";
 import { Accordion, Offcanvas } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { evaluateError, generateRandomMobileNumber } from "../functions";
 
 const ProductsRestaurant = () => {
@@ -123,7 +123,7 @@ const ProductsRestaurant = () => {
                   size="small"
                   color="primary"
                   onClick={() => {
-                    navigate("/order");
+                    navigate("/order/" + restaurantData.id);
                     dispatch({ type: "SHOW_OFF_CANVAS", payload: false });
                   }}
                 >

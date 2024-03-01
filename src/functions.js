@@ -226,6 +226,23 @@ export const deleteRestaurant = (id) => {
     });
 };
 
+export const getRestaurantById = (id) => {
+  return fetch("http://localhost:3030/restaurants/" + id)
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        return res.status;
+      }
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 export const filterByCityAndSummary = (city, summary) => {
   return fetch(
     "http://localhost:3030/restaurants/search?city=" +

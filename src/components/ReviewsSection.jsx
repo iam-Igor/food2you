@@ -161,7 +161,7 @@ const ReviewsSection = () => {
               return (
                 <Card
                   key={rev.id}
-                  className="mx-md-2 p-4 rounded-4 shadow-card me-4"
+                  className="mx-md-2 p-4 rounded-5 shadow-card me-4"
                   style={{ height: "180px" }}
                 >
                   <Card.Body>
