@@ -12,6 +12,8 @@ const OrdersPage = () => {
 
   const [orderSelected, setOrderSelected] = useState(null);
 
+  console.log(orderSelected);
+
   const [show, setShow] = useState(false);
 
   const navigate = useNavigate();
@@ -176,7 +178,7 @@ const OrdersPage = () => {
                   <h6 className="m-0 mt-1">
                     {" "}
                     <span className="fw-bold">Totale: </span>
-                    {order.totalAmount}€
+                    {order.totalAmount.toFixed(2)}€
                   </h6>
                 </div>
                 <div className="my-auto ms-auto me-4">
@@ -223,7 +225,9 @@ const OrdersPage = () => {
                     return (
                       <li key={product.id}>
                         {product.name}{" "}
-                        <span className="ms-auto">{product.price}€</span>
+                        <span className="ms-auto">
+                          {product.price.toFixed(2)}€
+                        </span>
                       </li>
                     );
                   })}
@@ -231,7 +235,8 @@ const OrdersPage = () => {
                   <li className="fw-bold">
                     Totale:{" "}
                     <span className="fw-light">
-                      {orderSelected.totalAmount}€
+                      {orderSelected.totalAmount.toFixed(2)}€{" "}
+                      {orderSelected.promoCodeUsed ? "(Con codice promo)" : ""}
                     </span>
                   </li>
                 </ul>
