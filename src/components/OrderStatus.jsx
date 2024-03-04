@@ -15,6 +15,10 @@ const OrderStatus = () => {
   const [userLat, setUserLat] = useState(0);
   const [userLon, setUserLon] = useState(0);
 
+  const [orderData, setOrderData] = useState(null);
+
+  console.log(orderData);
+
   const darkMode = useSelector((state) => state.darkModeEnabled);
 
   const navigate = useNavigate();
@@ -67,6 +71,7 @@ const OrderStatus = () => {
         });
 
         setOrderStatus(data.orderStatus);
+        setOrderData(data);
         if (data.orderStatus !== "CONSEGNATO") {
           getPositionDataSingleString(data.userPosition).then((res) => {
             if (typeof res !== "number") {
@@ -177,8 +182,30 @@ const OrderStatus = () => {
             <LinearProgress variant="determinate" value={progressTime} />
             <div className="d-flex justify-content-between">
               <p>In preparazione</p>
+
               <p>Pronto</p>
             </div>
+          </Col>
+          <Col className="py-3 d-flex justify-content-center">
+            {progressTime < 100 ? (
+              <div className="spinner-order">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            ) : (
+              <iframe
+                src="https://lottie.host/embed/59fbb70f-c72d-425b-9a08-ebf641fdbb82/Ncl7sSOVys.json"
+                style={{ width: "40px", height: "40px" }}
+              ></iframe>
+            )}
           </Col>
           {isLoaded && (
             <Col className="col-10 col-md-8 border border-2 p-0 shadow-btm mt-4">
@@ -214,6 +241,39 @@ const OrderStatus = () => {
               <h4>
                 Il rider è arrivato a destinazione, apri la chat per info!
               </h4>
+            </Col>
+          )}
+          {orderData && (
+            <Col className="mt-5 col-md-6 col-10">
+              <h4>Dettagli del tuo ordine</h4>
+              <h6>Data: {orderData.orderTime}</h6>
+              <h6>Indirizzo di consegna: {orderData.userPosition}</h6>
+              <h6>
+                {orderData.restaurant.name},{" "}
+                {orderData.restaurant.streetAddress},{orderData.restaurant.city}
+              </h6>
+
+              <p className="fw-bold">Prodotti</p>
+              <ul className="list-unstyled">
+                {orderData.productList.map((product, i) => {
+                  return (
+                    <li key={product.id}>
+                      {product.name}{" "}
+                      <span className="ms-auto">
+                        {product.price.toFixed(2)}€
+                      </span>
+                    </li>
+                  );
+                })}
+                <hr className="w-50"></hr>
+                <li className="fw-bold">
+                  Totale:{" "}
+                  <span className="fw-light">
+                    {orderData.totalAmount.toFixed(2)}€{" "}
+                    {orderData.promoCodeUsed ? "(Con codice promo)" : ""}
+                  </span>
+                </li>
+              </ul>
             </Col>
           )}
         </Row>

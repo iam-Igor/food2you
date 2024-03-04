@@ -45,7 +45,7 @@ const Cart = () => {
   let payload = {
     productIds: [],
     restaurantId: restaurantData.id,
-    isPromoCodePresent: promoCodeAccepted === true ? true : null,
+    isPromoCodePresent: promoCodeAccepted === true ? true : false,
   };
 
   const addItemsInPayload = () => {
@@ -190,7 +190,12 @@ const Cart = () => {
               </List>
             </Col>
             <Col className="border-top mt-2">
-              <h6 className="mt-3">Totale: {total} €</h6>
+              <h6 className="mt-3">
+                Totale: {total} € <br></br>
+                {promoCodeAccepted === true
+                  ? "(Sconto del 20% con promo code)"
+                  : ""}
+              </h6>
             </Col>
             {isNewUser && (
               <Col className="my-3">
