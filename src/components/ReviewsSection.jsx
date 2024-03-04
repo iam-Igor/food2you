@@ -19,6 +19,8 @@ const ReviewsSection = () => {
   const [rating, setRating] = useState(0);
   const [message, setMessage] = useState("");
 
+  console.log(reviews);
+
   const darkMode = useSelector((state) => state.darkModeEnabled);
 
   const navigate = useNavigate();

@@ -18,7 +18,7 @@ Order Tracking: Keep track of your order status in real-time and receive timely 
 
 1- Clone the repository:
 
-bash $ git clone https://github.com/iam-Igor/food2you
+bash $ git clone https://github.com/iam-Igor/food2you.git
 
 2- Navigate to the project directory:
 
