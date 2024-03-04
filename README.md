@@ -1,6 +1,6 @@
 # Food2You
 
-#The Food2You App is a platform that allows you to order food online easily and quickly. With a wide range of restaurants and culinary options at your fingertips, you can explore a variety of dishes and flavors right from the comfort of your device.
+The Food2You App is a platform that allows you to order food online easily and quickly. With a wide range of restaurants and culinary options at your fingertips, you can explore a variety of dishes and flavors right from the comfort of your device.
 
 # Key Features:
 
