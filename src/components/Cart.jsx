@@ -1,8 +1,10 @@
 import { Alert, List } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import { Button, Col, Offcanvas, Row } from "react-bootstrap";
+import { Button, Col, Form, Offcanvas, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import PaymentModal from "./PaymentModal";
+import { evaluateError, getOrdersData } from "../functions";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const show = useSelector((state) => state.showCart);
@@ -12,13 +14,37 @@ const Cart = () => {
   const cartContent = useSelector((state) => state.cart);
   const restaurantData = useSelector((state) => state.restaurantSelected);
 
+  const userData = localStorage.getItem("tokenUser");
+
+  const navigate = useNavigate();
+
+  const [isNewUser, setIsNewUser] = useState(false);
+
+  const getOrdersByUser = () => {
+    getOrdersData().then((res) => {
+      if (typeof res !== "number") {
+        if (res.length <= 0) {
+          setIsNewUser(true);
+        }
+      } else {
+        evaluateError(res, navigate, dispatch);
+      }
+    });
+  };
+
   const [showConfirm, setShowConfirm] = useState(false);
+
+  const [promoCodeInput, setPromoCodeInput] = useState("");
+  const promoCode = "FOOD20YOU";
+
+  const [promoCodeAccepted, setPromoCodeAccepted] = useState(false);
 
   const [backgroundColor, setBackgroundColor] = useState("background.paper");
 
   let payload = {
     productIds: [],
     restaurantId: restaurantData.id,
+    isPromoCodePresent: promoCodeAccepted === true ? true : false,
   };
 
   const addItemsInPayload = () => {
@@ -37,7 +63,12 @@ const Cart = () => {
       const singleItemPrice = cartContent[i].price * cartContent[i].quantity;
       total += singleItemPrice;
     }
-    return total;
+    if (promoCodeAccepted === true) {
+      const discount = total * 0.2;
+      return total - discount.toFixed(2);
+    } else {
+      return total.toFixed(2);
+    }
   };
 
   const total = setTotalOfCart();
@@ -45,6 +76,10 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (userData) {
+      getOrdersByUser();
+    }
+
     if (cartContent.length > 0) {
       setTotalOfCart();
     }
@@ -154,11 +189,136 @@ const Cart = () => {
               </List>
             </Col>
             <Col className="border-top mt-2">
-              <h6 className="mt-3">Totale: {total} €</h6>
+              <h6 className="mt-3">
+                Totale: {total} € <br></br>
+                {promoCodeAccepted === true
+                  ? "(Sconto del 20% con promo code)"
+                  : ""}
+              </h6>
             </Col>
+            {isNewUser && (
+              <Col className="my-3">
+                <Form
+                  className="d-flex align-items-center"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (promoCodeInput === promoCode) {
+                      setPromoCodeAccepted(true);
+                      setTotalOfCart();
+                    } else {
+                      setPromoCodeAccepted("error");
+                      setTimeout(() => {
+                        setPromoCodeAccepted(false);
+                      }, 4000);
+                    }
+                  }}
+                >
+                  <div>
+                    <Form.Group controlId="exampleForm.ControlInput1">
+                      <Form.Label>Hai un promo code?</Form.Label>
+                      <Form.Control
+                        required
+                        type="text"
+                        placeholder="Digita un promocode"
+                        onChange={(e) => {
+                          setPromoCodeInput(e.target.value);
+                        }}
+                      />
+                    </Form.Group>
+                  </div>
+                  {promoCodeAccepted === true ? (
+                    <div className="success-animation d-flex justify-content-start mt-4 ms-4">
+                      <svg
+                        className="checkmark"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 52 52"
+                      >
+                        <circle
+                          className="checkmark__circle"
+                          cx="26"
+                          cy="26"
+                          r="25"
+                          fill="none"
+                        />
+                        <path
+                          className="checkmark__check"
+                          fill="none"
+                          d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                        />
+                      </svg>
+                    </div>
+                  ) : promoCodeAccepted === false ? (
+                    <Button
+                      type="submit"
+                      style={{ height: "38px" }}
+                      className="align-self-end ms-2 rounded-4 btn-success"
+                    >
+                      Verifica
+                    </Button>
+                  ) : (
+                    promoCodeAccepted === "error" && (
+                      <div className="ui-error ms-3">
+                        <svg
+                          viewBox="0 0 87 87"
+                          version="1.1"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g
+                            id="Page-1"
+                            stroke="none"
+                            stroke-width="1"
+                            fill="none"
+                            fill-rule="evenodd"
+                          >
+                            <g
+                              id="Group-2"
+                              transform="translate(2.000000, 2.000000)"
+                            >
+                              <circle
+                                id="Oval-2"
+                                stroke="rgba(252, 191, 191, .5)"
+                                stroke-width="4"
+                                cx="41.5"
+                                cy="41.5"
+                                r="41.5"
+                              ></circle>
+                              <circle
+                                class="ui-error-circle"
+                                stroke="#F74444"
+                                stroke-width="4"
+                                cx="41.5"
+                                cy="41.5"
+                                r="41.5"
+                              ></circle>
+                              <path
+                                class="ui-error-line1"
+                                d="M22.244224,22 L60.4279902,60.1837662"
+                                id="Line"
+                                stroke="#F74444"
+                                stroke-width="3"
+                                stroke-linecap="square"
+                              ></path>
+                              <path
+                                class="ui-error-line2"
+                                d="M60.755776,21 L23.244224,59.8443492"
+                                id="Line"
+                                stroke="#F74444"
+                                stroke-width="3"
+                                stroke-linecap="square"
+                              ></path>
+                            </g>
+                          </g>
+                        </svg>
+                      </div>
+                    )
+                  )}
+                </Form>
+              </Col>
+            )}
+
             <Col>
               <Button
-                className="mt-2 drop-nav border-0 text-black shadow-card"
+                className="mt-2 drop-nav border-0 text-black shadow-card rounded-4"
                 onClick={() => {
                   addItemsInPayload();
                 }}
