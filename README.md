@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# Food2You
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#The Food2You App is a platform that allows you to order food online easily and quickly. With a wide range of restaurants and culinary options at your fingertips, you can explore a variety of dishes and flavors right from the comfort of your device.
 
-## Available Scripts
+# Key Features:
 
-In the project directory, you can run:
+User Registration: Create a personal account to access all the app's features and keep track of your past orders.
 
-### `npm start`
+Restaurant Exploration: Browse through a selection of restaurants available in your area and discover new culinary options.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Online Ordering: Explore restaurant menus and add your favorite dishes to the cart for a seamless ordering experience.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Secure Payments: Make secure payments through various payment methods, including credit cards, PayPal.
 
-### `npm test`
+Order Tracking: Keep track of your order status in real-time and receive timely notifications on its progress.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Installation
 
-### `npm run build`
+1- Clone the repository:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+bash $ git clone https://github.com/iam-Igor/food2you
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2- Navigate to the project directory:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+bash $cd food2you
 
-### `npm run eject`
+3- Install the dependencies:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+bash $ npm Install
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Usage
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+bash $ npm start
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+# Environment Variables Configuration
 
-## Learn More
+1- Go on https://developers.google.com and register, then you will be able to create and obtain an own API key.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2- In you root project folder create a file named .env
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+3- Add the google api key just created there, the name of the key will be: REACT_APP_GOOGLE_MAPS_API_KEY
 
-### Code Splitting
+Example: REACT_APP_GOOGLE_MAPS_API_KEY=yourapikeyhere
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+# Server configuration
 
-### Analyzing the Bundle Size
+Go to https://github.com/iam-Igor/Food2You-Be_Server and download the zip file for the server configuration, read the readme file for knowledges about server usage and configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+# Contributing
 
-### Making a Progressive Web App
+If you'd like to contribute to the development of the InsTile Glovo App, follow these steps:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1- Fork the repository.
 
-### Advanced Configuration
+2- Create a new branch:
+bash $ git checkout -b your-branch-name
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+3- Make your changes and commit them:
+bash $ git commit -m 'Description of your changes'
 
-### Deployment
+4- Push your changes to your fork:
+bash $ git push origin your-branch-name
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+5- Submit a pull request to the main repository.
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+6- Do not forget to star the project if you liked it :)

@@ -202,6 +202,7 @@ const OrderStatus = () => {
               </div>
             ) : (
               <iframe
+                title="animation-success"
                 src="https://lottie.host/embed/59fbb70f-c72d-425b-9a08-ebf641fdbb82/Ncl7sSOVys.json"
                 style={{ width: "40px", height: "40px" }}
               ></iframe>
