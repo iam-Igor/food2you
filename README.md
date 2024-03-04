@@ -48,7 +48,7 @@ Go to https://github.com/iam-Igor/Food2You-Be_Server and download the zip file f
 
 # Contributing
 
-If you'd like to contribute to the development of the InsTile Glovo App, follow these steps:
+If you'd like to contribute to the development of the Food2You App, follow these steps:
 
 1- Fork the repository.
 
