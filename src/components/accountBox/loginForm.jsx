@@ -46,6 +46,7 @@ export function LoginForm(props) {
       .then((res) => {
         if (res.ok) {
           dispatch({ type: "SHOW_LOGIN_MODAL", payload: false });
+          window.location.reload();
           return res.json();
         } else {
           if (res.status === 401) {

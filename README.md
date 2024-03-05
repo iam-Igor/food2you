@@ -64,3 +64,7 @@ bash $ git push origin your-branch-name
 5- Submit a pull request to the main repository.
 
 6- Do not forget to star the project if you liked it :)
+
+# Watch video functionality on YouTube
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/MbPsPg3jexI?si=YVc-x9CXddJ3ZB-o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>

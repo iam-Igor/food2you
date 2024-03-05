@@ -1,6 +1,6 @@
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Accordion, Col, Container, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import userMarker from "../assets/img/pngaaa.com-2702232.png";
@@ -245,36 +245,43 @@ const OrderStatus = () => {
             </Col>
           )}
           {orderData && (
-            <Col className="mt-5 col-md-6 col-10">
-              <h4>Dettagli del tuo ordine</h4>
-              <h6>Data: {orderData.orderTime}</h6>
-              <h6>Indirizzo di consegna: {orderData.userPosition}</h6>
-              <h6>
-                {orderData.restaurant.name},{" "}
-                {orderData.restaurant.streetAddress},{orderData.restaurant.city}
-              </h6>
+            <Col className="mt-5 col-md-8 col-10">
+              <Accordion defaultActiveKey="0" className="shadow-card">
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>Dettagli dell'ordine</Accordion.Header>
+                  <Accordion.Body>
+                    <h6>Data: {orderData.orderTime}</h6>
+                    <h6>Indirizzo di consegna: {orderData.userPosition}</h6>
+                    <h6>
+                      {orderData.restaurant.name},{" "}
+                      {orderData.restaurant.streetAddress},
+                      {orderData.restaurant.city}
+                    </h6>
 
-              <p className="fw-bold">Prodotti</p>
-              <ul className="list-unstyled">
-                {orderData.productList.map((product, i) => {
-                  return (
-                    <li key={product.id}>
-                      {product.name}{" "}
-                      <span className="ms-auto">
-                        {product.price.toFixed(2)}€
-                      </span>
-                    </li>
-                  );
-                })}
-                <hr className="w-50"></hr>
-                <li className="fw-bold">
-                  Totale:{" "}
-                  <span className="fw-light">
-                    {orderData.totalAmount.toFixed(2)}€{" "}
-                    {orderData.promoCodeUsed ? "(Con codice promo)" : ""}
-                  </span>
-                </li>
-              </ul>
+                    <p className="fw-bold">Prodotti</p>
+                    <ul className="list-unstyled">
+                      {orderData.productList.map((product, i) => {
+                        return (
+                          <li key={product.id}>
+                            {product.name}{" "}
+                            <span className="ms-auto">
+                              {product.price.toFixed(2)}€
+                            </span>
+                          </li>
+                        );
+                      })}
+                      <hr className="w-50"></hr>
+                      <li className="fw-bold">
+                        Totale:{" "}
+                        <span className="fw-light">
+                          {orderData.totalAmount.toFixed(2)}€{" "}
+                          {orderData.promoCodeUsed ? "(Con codice promo)" : ""}
+                        </span>
+                      </li>
+                    </ul>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
             </Col>
           )}
         </Row>

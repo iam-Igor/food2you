@@ -92,6 +92,8 @@ const Homepage = () => {
     }
   };
 
+  const accessData = localStorage.getItem("tokenUser");
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 560) {
@@ -101,9 +103,7 @@ const Homepage = () => {
       }
     };
     window.addEventListener("scroll", handleScroll);
-  }, [window.scrollY]);
-
-  const accessData = localStorage.getItem("tokenUser");
+  }, [window.scrollY, accessData]);
 
   return (
     <>

@@ -38,7 +38,7 @@ const MostUsedCategories = () => {
         array.push(
           <div
             key={count * Math.random() * 100}
-            className="single-category-show rounded-5 shadow-card zoom"
+            className="single-category-show rounded-5 shadow-card zoom mt-2"
             onClick={() => {
               navigate("/restaurants/" + category.toLowerCase());
             }}
