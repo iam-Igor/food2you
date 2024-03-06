@@ -49,6 +49,13 @@ const SelectCityModal = ({ show, setShow }) => {
         });
         dispatch({ type: "SET_USER_POSITION", payload: cityName });
         dispatch({
+          type: "UPDATE_POSITION",
+          payload: {
+            city: cityName,
+            address: address,
+          },
+        });
+        dispatch({
           type: "SET_LON",
           payload: data.results[0].geometry.location.lng,
         });

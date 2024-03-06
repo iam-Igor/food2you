@@ -97,6 +97,7 @@ const UserProfile = () => {
           setSaved(true);
           setTimeout(() => {
             getCreditCard();
+            window.scrollTo(0, 0);
           }, 1500);
         } else {
           evaluateError(res, navigate, dispatch);
@@ -246,6 +247,7 @@ const UserProfile = () => {
                         : "https://cdn-icons-png.flaticon.com/512/3607/3607444.png"
                     }
                     style={{ width: "60%" }}
+                    className="rounded-5"
                   />
                   <i
                     className="bi bi-pencil-square fs-3 position-absolute profile-edit pointer"
@@ -396,7 +398,7 @@ const UserProfile = () => {
 
                           <Form.Label>CCV</Form.Label>
                           <Form.Control
-                            type="number"
+                            type="password"
                             placeholder="CCV"
                             required
                             minLength={3}

@@ -90,7 +90,7 @@ const OrderStatus = () => {
   };
 
   const updateTimer = () => {
-    const duration = 10000;
+    const duration = 8000;
 
     const updateProgress = () => {
       setProgressTime((prevProgress) => {
@@ -125,7 +125,7 @@ const OrderStatus = () => {
   useEffect(() => {
     retrieveOrderData();
 
-    const duration = 10000;
+    const duration = 8000;
     const startTime = Date.now();
 
     if (orderStatus !== "CONSEGNATO") {

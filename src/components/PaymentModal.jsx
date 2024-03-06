@@ -20,6 +20,11 @@ const PaymentModal = ({ show, setShow, total }) => {
   const [cvv, setCvv] = useState(0);
   const [expiringDate, setExpiringdate] = useState("");
 
+  const citySelected = useSelector((state) => state.positionSelected.city);
+  const addressSelected = useSelector(
+    (state) => state.positionSelected.address
+  );
+
   const paymentPayload = {
     fullName: fullName,
     cardNumber: cardNumber,
@@ -36,8 +41,8 @@ const PaymentModal = ({ show, setShow, total }) => {
 
   const [profileData, setProfileData] = useState(null);
 
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
+  const [street, setStreet] = useState(addressSelected || "");
+  const [city, setCity] = useState(citySelected || "");
 
   const [paymentAccepted, setPaymentAccepted] = useState(false);
 
@@ -82,7 +87,7 @@ const PaymentModal = ({ show, setShow, total }) => {
         dispatch({ type: "SET_NEWEST_ORDER", payload: data.id });
         setTimeout(() => {
           dispatch({ type: "SHOW_NOTIFICATION", payload: true });
-        }, 4000);
+        }, 3000);
       })
       .catch((err) => {
         console.log(err);
@@ -114,7 +119,7 @@ const PaymentModal = ({ show, setShow, total }) => {
           dispatch({ type: "SHOW_CART", payload: false });
           makeNeworder();
           navigate("/");
-        }, 4000);
+        }, 3000);
       })
       .catch((err) => {
         console.log(err);
@@ -273,7 +278,7 @@ const PaymentModal = ({ show, setShow, total }) => {
                           onChange={(e) => {
                             setCvv(parseInt(e.target.value));
                           }}
-                          type="number"
+                          type="password"
                           placeholder="CCV"
                           required
                         />
@@ -427,6 +432,7 @@ const PaymentModal = ({ show, setShow, total }) => {
                   >
                     <Form.Label>Indirizzo</Form.Label>
                     <Form.Control
+                      value={street}
                       type="text"
                       placeholder="Es. Via Roma 12"
                       onChange={(e) => {
@@ -440,6 +446,7 @@ const PaymentModal = ({ show, setShow, total }) => {
                   >
                     <Form.Label>Città</Form.Label>
                     <Form.Control
+                      value={city}
                       type="text"
                       placeholder="Es. Milano"
                       onChange={(e) => {

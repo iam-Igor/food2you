@@ -15,6 +15,10 @@ const initialState = {
   darkModeEnabled: false,
   isTokenExpired: false,
   showFirstLoginNotification: false,
+  positionSelected: {
+    city: "",
+    address: "",
+  },
 };
 
 const mainReducer = (state = initialState, action) => {
@@ -28,6 +32,14 @@ const mainReducer = (state = initialState, action) => {
       return {
         ...state,
         isTokenExpired: action.payload,
+      };
+    case "UPDATE_POSITION":
+      return {
+        ...state,
+        positionSelected: {
+          city: action.payload.city,
+          address: action.payload.address,
+        },
       };
     case "SHOW_ORDER_BADGES":
       return {
