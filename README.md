@@ -68,7 +68,7 @@ bash $ git push origin your-branch-name
 # Watch video functionality on YouTube
 
 
-[![Food2You](https://res.cloudinary.com/dr4x8lu8f/image/upload/v1709717067/Progetto_senza_titolo_uxxadl.jpg)](https://www.youtube.com/embed/MbPsPg3jexI?si=YVc-x9CXddJ3ZB-o)
+[![Food2You](https://res.cloudinary.com/dr4x8lu8f/image/upload/v1709717067/Progetto_senza_titolo_uxxadl.jpg)](https://youtu.be/MbPsPg3jexI?si=2AvA1kLVxE0PA566)
 
 
 
