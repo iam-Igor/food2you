@@ -65,7 +65,7 @@ bash $ git push origin your-branch-name
 
 6- Do not forget to star the project if you liked it :)
 
-# Watch video functionality on YouTube
+# Watch the trailer of the App on YouTube
 
 
 [![Food2You](https://res.cloudinary.com/dr4x8lu8f/image/upload/v1709717067/Progetto_senza_titolo_uxxadl.jpg)](https://youtu.be/MbPsPg3jexI?si=2AvA1kLVxE0PA566)
