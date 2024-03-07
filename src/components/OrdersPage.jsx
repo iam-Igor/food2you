@@ -12,8 +12,6 @@ const OrdersPage = () => {
 
   const [orderSelected, setOrderSelected] = useState(null);
 
-  console.log(orderSelected);
-
   const [show, setShow] = useState(false);
 
   const navigate = useNavigate();

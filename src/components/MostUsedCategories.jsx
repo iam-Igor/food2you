@@ -32,7 +32,7 @@ const MostUsedCategories = () => {
   const showCategories = () => {
     const array = [];
     const filteredCategories = Object.entries(categories)
-      .filter(([category, count]) => count > 1)
+      .filter(([category, count]) => count > 2)
       .reduce((obj, [category, count]) => {
         obj[category] = count;
         array.push(

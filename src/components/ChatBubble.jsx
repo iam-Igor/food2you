@@ -25,7 +25,7 @@ const ChatBubble = () => {
     setTimeout(() => {
       setMessageSent(false);
       setreplyMessage(true);
-    }, 5000);
+    }, 4000);
 
     setMessage("");
   };
